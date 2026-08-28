@@ -12,6 +12,7 @@
 <body>
 
     <header>
+        <!-- (Gardez votre header tel qu'il est actuellement) -->
         <div class="container nav-wrapper">
             <div class="logo-box">
                 <div class="logo-badge">PP</div>
@@ -23,18 +24,156 @@
                 <a href="a-propos.html">Notre Histoire</a>
                 <a href="contact.html">Contact & Accès</a>
             </nav>
-            <a href="tel:+596596717478" class="btn-call">📞 Commander</a>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
             <h1>LA CARTE COMPLÈTE</h1>
-            <p>Choisissez parmi nos 45 spécialités intergalactiques</p>
+            <p>Choisissez parmi nos spécialités intergalactiques</p>
         </div>
     </section>
 
     <div class="container">
+        
+        <!-- BARRE DE FILTRES -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterMenu('all')">Tout voir</button>
+            <button class="filter-btn" onclick="filterMenu('tomate')">Base Tomate</button>
+            <button class="filter-btn" onclick="filterMenu('creme')">Base Crème</button>
+        </div>
+
+        <!-- CATEGORIE: BASE TOMATE -->
+        <section class="menu-category" data-type="tomate">
+            <h3 class="category-title">⭐ Les Classiques (Base Tomate)</h3>
+            <div class="pizza-grid">
+                
+                <!-- Exemple de Pizza avec Badges et Modale au clic -->
+                <div class="pizza-card" onclick="openModal('Margarita')">
+                    <div>
+                        <div class="pizza-title">Margarita <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">8,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">11,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">17,00 €</div></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card" onclick="openModal('Choriza')">
+                    <div>
+                        <div class="pizza-title">Choriza <span class="badge badge-epice">🌶️ Épicé</span></div>
+                        <p class="pizza-ingredients">Tomate, chorizo, poivron, emmental, olives</p>
+                    </div>
+                    <!-- prix... -->
+                </div>
+
+                <!-- Ajoutez vos autres pizzas à la tomate ici -->
+
+            </div>
+        </section>
+
+        <!-- CATEGORIE: BASE CRÈME -->
+        <section class="menu-category" data-type="creme">
+            <h3 class="category-title">🥛 Bases Crème</h3>
+            <div class="pizza-grid">
+                
+                <div class="pizza-card" onclick="openModal('Campagnarde')">
+                    <div>
+                        <div class="pizza-title">Campagnarde</div>
+                        <p class="pizza-ingredients">Crème fraîche, jambon épaule, lardon, œuf, emmental</p>
+                    </div>
+                    <!-- prix... -->
+                </div>
+
+                <!-- Ajoutez vos autres pizzas à la crème ici -->
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODALE (POP-UP DE COMMANDE) -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalPizzaName" style="color: var(--primary-glow); margin-bottom: 20px;">Nom Pizza</h2>
+            
+            <div class="modal-section">
+                <h4>📏 Choisissez la taille</h4>
+                <select>
+                    <option>Petite</option>
+                    <option>Moyenne</option>
+                    <option>Grande</option>
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <h4>🍕 Choisissez la pâte</h4>
+                <select>
+                    <option>Pâte Fine Classique</option>
+                    <option>Pâte Épaisse</option>
+                    <option>Bordure fourrée au fromage (+2.50€)</option>
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <h4>🥤 Envie d'une boisson ?</h4>
+                <select>
+                    <option>Non merci</option>
+                    <option>Coca-Cola 33cl (+2.00€)</option>
+                    <option>Ice Tea 33cl (+2.00€)</option>
+                    <option>Bière Lorraine (+2.50€)</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" style="width: 100%; margin-top: 10px;" onclick="alert('Ceci est une démo visuelle. L\'intégration de la commande réelle se fera via un système comme GloriaFood !')">🛒 Ajouter au panier</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT POUR FILTRES ET MODALE -->
+    <script>
+        // Fonction pour filtrer le menu
+        function filterMenu(type) {
+            // Gérer les boutons actifs
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Afficher/Masquer les catégories
+            const categories = document.querySelectorAll('.menu-category');
+            categories.forEach(cat => {
+                if (type === 'all' || cat.dataset.type === type) {
+                    cat.style.display = 'block';
+                } else {
+                    cat.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonctions pour la Modale
+        const modal = document.getElementById("orderModal");
+        
+        function openModal(pizzaName) {
+            document.getElementById("modalPizzaName").innerText = pizzaName;
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Fermer la modale si on clique à l'extérieur
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>    <div class="container">
         <section class="options-bar">
             <div class="options-flex">
                 <div class="option-item">
