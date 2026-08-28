@@ -3,279 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planet Pizza - Carte & Menu Intergalactique</title>
-    <!-- Google Fonts -->
+    <title>Planet Pizza - Accueil</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg-dark: #070913;
-            --bg-card: rgba(18, 24, 43, 0.75);
-            --border-glow: rgba(120, 170, 255, 0.25);
-            --primary-glow: #70b0ff;
-            --accent-silver: #e2eafc;
-            --text-main: #f0f4f9;
-            --text-muted: #a0aec0;
-            --price-color: #54d2d2;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(50, 80, 150, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(100, 50, 180, 0.12) 0%, transparent 40%),
-                radial-gradient(2px 2px at 40px 60px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(1.5px 1.5px at 150px 200px, #a4c8ff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 300px 100px, #ffffff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 450px 350px, #ffffff, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: cover, cover, 500px 500px, 400px 400px, 600px 600px, 350px 350px;
-            color: var(--text-main);
-            line-height: 1.5;
-            min-height: 100vh;
-        }
-
-        h1, h2, h3, .logo-title {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .container {
-            max-width: 1150px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* --- HEADER & LOGO PLANET PIZZA --- */
-        header {
-            background: rgba(7, 9, 19, 0.85);
-            backdrop-filter: blur(12px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-glow);
-        }
-
-        .nav-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-        }
-
-        .logo-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logo-badge {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-glow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-style: italic;
-            color: #fff;
-            box-shadow: 0 0 15px rgba(112, 176, 255, 0.5);
-            background: radial-gradient(circle, #1a2950 0%, #080d1a 100%);
-        }
-
-        .logo-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            font-style: italic;
-            letter-spacing: 1px;
-            background: linear-gradient(180deg, #ffffff 0%, #b0c8f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 10px rgba(176, 200, 240, 0.3);
-        }
-
-        .btn-call {
-            background: linear-gradient(135deg, #2b5296 0%, #172a52 100%);
-            color: var(--accent-silver);
-            padding: 10px 22px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            border: 1px solid var(--primary-glow);
-            box-shadow: 0 0 12px rgba(112, 176, 255, 0.3);
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-call:hover {
-            box-shadow: 0 0 20px rgba(112, 176, 255, 0.7);
-            transform: translateY(-2px);
-        }
-
-        /* --- HERO --- */
-        .hero {
-            padding-top: 140px;
-            padding-bottom: 40px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            font-style: italic;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(112, 176, 255, 0.6);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        /* --- OPTIONS BAR --- */
-        .options-bar {
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-glow);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 50px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-
-        .options-flex {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            text-align: center;
-        }
-
-        .option-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--primary-glow);
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-
-        .option-item p {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        /* --- SECTIONS PIZZAS --- */
-        .menu-category {
-            margin-bottom: 60px;
-        }
-
-        .category-title {
-            font-size: 1.4rem;
-            color: var(--accent-silver);
-            border-bottom: 1px solid var(--border-glow);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.2);
-        }
-
-        .pizza-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-            gap: 22px;
-        }
-
-        .pizza-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-
-        .pizza-card:hover {
-            border-color: var(--primary-glow);
-            box-shadow: 0 0 18px rgba(112, 176, 255, 0.25);
-            transform: translateY(-3px);
-        }
-
-        .pizza-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 0.5px;
-        }
-
-        .pizza-ingredients {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            margin: 10px 0 18px 0;
-            text-transform: lowercase;
-        }
-
-        .pizza-prices {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px 14px;
-            border-radius: 8px;
-        }
-
-        .price-tag {
-            text-align: center;
-        }
-
-        .price-tag span {
-            display: block;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .price-val {
-            color: var(--price-color);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border-glow);
-            margin-top: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
-            .pizza-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -285,128 +17,31 @@
                 <div class="logo-badge">PP</div>
                 <div class="logo-title">Planet Pizza</div>
             </div>
+            <nav class="main-nav">
+                <a href="index.html">Accueil</a>
+                <a href="menu.html">La Carte</a>
+                <a href="a-propos.html">Notre Histoire</a>
+                <a href="contact.html">Contact & Accès</a>
+            </nav>
             <a href="tel:0123456789" class="btn-call">📞 Commander</a>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero" style="padding-top: 180px; padding-bottom: 60px;">
         <div class="container">
             <h1>PLANET PIZZA</h1>
             <p>Pizzas artisanales au goût intergalactique</p>
+            <div class="hero-cta-box" style="margin-top: 35px;">
+                <a href="menu.html" class="btn-primary">🍕 Découvrir notre carte</a>
+            </div>
         </div>
     </section>
 
     <div class="container">
-        <section class="options-bar">
-            <div class="options-flex">
-                <div class="option-item">
-                    <h4>Pâte au choix</h4>
-                    <p>Pâte Fine ou Épaisse</p>
-                </div>
-                <div class="option-item">
-                    <h4>Formats</h4>
-                    <p>Petite | Moyenne | Grande</p>
-                </div>
-                <div class="option-item">
-                    <h4>Suppléments</h4>
-                    <p>Petite : +1,50 € | Moyenne : +2,00 € | Grande : +2,50 €</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- MENU (45 PIZZAS) -->
-        <section class="menu-category">
-            <h3 class="category-title">⭐ Les Classiques</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Margarita</div><p class="pizza-ingredients">Tomate, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">8,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">11,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">17,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Mozza</div><p class="pizza-ingredients">Tomate, mozzarella, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">8,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">11,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">17,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Minot</div><p class="pizza-ingredients">Tomate, jambon épaule, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">9,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">12,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">18,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Simply</div><p class="pizza-ingredients">Tomate, merguez, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">9,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">12,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">18,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Ado</div><p class="pizza-ingredients">Tomate, épaule, crème, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Reine</div><p class="pizza-ingredients">Tomate, jambon épaule, champignon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Hawaienne</div><p class="pizza-ingredients">Tomate, jambon épaule, ananas, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Oriental</div><p class="pizza-ingredients">Tomate, merguez, poivron, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Samaritaine</div><p class="pizza-ingredients">Tomate, merguez, oignon, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">La Martiniquaise</div><p class="pizza-ingredients">Tomate, merguez, jambon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Choriza</div><p class="pizza-ingredients">Tomate, chorizo, poivron, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">4 Saisons</div><p class="pizza-ingredients">Tomate, jambon, poivron, champignon, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Royal</div><p class="pizza-ingredients">Tomate, jambon épaule, champignon, mozzarella, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Forestiere</div><p class="pizza-ingredients">Tomate, jambon épaule, champignon, merguez, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Peperoni Ananas</div><p class="pizza-ingredients">Tomate, pépéroni, ananas, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Peperoni Jambon</div><p class="pizza-ingredients">Tomate, pépéroni, jambon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-            </div>
-        </section>
-
-        <section class="menu-category">
-            <h3 class="category-title">🥓 Spécialités Gourmandes</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Cochonne</div><p class="pizza-ingredients">Tomate, jambon épaule, merguez, chorizo, lardon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Grosse Cochonne</div><p class="pizza-ingredients">Tomate, jambon épaule, chorizo, pépéroni, merguez, lardon, œuf, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">23,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Supra</div><p class="pizza-ingredients">Tomate, merguez, jambon, crème fraîche, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Gourmande</div><p class="pizza-ingredients">Tomate, épaule, lardon, champignon, oignon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Foyalaise</div><p class="pizza-ingredients">Tomate, épaule, merguez, champignon, oignon, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Champêtre</div><p class="pizza-ingredients">Tomate, lardon, épaule, chèvre, miel, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-            </div>
-        </section>
-
-        <section class="menu-category">
-            <h3 class="category-title">🍗 Volailles & Kebab</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Poularde</div><p class="pizza-ingredients">Tomate, poulet, oignon, poivron, crème fraîche, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Madras</div><p class="pizza-ingredients">Sauce curry, poulet, ananas, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Dinde</div><p class="pizza-ingredients">Tomate, viande kebab, oignon, crème, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Grosse Dinde</div><p class="pizza-ingredients">Tomate, jambon de dinde, viande kebab, oignon, crème, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">23,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Montagnarde</div><p class="pizza-ingredients">Crème fraîche, poulet, lardon, chèvre, mozza, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-            </div>
-        </section>
-
-        <section class="menu-category">
-            <h3 class="category-title">🧀 Fromages & Végétariennes</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Chèvre Miel</div><p class="pizza-ingredients">Tomate, champignon, chèvre, miel, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">3 Fromages</div><p class="pizza-ingredients">Tomate, chèvre, féta, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">4 Fromages</div><p class="pizza-ingredients">Tomate, chèvre, bleu, féta, parmesan, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">5 Fromages</div><p class="pizza-ingredients">Tomate, chèvre, bleu, féta, mozzarella, parmesan, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Végétarienne</div><p class="pizza-ingredients">Tomate, poivron, oignon, champignon, cœur d'artichaut, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Super Végé</div><p class="pizza-ingredients">Tomate, steak de soja, poivron, oignon pays, piment végétarien, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-            </div>
-        </section>
-
-        <section class="menu-category">
-            <h3 class="category-title">🐟 Produits de la Mer</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Fruits de Mer</div><p class="pizza-ingredients">Tomate, fruits de mer, persillade, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Norvégienne</div><p class="pizza-ingredients">Crème fraîche, saumon fumé, oignon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Anchois</div><p class="pizza-ingredients">Tomate, anchois, persillade, câpres, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Crevette</div><p class="pizza-ingredients">Tomate, crevettes, persillade, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Grand Large</div><p class="pizza-ingredients">Crème fraîche, crevette, champignon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Pacific</div><p class="pizza-ingredients">Tomate, fruit de mer, saumon, thon, persillade, crème, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">24,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Marine</div><p class="pizza-ingredients">Tomate, thon, persillade, oignon, crème fraîche, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-            </div>
-        </section>
-
-        <section class="menu-category">
-            <h3 class="category-title">🥛 Bases Crème & Flammes</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Campagnarde</div><p class="pizza-ingredients">Crème fraîche, jambon épaule, lardon, œuf, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Antillaise</div><p class="pizza-ingredients">Crème fraîche, jambon épaule, ananas, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Tartiflette</div><p class="pizza-ingredients">Crème fraîche, lardon, oignon, pomme de terre, fromage à tartiflette, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Flam</div><p class="pizza-ingredients">Crème fraîche, oignon, lardon, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Flam Chèvre</div><p class="pizza-ingredients">Crème fraîche, oignon, chèvre, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Paysanne</div><p class="pizza-ingredients">Crème fraîche, jambon, lardon, champignon, poivron, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Fermière</div><p class="pizza-ingredients">Crème fraîche, épaule, lardon, chèvre, bleu, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-            </div>
-        </section>
-
-        <section class="menu-category">
-            <h3 class="category-title">🥩 Spécialités Bœuf</h3>
-            <div class="pizza-grid">
-                <div class="pizza-card"><div><div class="pizza-title">Colorado</div><p class="pizza-ingredients">Tomate, bœuf haché, oignon, crème fraîche, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Mexicaine</div><p class="pizza-ingredients">Tomate, bœuf haché, oignon, persillade, pomme de terre, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Pizza du Chef</div><p class="pizza-ingredients">Crème fraîche, bœuf haché, champignon, mozzarella, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Péruvienne</div><p class="pizza-ingredients">Crème fraîche, bœuf haché, oignon, pomme de terre, féta, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div></div></div>
-                <div class="pizza-card"><div><div class="pizza-title">Maya</div><p class="pizza-ingredients">Tomate, bœuf haché préparé, merguez, oignon, sauce curry, emmental, olives</p></div><div class="pizza-prices"><div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div><div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div><div class="price-tag"><span>Grande</span><div class="price-val">23,00 €</div></div></div></div>
-            </div>
+        <section class="content-section" style="text-align: center;">
+            <h3 class="category-title" style="justify-content: center;">⚡ Service en temps réel</h3>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Temps d'attente estimé actuel au restaurant :</p>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--price-color); text-shadow: 0 0 15px rgba(84, 210, 210, 0.4);">15 - 20 min</div>
         </section>
     </div>
 
