@@ -319,3 +319,98 @@ footer {
     .main-nav { display: none; }
     .grid-2-cols { grid-template-columns: 1fr; }
 }
+/* --- AVIS CLIENTS --- */
+.reviews-section {
+    background-color: var(--card-bg);
+    padding: 60px 0;
+    text-align: center;
+}
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+.review-card {
+    background: var(--bg-dark);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.stars { color: #f1c40f; margin-bottom: 10px; font-size: 1.2rem; }
+.review-author { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; color: var(--primary-glow); margin-top: 15px; }
+
+/* --- FILTRES MENU --- */
+.filter-bar {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    scrollbar-width: none; /* Cache la scrollbar sur Firefox */
+}
+.filter-bar::-webkit-scrollbar { display: none; /* Cache sur Chrome/Safari */ }
+.filter-btn {
+    background: var(--card-bg);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+.filter-btn.active, .filter-btn:hover {
+    background: var(--primary-glow);
+    color: #000;
+    font-weight: 600;
+}
+
+/* --- BADGES --- */
+.badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+.badge-vege { background: rgba(46, 204, 113, 0.2); color: #2ecc71; }
+.badge-epice { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+/* --- MODALE (POP-UP) --- */
+.modal {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+}
+.modal-content {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--primary-glow);
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+.modal-section { margin-bottom: 20px; }
+.modal-section h4 { margin-bottom: 10px; font-family: 'Orbitron', sans-serif; font-size: 1rem;}
+.modal-section select {
+    width: 100%; padding: 10px;
+    background: var(--card-bg); color: white;
+    border: 1px solid rgba(255,255,255,0.2); border-radius: 6px;
+}
