@@ -14,7 +14,7 @@
     <header>
         <div class="container nav-wrapper">
             <div class="logo-box">
-                <img src="./logo.jpg" alt="Planet Pizza Logo" class="logo-img">
+                <img src="logo.jpg" alt="Planet Pizza Logo" class="logo-img" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'45\' height=\'45\' viewBox=\'0 0 45 45\'><circle cx=\'22.5\' cy=\'22.5\' r=\'21\' fill=\'%230b0e14\' stroke=\'%2354d2d2\' stroke-width=\'2\'/><text x=\'50%\' y=\'55%\' font-size=\'16\' font-weight=\'900\' fill=\'%2354d2d2\' font-family=\'sans-serif\' text-anchor=\'middle\' dominant-baseline=\'middle\'>PP</text></svg>';">
                 <div class="logo-title">Planet Pizza</div>
             </div>
             <nav class="main-nav">
@@ -80,14 +80,24 @@
 
     <script>
         function updateStoreStatus() {
+            // Force la prise en compte du fuseau horaire de la Martinique (UTC-4)
             const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const currentTimeInMinutes = hours * 60 + minutes;
+            const options = { timeZone: 'America/Martinique', hour: 'numeric', minute: 'numeric', hour12: false };
+            const formatter = new Intl.DateTimeFormat('fr-FR', options);
+            const parts = formatter.formatToParts(now);
+            
+            let hours = 0;
+            let minutes = 0;
+            parts.forEach(p => {
+                if (p.type === 'hour') hours = parseInt(p.value, 10);
+                if (p.type === 'minute') minutes = parseInt(p.value, 10);
+            });
 
-            // Horaires : 17h30 (1050 min) à 22h30 (1350 min)
-            const openTime = 17 * 60 + 30;
-            const closeTime = 22 * 60 + 30;
+            if (hours === 24) hours = 0;
+
+            const currentTimeInMinutes = hours * 60 + minutes;
+            const openTime = 17 * 60 + 30;  // 17h30 = 1050 min
+            const closeTime = 22 * 60 + 30; // 22h30 = 1350 min
 
             const statusBadge = document.getElementById('statusBadge');
             const waitTimeDisplay = document.getElementById('waitTimeDisplay');
@@ -97,87 +107,7 @@
                 statusBadge.innerHTML = "🟢 <span style='color: #2ecc71;'>OUVERT ACTUELLEMENT</span>";
                 statusSubtext.innerText = "Temps d'attente estimé en cuisine :";
 
-                // Ajustement dynamique selon l'heure de pointe (19h30 - 21h00)
-                if (currentTimeInMinutes >= (19 * 60 + 30) && currentTimeInMinutes <= (21 * 60)) {
-                    waitTimeDisplay.innerText = "25 - 35 min";
-                } else {
-                    waitTimeDisplay.innerText = "15 - 20 min";
-                }
-            } else {
-                statusBadge.innerHTML = "🔴 <span style='color: #e74c3c;'>FERMÉ ACTUELLEMENT</span>";
-                statusSubtext.innerText = "Horaires d'ouverture : 7j/7 de 17h30 à 22h30";
-                waitTimeDisplay.innerText = "Réouverture à 17h30";
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', updateStoreStatus);
-    </script>
-
-</body>
-</html>            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <!-- Statut d'ouverture et Temps d'attente dynamique -->
-        <section style="background: var(--card-bg); padding: 30px; border-radius: 16px; text-align: center; margin-bottom: 40px; border: 1px solid rgba(84, 210, 210, 0.2);">
-            <div id="statusBadge" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;"></div>
-            <h3 class="category-title" style="justify-content: center;">⚡ Service en Temps Réel</h3>
-            <p id="statusSubtext" style="color: var(--text-muted); margin-bottom: 10px;"></p>
-            <div id="waitTimeDisplay" style="font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--price-color);"></div>
-        </section>
-
-        <!-- Section Avis Clients -->
-        <section class="reviews-section">
-            <div class="container">
-                <h3 class="category-title" style="justify-content: center;">⭐ Avis de nos Clients</h3>
-                <div class="reviews-grid">
-                    <div class="review-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Meilleure pizza de Fort-de-France ! Pâte excellente et service super rapide."</p>
-                        <div class="review-author">- Julien M.</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Les produits sont très frais et la cuisson est parfaite. Je recommande la Grosse Cochonne !"</p>
-                        <div class="review-author">- Sarah T.</div>
-                    </div>
-                    <div class="review-card">
-                        <div class="stars">★★★★★</div>
-                        <p>"Commande prête à l'heure exacte. Très pratique à emporter."</p>
-                        <div class="review-author">- Marc E.</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Planet Pizza. Tous droits réservés.</p>
-        </div>
-    </footer>
-
-    <script>
-        function updateStoreStatus() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const currentTimeInMinutes = hours * 60 + minutes;
-
-            // Horaires : 17h30 (1050 min) à 22h30 (1350 min)
-            const openTime = 17 * 60 + 30;
-            const closeTime = 22 * 60 + 30;
-
-            const statusBadge = document.getElementById('statusBadge');
-            const waitTimeDisplay = document.getElementById('waitTimeDisplay');
-            const statusSubtext = document.getElementById('statusSubtext');
-
-            if (currentTimeInMinutes >= openTime && currentTimeInMinutes < closeTime) {
-                statusBadge.innerHTML = "🟢 <span style='color: #2ecc71;'>OUVERT ACTUELLEMENT</span>";
-                statusSubtext.innerText = "Temps d'attente estimé en cuisine :";
-
-                // Ajustement dynamique selon l'heure de pointe (19h30 - 21h00)
+                // Ajustement dynamique pendant l'heure de pointe (19h30 à 21h00)
                 if (currentTimeInMinutes >= (19 * 60 + 30) && currentTimeInMinutes <= (21 * 60)) {
                     waitTimeDisplay.innerText = "25 - 35 min";
                 } else {
