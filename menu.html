@@ -14,7 +14,7 @@
     <header>
         <div class="container nav-wrapper">
             <div class="logo-box">
-                <div class="logo-badge">PP</div>
+                <img src="logo.jpg" alt="Planet Pizza Logo" class="logo-img">
                 <div class="logo-title">Planet Pizza</div>
             </div>
             <nav class="main-nav">
@@ -35,6 +35,269 @@
     </section>
 
     <div class="container">
+        <!-- Barre de Filtres -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterMenu('all')">Tout voir</button>
+            <button class="filter-btn" onclick="filterMenu('tomate')">Base Tomate</button>
+            <button class="filter-btn" onclick="filterMenu('creme')">Base Crème</button>
+        </div>
+
+        <!-- Base Tomate -->
+        <section class="menu-category" data-type="tomate">
+            <h3 class="category-title">⭐ Les Classiques (Base Tomate)</h3>
+            <div class="pizza-grid">
+                <div class="pizza-card" onclick="openOrderModal('Margarita', 8.00, 11.50, 17.00)">
+                    <div>
+                        <div class="pizza-title">Margarita <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">8,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">11,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">17,00 €</div></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card" onclick="openOrderModal('Choriza', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Choriza <span class="badge badge-epice">🌶️ Épicé</span></div>
+                        <p class="pizza-ingredients">Tomate, chorizo, poivron, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card" onclick="openOrderModal('Reine', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Reine</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, champignon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Base Crème -->
+        <section class="menu-category" data-type="creme">
+            <h3 class="category-title">🥛 Bases Crème</h3>
+            <div class="pizza-grid">
+                <div class="pizza-card" onclick="openOrderModal('Campagnarde', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Campagnarde</div>
+                        <p class="pizza-ingredients">Crème fraîche, jambon épaule, lardon, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <div class="pizza-card" onclick="openOrderModal('Tartiflette', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Tartiflette</div>
+                        <p class="pizza-ingredients">Crème fraîche, lardon, oignon, pomme de terre, fromage tartiflette</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modale Sélection Produit -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('itemModal')">&times;</span>
+            <h3 id="modalTitle" style="color: var(--primary-glow); margin-bottom: 15px;"></h3>
+            
+            <div class="modal-section">
+                <label>Taille :</label>
+                <select id="sizeSelect">
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <label>Pâte :</label>
+                <select id="crustSelect">
+                    <option value="Fine">Pâte Fine</option>
+                    <option value="Épaisse">Pâte Épaisse</option>
+                    <option value="Bordure Fromage">Bordure fourrée fromage (+2.50€)</option>
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <label>Boisson en supplément :</label>
+                <select id="drinkSelect">
+                    <option value="Aucune">Sans boisson</option>
+                    <option value="Coca 33cl">Coca-Cola 33cl (+2.00€)</option>
+                    <option value="Sprite 33cl">Sprite 33cl (+2.00€)</option>
+                    <option value="Eau 50cl">Eau minérale (+1.50€)</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="addToCart()">Ajouter au panier</button>
+        </div>
+    </div>
+
+    <!-- Modale Récapitulatif Panier -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
+            <h3 style="color: var(--primary-glow); margin-bottom: 15px;">🛒 Votre Panier</h3>
+            
+            <div id="cartItemsList" style="margin-bottom: 20px;"></div>
+
+            <div class="modal-section">
+                <label>Nom & Prénom :</label>
+                <input type="text" id="clientName" placeholder="Ex: Jean Dupont">
+            </div>
+
+            <div class="modal-section">
+                <label>Mode de retrait :</label>
+                <select id="orderType">
+                    <option value="À emporter">À emporter au restaurant</option>
+                    <option value="Livraison">Livraison à domicile</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="sendWhatsAppOrder()">📱 Envoyer la commande (WhatsApp)</button>
+        </div>
+    </div>
+
+    <!-- Bouton Flottant Panier -->
+    <div class="floating-cart" onclick="openCartModal()">
+        🛒 Panier <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Planet Pizza. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let currentItem = {};
+
+        function filterMenu(type) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.menu-category').forEach(c => {
+                c.style.display = (type === 'all' || c.dataset.type === type) ? 'block' : 'none';
+            });
+        }
+
+        function openOrderModal(name, pPetite, pMoyenne, pGrande) {
+            currentItem = { name, pPetite, pMoyenne, pGrande };
+            document.getElementById('modalTitle').innerText = name;
+            
+            const sizeSelect = document.getElementById('sizeSelect');
+            sizeSelect.innerHTML = `
+                <option value="Petite" data-price="${pPetite}">Petite (${pPetite.toFixed(2)} €)</option>
+                <option value="Moyenne" data-price="${pMoyenne}">Moyenne (${pMoyenne.toFixed(2)} €)</option>
+                <option value="Grande" data-price="${pGrande}">Grande (${pGrande.toFixed(2)} €)</option>
+            `;
+            
+            document.getElementById('itemModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function addToCart() {
+            const sizeSelect = document.getElementById('sizeSelect');
+            const selectedSize = sizeSelect.value;
+            const basePrice = parseFloat(sizeSelect.options[sizeSelect.selectedIndex].dataset.price);
+            
+            const crust = document.getElementById('crustSelect').value;
+            let crustExtra = crust === "Bordure Fromage" ? 2.50 : 0;
+
+            const drink = document.getElementById('drinkSelect').value;
+            let drinkExtra = drink.includes("33cl") ? 2.00 : (drink.includes("Eau") ? 1.50 : 0);
+
+            const totalPrice = basePrice + crustExtra + drinkExtra;
+
+            cart.push({
+                name: currentItem.name,
+                size: selectedSize,
+                crust: crust,
+                drink: drink,
+                price: totalPrice
+            });
+
+            updateCartUI();
+            closeModal('itemModal');
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function openCartModal() {
+            const listContainer = document.getElementById('cartItemsList');
+            if(cart.length === 0) {
+                listContainer.innerHTML = "<p style='color: var(--text-muted);'>Votre panier est vide.</p>";
+            } else {
+                let html = "";
+                let total = 0;
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    html += `<div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0;">
+                        <strong>${item.name}</strong> (${item.size}) - ${item.price.toFixed(2)} €<br>
+                        <small style="color: var(--text-muted);">Pâte: ${item.crust} | Boisson: ${item.drink}</small>
+                    </div>`;
+                });
+                html += `<p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--price-color);">Total : ${total.toFixed(2)} €</p>`;
+                listContainer.innerHTML = html;
+            }
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert("Votre panier est vide !");
+                return;
+            }
+            const name = document.getElementById('clientName').value.trim();
+            if (!name) {
+                alert("Veuillez saisir votre nom.");
+                return;
+            }
+
+            const type = document.getElementById('orderType').value;
+            let text = `Bonjour Planet Pizza, je souhaite passer commande (${type}) :\n\n`;
+            let total = 0;
+
+            cart.forEach(item => {
+                text += `• *${item.name}* (${item.size}) - Pâte ${item.crust}`;
+                if(item.drink !== "Aucune") text += ` + ${item.drink}`;
+                text += ` : ${item.price.toFixed(2)}€\n`;
+                total += item.price;
+            });
+
+            text += `\n*Total : ${total.toFixed(2)} €*`;
+            text += `\nNom du client : ${name}`;
+
+            const phone = "596596717478";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>    <div class="container">
         <!-- Barre de Filtres -->
         <div class="filter-bar">
             <button class="filter-btn active" onclick="filterMenu('all')">Tout voir</button>
