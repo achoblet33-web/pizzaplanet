@@ -23,7 +23,7 @@
                 <a href="a-propos.html">Notre Histoire</a>
                 <a href="contact.html">Contact & Accès</a>
             </nav>
-            <a href="tel:+596596717478" class="btn-call">📞 Commander</a>
+            <a href="menu.html" class="btn-call">🛒 Commande en Ligne</a>
         </div>
     </header>
 
@@ -32,9 +32,132 @@
             <h1>PLANET PIZZA</h1>
             <p>Pizzas artisanales au goût intergalactique</p>
             <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <a href="menu.html" class="btn-primary" style="display: inline-block; width: auto; padding: 15px 30px; text-decoration: none;">🍕 Consulter la Carte & Commander</a>
+                <a href="menu.html" class="btn-primary" style="display: inline-block; width: auto; padding: 15px 30px; text-decoration: none;">🍕 Commander en Ligne & Payer</a>
                 <a href="tel:+596596717478" class="btn-primary" style="display: inline-block; width: auto; padding: 15px 30px; text-decoration: none; background: transparent; border: 2px solid var(--primary-glow); color: var(--primary-glow);">📞 Appeler le Restaurant</a>
             </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Statut d'ouverture, Prise de commande & Temps d'attente dynamique -->
+        <section style="background: var(--card-bg); padding: 30px; border-radius: 16px; text-align: center; margin-bottom: 40px; border: 1px solid rgba(84, 210, 210, 0.2);">
+            <div id="statusBadge" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;"></div>
+            <h3 class="category-title" style="justify-content: center;">⚡ Service & Commandes en Temps Réel</h3>
+            <p id="statusSubtext" style="color: var(--text-muted); margin-bottom: 10px;"></p>
+            <div id="waitTimeDisplay" style="font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--price-color);"></div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">
+                ⏰ <strong>Rappel :</strong> La prise de commande (en ligne et téléphone) ferme 30 minutes avant la fermeture du restaurant.
+            </p>
+        </section>
+
+        <!-- Section Avis Clients -->
+        <section class="reviews-section">
+            <div class="container">
+                <h3 class="category-title" style="justify-content: center;">⭐ Avis de nos Clients</h3>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Meilleure pizza de Fort-de-France ! Pâte excellente et service super rapide."</p>
+                        <div class="review-author">- Julien M.</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Les produits sont très frais et la cuisson est parfaite. Je recommande la Grosse Cochonne !"</p>
+                        <div class="review-author">- Sarah T.</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Commande prête à l'heure exacte. Très pratique à emporter."</p>
+                        <div class="review-author">- Marc E.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Planet Pizza. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        function updateStoreStatus() {
+            // Configuration des horaires synchronisée avec le menu
+            const RESTAURANT_SCHEDULE = [
+                { open: "11:30", close: "14:00" },
+                { open: "18:30", close: "22:30" }
+            ];
+            const CUTOFF_MINUTES = 30; // Arrêt des commandes 30 minutes avant la fermeture
+
+            // Force la prise en compte du fuseau horaire de la Martinique (UTC-4)
+            const now = new Date();
+            const options = { timeZone: 'America/Martinique', hour: 'numeric', minute: 'numeric', hour12: false };
+            const formatter = new Intl.DateTimeFormat('fr-FR', options);
+            const parts = formatter.formatToParts(now);
+            
+            let hours = 0;
+            let minutes = 0;
+            parts.forEach(p => {
+                if (p.type === 'hour') hours = parseInt(p.value, 10);
+                if (p.type === 'minute') minutes = parseInt(p.value, 10);
+            });
+
+            if (hours === 24) hours = 0;
+
+            const currentMinutes = hours * 60 + minutes;
+
+            const statusBadge = document.getElementById('statusBadge');
+            const waitTimeDisplay = document.getElementById('waitTimeDisplay');
+            const statusSubtext = document.getElementById('statusSubtext');
+
+            let isOpen = false;
+            let canOrder = false;
+
+            for (let slot of RESTAURANT_SCHEDULE) {
+                const [openH, openM] = slot.open.split(':').map(Number);
+                const [closeH, closeM] = slot.close.split(':').map(Number);
+
+                const openTime = openH * 60 + openM;
+                const closeTime = closeH * 60 + closeM;
+                const cutoffTime = closeTime - CUTOFF_MINUTES;
+
+                if (currentMinutes >= openTime && currentMinutes < closeTime) {
+                    isOpen = true;
+                    if (currentMinutes < cutoffTime) {
+                        canOrder = true;
+                    }
+                    break;
+                }
+            }
+
+            if (canOrder) {
+                statusBadge.innerHTML = "🟢 <span style='color: #2ecc71;'>PRISE DE COMMANDE OUVERTE</span>";
+                statusSubtext.innerText = "Temps d'attente estimé en cuisine :";
+
+                // Heure de pointe soir (19h30 à 21h00)
+                if (currentMinutes >= (19 * 60 + 30) && currentMinutes <= (21 * 60)) {
+                    waitTimeDisplay.innerText = "25 - 35 min";
+                } else {
+                    waitTimeDisplay.innerText = "15 - 20 min";
+                }
+            } else if (isOpen) {
+                statusBadge.innerHTML = "🟠 <span style='color: #f39c12;'>COMMANDES FERMÉES (FIN DE SERVICE)</span>";
+                statusSubtext.innerText = "Le restaurant est ouvert mais la prise de commande est arrêtée 30 min avant la fermeture.";
+                waitTimeDisplay.innerText = "Service en cours";
+            } else {
+                statusBadge.innerHTML = "🔴 <span style='color: #e74c3c;'>RESTAURANT FERMÉ</span>";
+                statusSubtext.innerText = "Horaires : 11h30 - 14h00 & 18h30 - 22h30";
+                waitTimeDisplay.innerText = "Réouverture au prochain service";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateStoreStatus);
+        setInterval(updateStoreStatus, 60000); // Mise à jour automatique chaque minute
+    </script>
+
+</body>
+</html>            </div>
         </div>
     </section>
 
