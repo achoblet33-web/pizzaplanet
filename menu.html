@@ -205,8 +205,8 @@
                 <label>📏 Choisissez la taille :</label>
                 <select id="modalSize" class="select-custom" onchange="updateModalPrice()">
                     <option value="petite">Petite</option>
-                    <option value="moyenne" selected>Moyenne (Éligible aux promos 🎁)</option>
-                    <option value="grande">Grande (Éligible aux promos 🎁)</option>
+                    <option value="moyenne" selected>Moyenne (Boisson comprise)</option>
+                    <option value="grande">Grande (Boisson comprise)</option>
                 </select>
             </div>
 
@@ -226,11 +226,21 @@
             </div>
 
             <div class="config-group">
-                <label>🧀 Envie d'un supplément ?</label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="modalSupplement" onchange="updateModalPrice()"> Ajouter un ingrédient supplémentaire
-                </label>
-                <div id="supplementInfo" style="font-size: 0.8rem; color: #a0aec0; margin-top: 5px; margin-left: 30px;">
+                <label>🧀 Ajouter un ingrédient supplémentaire :</label>
+                <select id="modalSupplementSelect" class="select-custom" onchange="updateModalPrice()">
+                    <option value="">Aucun supplément</option>
+                    <option value="Fromage Emmental">Supplément Emmental</option>
+                    <option value="Mozzarella">Supplément Mozzarella</option>
+                    <option value="Chèvre">Supplément Chèvre</option>
+                    <option value="Merguez">Supplément Merguez</option>
+                    <option value="Lardons">Supplément Lardons</option>
+                    <option value="Poulet">Supplément Poulet</option>
+                    <option value="Champignons">Supplément Champignons</option>
+                    <option value="Oeuf">Supplément Œuf</option>
+                    <option value="Ananas">Supplément Ananas</option>
+                    <option value="Miel">Supplément Miel</option>
+                </select>
+                <div id="supplementInfo" style="font-size: 0.8rem; color: #a0aec0; margin-top: 8px;">
                     (+1.50€ Petite / +2.00€ Moyenne / +2.50€ Grande)
                 </div>
             </div>
@@ -400,7 +410,7 @@
             
             document.getElementById('modalSize').value = 'moyenne';
             document.getElementById('modalCrust').value = 'Fine';
-            document.getElementById('modalSupplement').checked = false;
+            document.getElementById('modalSupplementSelect').value = '';
             
             const dindeGroup = document.getElementById('modalDindeGroup');
             const dindeCheckbox = document.getElementById('modalDinde');
@@ -430,10 +440,10 @@
             if (currentPizzaIndex === null) return;
             const pizza = pizzaMenu[currentPizzaIndex];
             const size = document.getElementById('modalSize').value;
-            const hasSupplement = document.getElementById('modalSupplement').checked;
+            const supplementValue = document.getElementById('modalSupplementSelect').value;
             
             let price = pizza.prices[size];
-            if (hasSupplement) {
+            if (supplementValue !== "") {
                 price += supplementPrices[size];
             }
             
@@ -445,21 +455,21 @@
             const size = document.getElementById('modalSize').value;
             const crust = document.getElementById('modalCrust').value;
             const isDinde = document.getElementById('modalDinde').checked;
-            const hasSupplement = document.getElementById('modalSupplement').checked;
+            const supplementValue = document.getElementById('modalSupplementSelect').value;
             
             let basePrice = pizza.prices[size];
             let finalPrice = basePrice;
-            if (hasSupplement) {
+            if (supplementValue !== "") {
                 finalPrice += supplementPrices[size];
             }
 
             const cartItem = {
-                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'std'}-${hasSupplement ? 'supp' : 'nosupp'}`,
+                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'std'}-${supplementValue ? supplementValue : 'nosupp'}`,
                 name: pizza.name,
                 size: size.charAt(0).toUpperCase() + size.slice(1),
                 crust: crust,
                 isDinde: isDinde,
-                hasSupplement: hasSupplement,
+                supplement: supplementValue,
                 basePrice: basePrice,
                 price: finalPrice,
                 quantity: 1
@@ -533,14 +543,14 @@
             otherItems.forEach(p => {
                 subTotal += p.price;
                 finalTotal += p.price;
-                if (p.size === 'Grande') {
-                    freeDrinks++; // Boisson offerte automatique pour Grande ou Moyenne
+                if (p.size === 'Grande' || p.size === 'Moyenne') {
+                    freeDrinks++;
                 }
             });
 
             mediumPizzas.forEach((p, index) => {
                 subTotal += p.price;
-                freeDrinks++; // Boisson offerte automatique pour Moyenne
+                freeDrinks++;
                 if ((index + 1) % 3 === 0) {
                     totalDiscount += p.price;
                 } else {
@@ -552,7 +562,7 @@
             cart.forEach(item => {
                 let optionsText = `Pâte ${item.crust}`;
                 if (item.isDinde) optionsText += ` <br>🦃 Remplacement par jambon de dinde`;
-                if (item.hasSupplement) optionsText += ` <br>🧀 Supplément ajouté (+${(item.price - item.basePrice).toFixed(2)}€)`;
+                if (item.supplement) optionsText += ` <br>🧀 Supplément : ${item.supplement} (+${(item.price - item.basePrice).toFixed(2)}€)`;
 
                 const itemElement = document.createElement('div');
                 itemElement.style.cssText = 'background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 12px; font-size: 0.95rem;';
