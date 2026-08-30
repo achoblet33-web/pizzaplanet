@@ -3,28 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Carte - Planet Pizza</title>
+    <title>La Carte & Commande - Planet Pizza Fort-de-France</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        .order-status-banner {
+        .menu-banner {
+            background: rgba(84, 210, 210, 0.08);
+            border: 1px solid rgba(84, 210, 210, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .menu-banner p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+        }
+        .category-header {
+            color: var(--primary-glow, #54d2d2);
+            font-family: 'Orbitron', sans-serif;
+            border-bottom: 2px solid rgba(84, 210, 210, 0.3);
+            padding-bottom: 8px;
+            margin: 35px 0 20px 0;
+            font-size: 1.4rem;
+        }
+        .pizza-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        .pizza-card {
+            background: var(--card-bg, #141a24);
+            border: 1px solid rgba(84, 210, 210, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .pizza-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-glow, #54d2d2);
+        }
+        .pizza-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .pizza-ingredients {
+            color: var(--text-muted, #a0aec0);
+            font-size: 0.88rem;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        .pizza-options {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .option-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        .option-row:last-child {
+            margin-bottom: 0;
+        }
+        .select-custom {
+            background: #0b0e14;
+            color: #fff;
+            border: 1px solid rgba(84, 210, 210, 0.3);
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+        .price-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--price-color, #ff6b6b);
+            font-weight: 700;
+        }
+        .btn-add-cart {
+            background: var(--primary-glow, #54d2d2);
+            color: #0b0e14;
+            border: none;
             padding: 10px 15px;
             border-radius: 8px;
-            font-weight: 500;
-            margin-top: 15px;
-            display: inline-block;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: opacity 0.2s ease;
         }
-        .status-open {
-            background: rgba(37, 211, 102, 0.2);
-            border: 1px solid #25d366;
-            color: #25d366;
+        .btn-add-cart:hover {
+            opacity: 0.9;
         }
-        .status-closed {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid #ef4444;
-            color: #ef4444;
+        /* Floating Cart Badge */
+        .cart-float-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #54d2d2;
+            color: #0b0e14;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(84, 210, 210, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* Cart Drawer Modal */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: flex-end;
+        }
+        .cart-content {
+            background: #0b0e14;
+            width: 100%;
+            max-width: 420px;
+            height: 100%;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(84, 210, 210, 0.3);
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -33,8 +150,298 @@
     <header>
         <div class="container nav-wrapper">
             <div class="logo-box">
-                <img src="logo.jpg" alt="Planet Pizza Logo" class="logo-img">
+                <img src="logo.jpg" alt="Planet Pizza Logo" class="logo-img" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'45\' height=\'45\' viewBox=\'0 0 45 45\'><circle cx=\'22.5\' cy=\'22.5\' r=\'21\' fill=\'%230b0e14\' stroke=\'%2354d2d2\' stroke-width=\'2\'/><text x=\'50%\' y=\'55%\' font-size=\'16\' font-weight=\'900\' fill=\'%2354d2d2\' font-family=\'sans-serif\' text-anchor=\'middle\' dominant-baseline=\'middle\'>PP</text></svg>';">
                 <div class="logo-title">Planet Pizza</div>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Accueil</a>
+                <a href="menu.html" class="active">La Carte</a>
+                <a href="a-propos.html">Notre Histoire</a>
+                <a href="contact.html">Contact & Accès</a>
+            </nav>
+            <button onclick="toggleCart()" class="btn-call" style="border:none; cursor:pointer;">🛒 Mon Panier (<span id="navCartCount">0</span>)</button>
+        </div>
+    </header>
+
+    <div class="container" style="padding-top: 30px; padding-bottom: 60px;">
+        
+        <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px;">LA CARTE INTERGALACTIQUE</h1>
+        
+        <div class="menu-banner">
+            <p><strong>🍕 Choix de pâte :</strong> Pâte Fine ou Pâte Épaisse (au choix sans supplément)</p>
+            <p><strong>🧀 Suppléments d'ingrédients :</strong> Petite : 1,50 € | Moyenne : 2,00 € | Grande : 2,50 €</p>
+            <p style="color: #2ecc71; margin-top: 8px;"><strong>🦃 Option Sans Porc :</strong> Pour toutes les personnes ne mangeant pas de porc, toutes nos pizzas sont disponibles avec du <em>jambon de dinde</em>.</p>
+        </div>
+
+        <div id="menuContainer"></div>
+
+    </div>
+
+    <!-- Floating Cart Button -->
+    <div class="cart-float-btn" onclick="toggleCart()">
+        🛒 <span>PANIER</span> (<span id="floatCartCount">0</span>) - <span id="floatCartTotal">0.00 €</span>
+    </div>
+
+    <!-- Cart Modal Drawer -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-family: 'Orbitron', sans-serif; color: var(--primary-glow);">Votre Commande</h2>
+                <button onclick="toggleCart()" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">✕</button>
+            </div>
+            <div id="cartItemsList" style="flex-grow: 1; overflow-y: auto;">
+                <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Votre panier est vide pour le moment.</p>
+            </div>
+            <div style="border-top: 1px solid rgba(84, 210, 210, 0.2); padding-top: 15px; margin-top: 15px;">
+                <div style="display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 15px;">
+                    <span>Total :</span>
+                    <span id="cartModalTotal" style="color: var(--price-color);">0.00 €</span>
+                </div>
+                <button id="btnCheckout" onclick="proceedToCheckout()" class="btn-primary" style="width: 100%; border: none; cursor: pointer;" disabled> Commander & Payer en Ligne</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Planet Pizza. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        const pizzaMenu = [
+            // CLASSIC / BASE TOMATE
+            { category: "🍕 Les Classiques Base Tomate", id: "margarita", name: "MARGARITA", ingredients: "tomate, emmental, olives", prices: { petite: 8.0, moyenne: 11.5, grande: 17.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "mozza", name: "MOZZA", ingredients: "tomate, mozzarella, olives", prices: { petite: 8.0, moyenne: 11.5, grande: 17.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "minot", name: "MINOT", ingredients: "tomate, jambon épaule, emmental, olives", prices: { petite: 9.0, moyenne: 12.5, grande: 18.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "ado", name: "ADO", ingredients: "tomate, épaule, crème, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "reine", name: "REINE", ingredients: "tomate, jambon épaule, champignon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "royal", name: "ROYAL", ingredients: "tomate, jambon épaule, champignon, mozzarella, œuf, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "hawaienne", name: "HAWAÏENNE", ingredients: "tomate, jambon épaule, ananas, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "oriental", name: "ORIENTAL", ingredients: "tomate, merguez, poivron, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "samaritaine", name: "SAMARITAINE", ingredients: "tomate, merguez, oignon, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "la-martiniquaise", name: "LA MARTINIQUAISE", ingredients: "tomate, merguez, jambon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "forestiere", name: "FORESTIÈRE", ingredients: "tomate, jambon épaule, champignon, merguez, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "peperoni-ananas", name: "PÉPÉRONI ANANAS", ingredients: "tomate, pépéroni, ananas, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "peperoni-jambon", name: "PÉPÉRONI JAMBON", ingredients: "tomate, pépéroni, jambon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "choriza", name: "CHORIZA", ingredients: "tomate, chorizo, poivron, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "4-saisons", name: "4 SAISONS", ingredients: "tomate, jambon, poivron, champignon, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🍕 Les Classiques Base Tomate", id: "simply", name: "SIMPLY", ingredients: "tomate, merguez, emmental, olives", prices: { petite: 9.0, moyenne: 12.5, grande: 18.0 } },
+            
+            // SPECIALITES VIANDES PORC
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "cochonne", name: "COCHONNE", ingredients: "tomate, jambon épaule, merguez, chorizo, lardon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "grosse-cochonne", name: "GROSSE COCHONNE", ingredients: "tomate, jambon épaule, chorizo, pépéroni, merguez, lardon, œuf, mozzarella, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 23.0 } },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "supra", name: "SUPRA", ingredients: "tomate, merguez, jambon, crème fraîche, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "gourmande", name: "GOURMANDE", ingredients: "tomate, épaule, lardon, champignon, oignon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "foyalaise", name: "FOYALAISE", ingredients: "tomate, épaule, merguez, champignon, oignon, œuf, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "champetre", name: "CHAMPÊTRE", ingredients: "tomate, lardon, épaule, chèvre, miel, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+
+            // VOLAILLES
+            { category: "🍗 Spécialités Volailles & Kebab", id: "poularde", name: "POULARDE", ingredients: "tomate, poulet, oignon, poivron, crème fraîche, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍗 Spécialités Volailles & Kebab", id: "madras", name: "MADRAS", ingredients: "sauce curry, poulet, ananas, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍗 Spécialités Volailles & Kebab", id: "dinde", name: "DINDE", ingredients: "tomate, viande kebab, oignon, crème, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🍗 Spécialités Volailles & Kebab", id: "grosse-dinde", name: "GROSSE DINDE", ingredients: "tomate, jambon de dinde, viande kebab, oignon, crème, mozzarella, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 23.0 } },
+            { category: "🍗 Spécialités Volailles & Kebab", id: "montagnarde", name: "MONTAGNARDE", ingredients: "crème fraîche, poulet, lardon, chèvre, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+
+            // FROMAGES ET VEGETARIENNE
+            { category: "🧀 Fromages & Végétariennes", id: "chevre-miel", name: "CHÈVRE MIEL", ingredients: "tomate, champignon, chèvre, miel, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🧀 Fromages & Végétariennes", id: "3-fromages", name: "3 FROMAGES", ingredients: "tomate, chèvre, féta, mozzarella, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🧀 Fromages & Végétariennes", id: "4-fromages", name: "4 FROMAGES", ingredients: "tomate, chèvre, bleu, féta, parmesan, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🧀 Fromages & Végétariennes", id: "5-fromages", name: "5 FROMAGES", ingredients: "tomate, chèvre, bleu, féta, mozzarella, parmesan, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🧀 Fromages & Végétariennes", id: "vegetarienne", name: "VÉGÉTARIENNE", ingredients: "tomate, poivron, oignon, champignon, cœur d'artichaut, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🧀 Fromages & Végétariennes", id: "super-vege", name: "SUPER VÉGÉ", ingredients: "tomate, steak de soja, poivron, oignon pays, piment végétarien, mozzarella, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+
+            // PRODUITS DE LA MER
+            { category: "🐟 Produit de la Mer", id: "fruits-de-mer", name: "FRUITS DE MER", ingredients: "tomate, fruits de mer, persillade, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🐟 Produit de la Mer", id: "norvegienne", name: "NORVÉGIENNE", ingredients: "crème fraîche, saumon fumé, oignon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🐟 Produit de la Mer", id: "anchois", name: "ANCHOIS", ingredients: "tomate, anchois, persillade, câpres, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🐟 Produit de la Mer", id: "crevette", name: "CREVETTE", ingredients: "tomate, crevettes, persillade, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🐟 Produit de la Mer", id: "grand-large", name: "GRAND LARGE", ingredients: "crème fraîche, crevette, champignon, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🐟 Produit de la Mer", id: "pacific", name: "PACIFIC", ingredients: "tomate, fruit de mer, saumon, thon, persillade, crème, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 24.0 } },
+            { category: "🐟 Produit de la Mer", id: "marine", name: "MARINE", ingredients: "tomate, thon, persillade, oignon, crème fraîche, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+
+            // BASE CREME FRAICHE
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "campagnarde", name: "CAMPAGNARDE", ingredients: "crème fraîche, jambon épaule, lardon, œuf, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "antillaise", name: "ANTILLAISE", ingredients: "crème fraîche, jambon épaule, ananas, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "tartiflette", name: "TARTIFLETTE", ingredients: "crème fraîche, lardon, oignon, pomme de terre, fromage à tartiflette, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "flam", name: "FLAM", ingredients: "crème fraîche, oignon, lardon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "flam-chevre", name: "FLAM CHÈVRE", ingredients: "crème fraîche, oignon, chèvre, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 } },
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "paysanne", name: "PAYSANNE", ingredients: "crème fraîche, jambon, lardon, champignon, poivron, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🥛 Recettes Onctueuses Base Crème", id: "fermiere", name: "FERMIÈRE", ingredients: "crème fraîche, épaule, lardon, chèvre, bleu, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+
+            // BOEUF HACHE
+            { category: "🥩 Recettes Bœuf Haché", id: "colorado", name: "COLORADO", ingredients: "tomate, bœuf haché, oignon, crème fraîche, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🥩 Recettes Bœuf Haché", id: "mexicaine", name: "MEXICAINE", ingredients: "tomate, bœuf haché, oignon, persillade, pomme de terre, mozzarella, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🥩 Recettes Bœuf Haché", id: "pizza-du-chef", name: "PIZZA DU CHEF", ingredients: "crème fraîche, bœuf haché, champignon, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 } },
+            { category: "🥩 Recettes Bœuf Haché", id: "peruvienne", name: "PÉRUVIENNE", ingredients: "crème fraîche, bœuf haché, oignon, pomme de terre, féta, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 } },
+            { category: "🥩 Recettes Bœuf Haché", id: "maya", name: "MAYA", ingredients: "tomate, bœuf haché préparé, merguez, oignon, sauce curry, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 23.0 } }
+        ];
+
+        let cart = [];
+
+        function renderMenu() {
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+
+            let currentCategory = '';
+            let currentGrid = null;
+
+            pizzaMenu.forEach((item, index) => {
+                if (item.category !== currentCategory) {
+                    currentCategory = item.category;
+                    const catTitle = document.createElement('h2');
+                    catTitle.className = 'category-header';
+                    catTitle.innerText = currentCategory;
+                    container.appendChild(catTitle);
+
+                    currentGrid = document.createElement('div');
+                    currentGrid.className = 'pizza-grid';
+                    container.appendChild(currentGrid);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'pizza-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="pizza-title">${item.name}</div>
+                        <div class="pizza-ingredients">${item.ingredients}</div>
+                    </div>
+                    <div>
+                        <div class="pizza-options">
+                            <div class="option-row">
+                                <label>Taille :</label>
+                                <select id="size-${index}" class="select-custom" onchange="updateCardPrice(${index})">
+                                    <option value="petite">Petite</option>
+                                    <option value="moyenne" selected>Moyenne</option>
+                                    <option value="grande">Grande</option>
+                                </select>
+                            </div>
+                            <div class="option-row">
+                                <label>Pâte :</label>
+                                <select id="crust-${index}" class="select-custom">
+                                    <option value="Fine">Pâte Fine</option>
+                                    <option value="Épaisse">Pâte Épaisse</option>
+                                </select>
+                            </div>
+                            <div class="option-row" style="margin-top: 5px;">
+                                <label style="font-size: 0.8rem; cursor: pointer;">
+                                    <input type="checkbox" id="dinde-${index}"> Option jambon de dinde
+                                </label>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="price-tag" id="price-${index}">${item.prices.moyenne.toFixed(2)} €</span>
+                        </div>
+                        <button class="btn-add-cart" onclick="addToCart(${index})">🛒 Ajouter au Panier</button>
+                    </div>
+                `;
+                currentGrid.appendChild(card);
+            });
+        }
+
+        function updateCardPrice(index) {
+            const size = document.getElementById(`size-${index}`).value;
+            const price = pizzaMenu[index].prices[size];
+            document.getElementById(`price-${index}`).innerText = `${price.toFixed(2)} €`;
+        }
+
+        function addToCart(index) {
+            const pizza = pizzaMenu[index];
+            const size = document.getElementById(`size-${index}`).value;
+            const crust = document.getElementById(`crust-${index}`).value;
+            const isDinde = document.getElementById(`dinde-${index}`).checked;
+            const price = pizza.prices[size];
+
+            const cartItem = {
+                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'standard'}`,
+                name: pizza.name,
+                size: size.charAt(0).toUpperCase() + size.slice(1),
+                crust: crust,
+                isDinde: isDinde,
+                price: price,
+                quantity: 1
+            };
+
+            const existingIndex = cart.findIndex(item => item.id === cartItem.id);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push(cartItem);
+            }
+
+            updateCartUI();
+        }
+
+        function updateCartQuantity(id, change) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index > -1) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            let totalCount = 0;
+            let totalPrice = 0;
+            const listContainer = document.getElementById('cartItemsList');
+
+            if (cart.length === 0) {
+                listContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Votre panier est vide pour le moment.</p>`;
+                document.getElementById('btnCheckout').disabled = true;
+            } else {
+                listContainer.innerHTML = '';
+                cart.forEach(item => {
+                    totalCount += item.quantity;
+                    totalPrice += item.price * item.quantity;
+
+                    const itemElement = document.createElement('div');
+                    itemElement.style.cssText = 'background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem;';
+                    itemElement.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                            <span>${item.name} (${item.size})</span>
+                            <span>${(item.price * item.quantity).toFixed(2)} €</span>
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+                            Pâte ${item.crust} ${item.isDinde ? '• Option Jambon de dinde' : ''}
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                            <div>
+                                <button onclick="updateCartQuantity('${item.id}', -1)" style="background: rgba(255,255,255,0.1); color:#fff; border:none; padding: 2px 8px; border-radius: 4px; cursor:pointer;">-</button>
+                                <span style="margin: 0 8px;">${item.quantity}</span>
+                                <button onclick="updateCartQuantity('${item.id}', 1)" style="background: rgba(255,255,255,0.1); color:#fff; border:none; padding: 2px 8px; border-radius: 4px; cursor:pointer;">+</button>
+                            </div>
+                            <button onclick="updateCartQuantity('${item.id}', -${item.quantity})" style="background: none; border:none; color: var(--price-color); cursor:pointer; font-size: 0.8rem;">Supprimer</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(itemElement);
+                });
+                document.getElementById('btnCheckout').disabled = false;
+            }
+
+            document.getElementById('navCartCount').innerText = totalCount;
+            document.getElementById('floatCartCount').innerText = totalCount;
+            document.getElementById('floatCartTotal').innerText = `${totalPrice.toFixed(2)} €`;
+            document.getElementById('cartModalTotal').innerText = `${totalPrice.toFixed(2)} €`;
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function proceedToCheckout() {
+            alert("Redirection vers la passerelle de paiement sécurisée Cloudflare/Stripe...");
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+        });
+    </script>
+</body>
+</html>                <div class="logo-title">Planet Pizza</div>
             </div>
             <nav class="main-nav">
                 <a href="index.html">Accueil</a>
