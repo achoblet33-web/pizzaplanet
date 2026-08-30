@@ -8,6 +8,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .order-status-banner {
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        .status-open {
+            background: rgba(37, 211, 102, 0.2);
+            border: 1px solid #25d366;
+            color: #25d366;
+        }
+        .status-closed {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+    </style>
 </head>
 <body>
 
@@ -23,7 +42,7 @@
                 <a href="a-propos.html">Notre Histoire</a>
                 <a href="contact.html">Contact & Accès</a>
             </nav>
-            <a href="tel:+596596717478" class="btn-call">📞 Commander</a>
+            <a href="tel:+596596717478" class="btn-call" id="headerCallBtn">📞 Commander</a>
         </div>
     </header>
 
@@ -31,12 +50,18 @@
         <div class="container">
             <h1>LA CARTE COMPLÈTE</h1>
             <p>Cliquez sur une pizza pour personnaliser et ajouter au panier</p>
+            <div id="orderStatusBadge" class="order-status-banner"></div>
         </div>
     </section>
 
     <div class="container">
-        <!-- Section Offres Spéciales -->
+        <!-- Section Avertissement Clôture des Commandes & Offres Spéciales -->
         <section style="background: linear-gradient(135deg, rgba(84, 210, 210, 0.15), rgba(255, 183, 3, 0.15)); border: 2px dashed var(--primary-glow); padding: 20px; border-radius: 16px; margin-bottom: 30px; text-align: center;">
+            
+            <div style="background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; border-radius: 10px; padding: 12px; margin-bottom: 20px; color: #ff8e8e; font-weight: 500;">
+                ⏰ <strong>Information Horaires :</strong> La prise de commande (en ligne et par téléphone) ferme <strong>30 minutes avant la fermeture</strong> du restaurant.
+            </div>
+
             <h3 style="font-family: 'Orbitron', sans-serif; color: var(--price-color); margin-bottom: 15px; font-size: 1.3rem;">🎁 OFFRES PROMOTIONNELLES</h3>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
                 <div style="background: var(--card-bg); padding: 12px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
@@ -218,7 +243,7 @@
                     </div>
                     <div class="pizza-prices">
                         <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
-                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
                         <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
                     </div>
                 </div>
@@ -765,7 +790,7 @@
                 </select>
             </div>
 
-            <button class="btn-primary" onclick="addToCart()">Ajouter au panier</button>
+            <button class="btn-primary" id="btnAddToCart" onclick="addToCart()">Ajouter au panier</button>
         </div>
     </div>
 
@@ -790,7 +815,7 @@
                 </select>
             </div>
 
-            <button class="btn-primary" style="background: #25d366; color: white;" onclick="sendWhatsAppOrder()">📱 Envoyer la commande (WhatsApp)</button>
+            <button class="btn-primary" id="btnSendOrder" style="background: #25d366; color: white;" onclick="sendWhatsAppOrder()">📱 Envoyer la commande (WhatsApp)</button>
         </div>
     </div>
 
@@ -806,10 +831,59 @@
     </footer>
 
     <script>
+        // Configuration des horaires d'ouverture du restaurant
+        // Service Midi (11:30 - 14:00) & Service Soir (18:30 - 22:30)
+        const RESTAURANT_SCHEDULE = [
+            { open: "11:30", close: "14:00" },
+            { open: "18:30", close: "22:30" }
+        ];
+        const CUTOFF_MINUTES = 30; // Arrêt des commandes 30 min avant la fermeture
+
         let cart = [];
         let currentItem = {};
 
+        // Vérification de l'ouverture de la prise de commande
+        function getOrderStatus() {
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            for (let slot of RESTAURANT_SCHEDULE) {
+                const [openH, openM] = slot.open.split(':').map(Number);
+                const [closeH, closeM] = slot.close.split(':').map(Number);
+
+                const openTime = openH * 60 + openM;
+                const closeTime = closeH * 60 + closeM;
+                const cutoffTime = closeTime - CUTOFF_MINUTES;
+
+                if (currentMinutes >= openTime && currentMinutes < cutoffTime) {
+                    return { canOrder: true, statusText: "🟢 Prise de commande OUVERTE", message: "Les commandes sont ouvertes !" };
+                } else if (currentMinutes >= cutoffTime && currentMinutes < closeTime) {
+                    return { canOrder: false, statusText: "🔴 Prise de commande FERMÉE", message: "La prise de commande ferme 30 minutes avant la fermeture du restaurant." };
+                }
+            }
+
+            return { canOrder: false, statusText: "🔴 Restaurant FERMÉ", message: "Le restaurant est actuellement fermé. Merci de consulter nos horaires." };
+        }
+
+        function updateStatusUI() {
+            const status = getOrderStatus();
+            const badge = document.getElementById('orderStatusBadge');
+            
+            badge.innerText = status.statusText;
+            if (status.canOrder) {
+                badge.className = "order-status-banner status-open";
+            } else {
+                badge.className = "order-status-banner status-closed";
+            }
+        }
+
         function openOrderModal(name, pPetite, pMoyenne, pGrande) {
+            const status = getOrderStatus();
+            if (!status.canOrder) {
+                alert(`⚠️ Impossible de commander :\n${status.message}`);
+                return;
+            }
+
             currentItem = { name, pPetite, pMoyenne, pGrande };
             document.getElementById('modalTitle').innerText = name;
             
@@ -828,6 +902,13 @@
         }
 
         function addToCart() {
+            const status = getOrderStatus();
+            if (!status.canOrder) {
+                alert(`⚠️ La prise de commande est arrêtée (30 min avant la fermeture du restaurant).`);
+                closeModal('itemModal');
+                return;
+            }
+
             const sizeSelect = document.getElementById('sizeSelect');
             const selectedSize = sizeSelect.value;
             const basePrice = parseFloat(sizeSelect.options[sizeSelect.selectedIndex].dataset.price);
@@ -877,6 +958,12 @@
         }
 
         function sendWhatsAppOrder() {
+            const status = getOrderStatus();
+            if (!status.canOrder) {
+                alert(`⚠️ Désolé, la prise de commande est clôturée 30 minutes avant la fermeture du restaurant.\n\n${status.message}`);
+                return;
+            }
+
             if (cart.length === 0) {
                 alert("Votre panier est vide !");
                 return;
@@ -905,6 +992,12 @@
             const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         }
+
+        // Initialisation de la vérification de statut
+        document.addEventListener("DOMContentLoaded", () => {
+            updateStatusUI();
+            setInterval(updateStatusUI, 60000); // Mise à jour toutes les minutes
+        });
     </script>
 
 </body>
