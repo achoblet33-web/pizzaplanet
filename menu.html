@@ -35,6 +35,880 @@
     </section>
 
     <div class="container">
+        <!-- Section Offres Spéciales -->
+        <section style="background: linear-gradient(135deg, rgba(84, 210, 210, 0.15), rgba(255, 183, 3, 0.15)); border: 2px dashed var(--primary-glow); padding: 20px; border-radius: 16px; margin-bottom: 30px; text-align: center;">
+            <h3 style="font-family: 'Orbitron', sans-serif; color: var(--price-color); margin-bottom: 15px; font-size: 1.3rem;">🎁 OFFRES PROMOTIONNELLES</h3>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+                <div style="background: var(--card-bg); padding: 12px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                    🥤 <strong>1 Pizza Moyenne achetée</strong> = 1 Boisson offerte
+                </div>
+                <div style="background: var(--card-bg); padding: 12px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);">
+                    🍕 <strong>2 Pizzas Moyennes achetées</strong> = 1 Pizza Moyenne offerte
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 12px;">ℹ️ <em>Pour toutes les personnes ne mangeant pas de porc, les pizzas sont disponibles avec du jambon de dinde.</em></p>
+        </section>
+
+        <!-- Section Grille Unique de Pizzas -->
+        <section class="menu-category">
+            <h3 class="category-title">🍕 Toutes nos Pizzas</h3>
+            <div class="pizza-grid">
+
+                <!-- 1. MARGARITA -->
+                <div class="pizza-card" onclick="openOrderModal('Margarita', 8.00, 11.50, 17.00)">
+                    <div>
+                        <div class="pizza-title">Margarita <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">8,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">11,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">17,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 2. MOZZA -->
+                <div class="pizza-card" onclick="openOrderModal('Mozza', 8.00, 11.50, 17.00)">
+                    <div>
+                        <div class="pizza-title">Mozza <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, mozzarella, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">8,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">11,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">17,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 3. MINOT -->
+                <div class="pizza-card" onclick="openOrderModal('Minot', 9.00, 12.50, 18.00)">
+                    <div>
+                        <div class="pizza-title">Minot</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">9,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">12,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">18,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 4. ADO -->
+                <div class="pizza-card" onclick="openOrderModal('Ado', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Ado</div>
+                        <p class="pizza-ingredients">Tomate, épaule, crème, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 5. REINE -->
+                <div class="pizza-card" onclick="openOrderModal('Reine', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Reine</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, champignon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 6. ROYAL -->
+                <div class="pizza-card" onclick="openOrderModal('Royal', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Royal</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, champignon, mozzarella, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 7. HAWAIENNE -->
+                <div class="pizza-card" onclick="openOrderModal('Hawaïenne', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Hawaïenne</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, ananas, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 8. ORIENTAL -->
+                <div class="pizza-card" onclick="openOrderModal('Oriental', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Oriental</div>
+                        <p class="pizza-ingredients">Tomate, merguez, poivron, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 9. SAMARITAINE -->
+                <div class="pizza-card" onclick="openOrderModal('Samaritaine', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Samaritaine</div>
+                        <p class="pizza-ingredients">Tomate, merguez, oignon, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 10. LA MARTINIKAISE -->
+                <div class="pizza-card" onclick="openOrderModal('La Martinikaise', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">La Martinikaise</div>
+                        <p class="pizza-ingredients">Tomate, merguez, jambon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 11. FORESTIERE -->
+                <div class="pizza-card" onclick="openOrderModal('Forestière', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Forestière</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, champignon, merguez, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 12. PEPERONI ANANAS -->
+                <div class="pizza-card" onclick="openOrderModal('Peperoni Ananas', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Peperoni Ananas</div>
+                        <p class="pizza-ingredients">Tomate, pépéroni, ananas, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 13. PEPERONI JAMBON -->
+                <div class="pizza-card" onclick="openOrderModal('Peperoni Jambon', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Peperoni Jambon</div>
+                        <p class="pizza-ingredients">Tomate, pépéroni, jambon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 14. CHORIZA -->
+                <div class="pizza-card" onclick="openOrderModal('Choriza', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Choriza <span class="badge badge-epice">🌶️ Épicé</span></div>
+                        <p class="pizza-ingredients">Tomate, chorizo, poivron, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 15. 4 SAISONS -->
+                <div class="pizza-card" onclick="openOrderModal('4 Saisons', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">4 Saisons</div>
+                        <p class="pizza-ingredients">Tomate, jambon, poivron, champignon, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 16. SIMPLY -->
+                <div class="pizza-card" onclick="openOrderModal('Simply', 9.00, 12.50, 18.00)">
+                    <div>
+                        <div class="pizza-title">Simply</div>
+                        <p class="pizza-ingredients">Tomate, merguez, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">9,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">12,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">18,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 17. CHEVRE MIEL -->
+                <div class="pizza-card" onclick="openOrderModal('Chèvre Miel', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Chèvre Miel <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, champignon, chèvre, miel, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 18. 3 FROMAGES -->
+                <div class="pizza-card" onclick="openOrderModal('3 Fromages', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">3 Fromages <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, chèvre, féta, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 19. 4 FROMAGES -->
+                <div class="pizza-card" onclick="openOrderModal('4 Fromages', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">4 Fromages <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, chèvre, bleu, féta, parmesan, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 20. 5 FROMAGES -->
+                <div class="pizza-card" onclick="openOrderModal('5 Fromages', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">5 Fromages <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, chèvre, bleu, féta, mozzarella, parmesan, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 21. VÉGÉTARIENNE -->
+                <div class="pizza-card" onclick="openOrderModal('Végétarienne', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Végétarienne <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, poivron, oignon, champignon, cœur d'artichaut, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 22. SUPER VÉGÉ -->
+                <div class="pizza-card" onclick="openOrderModal('Super Végé', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Super Végé <span class="badge badge-vege">🌱 Végé</span></div>
+                        <p class="pizza-ingredients">Tomate, steak de soja, poivron, oignon pays, piment végétarien, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 23. CAMPAGNARDE -->
+                <div class="pizza-card" onclick="openOrderModal('Campagnarde', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Campagnarde</div>
+                        <p class="pizza-ingredients">Crème fraîche, jambon épaule, lardon, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 24. ANTILLAISE -->
+                <div class="pizza-card" onclick="openOrderModal('Antillaise', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Antillaise</div>
+                        <p class="pizza-ingredients">Crème fraîche, jambon épaule, ananas, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 25. TARTIFLETTE -->
+                <div class="pizza-card" onclick="openOrderModal('Tartiflette', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Tartiflette</div>
+                        <p class="pizza-ingredients">Crème fraîche, lardon, oignon, pomme de terre, fromage à tartiflette, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 26. FLAM -->
+                <div class="pizza-card" onclick="openOrderModal('Flam', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Flam</div>
+                        <p class="pizza-ingredients">Crème fraîche, oignon, lardon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 27. FLAM CHÈVRE -->
+                <div class="pizza-card" onclick="openOrderModal('Flam Chèvre', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Flam Chèvre</div>
+                        <p class="pizza-ingredients">Crème fraîche, oignon, chèvre, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 28. PAYSANNE -->
+                <div class="pizza-card" onclick="openOrderModal('Paysanne', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Paysanne</div>
+                        <p class="pizza-ingredients">Crème fraîche, jambon, lardon, champignon, poivron, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 29. FERMIÈRE -->
+                <div class="pizza-card" onclick="openOrderModal('Fermière', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Fermière</div>
+                        <p class="pizza-ingredients">Crème fraîche, épaule, lardon, chèvre, bleu, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 30. COCHONNE -->
+                <div class="pizza-card" onclick="openOrderModal('Cochonne', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Cochonne</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, merguez, chorizo, lardon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 31. GROSSE COCHONNE -->
+                <div class="pizza-card" onclick="openOrderModal('Grosse Cochonne', 13.00, 16.50, 23.00)">
+                    <div>
+                        <div class="pizza-title">Grosse Cochonne</div>
+                        <p class="pizza-ingredients">Tomate, jambon épaule, chorizo, pépéroni, merguez, lardon, œuf, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">23,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 32. SUPRA -->
+                <div class="pizza-card" onclick="openOrderModal('Supra', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Supra</div>
+                        <p class="pizza-ingredients">Tomate, merguez, jambon, crème fraîche, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 33. GOURMANDE -->
+                <div class="pizza-card" onclick="openOrderModal('Gourmande', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Gourmande</div>
+                        <p class="pizza-ingredients">Tomate, épaule, lardon, champignon, oignon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 34. FOYALAISE -->
+                <div class="pizza-card" onclick="openOrderModal('Foyalaise', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Foyalaise</div>
+                        <p class="pizza-ingredients">Tomate, épaule, merguez, champignon, oignon, œuf, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 35. CHAMPÊTRE -->
+                <div class="pizza-card" onclick="openOrderModal('Champêtre', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Champêtre</div>
+                        <p class="pizza-ingredients">Tomate, lardon, épaule, chèvre, miel, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 36. POULARDE -->
+                <div class="pizza-card" onclick="openOrderModal('Poularde', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Poularde</div>
+                        <p class="pizza-ingredients">Tomate, poulet, oignon, poivron, crème fraîche, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 37. MADRAS -->
+                <div class="pizza-card" onclick="openOrderModal('Madras', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Madras</div>
+                        <p class="pizza-ingredients">Sauce curry, poulet, ananas, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 38. DINDE -->
+                <div class="pizza-card" onclick="openOrderModal('Dinde', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Dinde</div>
+                        <p class="pizza-ingredients">Tomate, viande kebab, oignon, crème, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 39. GROSSE DINDE -->
+                <div class="pizza-card" onclick="openOrderModal('Grosse Dinde', 13.00, 16.50, 23.00)">
+                    <div>
+                        <div class="pizza-title">Grosse Dinde</div>
+                        <p class="pizza-ingredients">Tomate, jambon de dinde, viande kebab, oignon, crème, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">23,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 40. MONTAGNARDE -->
+                <div class="pizza-card" onclick="openOrderModal('Montagnarde', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Montagnarde</div>
+                        <p class="pizza-ingredients">Crème fraîche, poulet, lardon, chèvre, mozza, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 41. FRUITS DE MER -->
+                <div class="pizza-card" onclick="openOrderModal('Fruits de Mer', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Fruits de Mer</div>
+                        <p class="pizza-ingredients">Tomate, fruits de mer, persillade, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 42. NORVEGIENNE -->
+                <div class="pizza-card" onclick="openOrderModal('Norvégienne', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Norvégienne</div>
+                        <p class="pizza-ingredients">Crème fraîche, saumon fumé, oignon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 43. ANCHOIS -->
+                <div class="pizza-card" onclick="openOrderModal('Anchois', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Anchois</div>
+                        <p class="pizza-ingredients">Tomate, anchois, persillade, câpres, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 44. CREVETTE -->
+                <div class="pizza-card" onclick="openOrderModal('Crevette', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Crevette</div>
+                        <p class="pizza-ingredients">Tomate, crevettes, persillade, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 45. GRAND LARGE -->
+                <div class="pizza-card" onclick="openOrderModal('Grand Large', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Grand Large</div>
+                        <p class="pizza-ingredients">Crème fraîche, crevette, champignon, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 46. PACIFIC -->
+                <div class="pizza-card" onclick="openOrderModal('Pacific', 13.00, 16.50, 24.00)">
+                    <div>
+                        <div class="pizza-title">Pacific</div>
+                        <p class="pizza-ingredients">Tomate, fruit de mer, saumon, thon, persillade, crème, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">24,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 47. MARINE -->
+                <div class="pizza-card" onclick="openOrderModal('Marine', 10.00, 13.50, 20.00)">
+                    <div>
+                        <div class="pizza-title">Marine</div>
+                        <p class="pizza-ingredients">Tomate, thon, persillade, oignon, crème fraîche, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">10,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">13,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">20,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 48. COLORADO -->
+                <div class="pizza-card" onclick="openOrderModal('Colorado', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Colorado</div>
+                        <p class="pizza-ingredients">Tomate, bœuf haché, oignon, crème fraîche, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 49. MEXICAINE -->
+                <div class="pizza-card" onclick="openOrderModal('Mexicaine', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Mexicaine</div>
+                        <p class="pizza-ingredients">Tomate, bœuf haché, oignon, persillade, pomme de terre, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 50. PIZZA DU CHEF -->
+                <div class="pizza-card" onclick="openOrderModal('Pizza du Chef', 11.00, 14.50, 21.00)">
+                    <div>
+                        <div class="pizza-title">Pizza du Chef</div>
+                        <p class="pizza-ingredients">Crème fraîche, bœuf haché, champignon, mozzarella, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">11,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">14,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">21,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 51. PÉRURIENNE -->
+                <div class="pizza-card" onclick="openOrderModal('Péruvienne', 12.00, 15.50, 22.00)">
+                    <div>
+                        <div class="pizza-title">Péruvienne</div>
+                        <p class="pizza-ingredients">Crème fraîche, bœuf haché, oignon, pomme de terre, féta, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">12,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">15,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">22,00 €</div></div>
+                    </div>
+                </div>
+
+                <!-- 52. MAYA -->
+                <div class="pizza-card" onclick="openOrderModal('Maya', 13.00, 16.50, 23.00)">
+                    <div>
+                        <div class="pizza-title">Maya</div>
+                        <p class="pizza-ingredients">Tomate, bœuf haché préparé, merguez, oignon, sauce curry, emmental, olives</p>
+                    </div>
+                    <div class="pizza-prices">
+                        <div class="price-tag"><span>Petite</span><div class="price-val">13,00 €</div></div>
+                        <div class="price-tag"><span>Moyenne</span><div class="price-val">16,50 €</div></div>
+                        <div class="price-tag"><span>Grande</span><div class="price-val">23,00 €</div></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Modale Sélection Produit -->
+    <div id="itemModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('itemModal')">&times;</span>
+            <h3 id="modalTitle" style="color: var(--primary-glow); margin-bottom: 15px;"></h3>
+            
+            <div class="modal-section">
+                <label>Taille :</label>
+                <select id="sizeSelect">
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <label>Pâte :</label>
+                <select id="crustSelect">
+                    <option value="Fine">Pâte Fine</option>
+                    <option value="Épaisse">Pâte Épaisse</option>
+                    <option value="Bordure Fromage">Bordure fourrée fromage (+2.50€)</option>
+                </select>
+            </div>
+
+            <div class="modal-section">
+                <label>Boisson en supplément :</label>
+                <select id="drinkSelect">
+                    <option value="Aucune">Sans boisson</option>
+                    <option value="Coca 33cl">Coca-Cola 33cl (+2.00€)</option>
+                    <option value="Sprite 33cl">Sprite 33cl (+2.00€)</option>
+                    <option value="Eau 50cl">Eau minérale (+1.50€)</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="addToCart()">Ajouter au panier</button>
+        </div>
+    </div>
+
+    <!-- Modale Récapitulatif Panier -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
+            <h3 style="color: var(--primary-glow); margin-bottom: 15px;">🛒 Votre Panier</h3>
+            
+            <div id="cartItemsList" style="margin-bottom: 20px;"></div>
+
+            <div class="modal-section">
+                <label>Nom & Prénom :</label>
+                <input type="text" id="clientName" placeholder="Ex: Jean Dupont">
+            </div>
+
+            <div class="modal-section">
+                <label>Mode de retrait :</label>
+                <select id="orderType">
+                    <option value="À emporter">À emporter au restaurant</option>
+                    <option value="Livraison">Livraison à domicile</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" style="background: #25d366; color: white;" onclick="sendWhatsAppOrder()">📱 Envoyer la commande (WhatsApp)</button>
+        </div>
+    </div>
+
+    <!-- Bouton Flottant Panier -->
+    <div class="floating-cart" onclick="openCartModal()">
+        🛒 Panier <span class="cart-count" id="cartCount">0</span>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Planet Pizza. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let currentItem = {};
+
+        function openOrderModal(name, pPetite, pMoyenne, pGrande) {
+            currentItem = { name, pPetite, pMoyenne, pGrande };
+            document.getElementById('modalTitle').innerText = name;
+            
+            const sizeSelect = document.getElementById('sizeSelect');
+            sizeSelect.innerHTML = `
+                <option value="Petite" data-price="${pPetite}">Petite (${pPetite.toFixed(2)} €)</option>
+                <option value="Moyenne" data-price="${pMoyenne}">Moyenne (${pMoyenne.toFixed(2)} €)</option>
+                <option value="Grande" data-price="${pGrande}">Grande (${pGrande.toFixed(2)} €)</option>
+            `;
+            
+            document.getElementById('itemModal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function addToCart() {
+            const sizeSelect = document.getElementById('sizeSelect');
+            const selectedSize = sizeSelect.value;
+            const basePrice = parseFloat(sizeSelect.options[sizeSelect.selectedIndex].dataset.price);
+            
+            const crust = document.getElementById('crustSelect').value;
+            let crustExtra = crust === "Bordure Fromage" ? 2.50 : 0;
+
+            const drink = document.getElementById('drinkSelect').value;
+            let drinkExtra = drink.includes("33cl") ? 2.00 : (drink.includes("Eau") ? 1.50 : 0);
+
+            const totalPrice = basePrice + crustExtra + drinkExtra;
+
+            cart.push({
+                name: currentItem.name,
+                size: selectedSize,
+                crust: crust,
+                drink: drink,
+                price: totalPrice
+            });
+
+            updateCartUI();
+            closeModal('itemModal');
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function openCartModal() {
+            const listContainer = document.getElementById('cartItemsList');
+            if(cart.length === 0) {
+                listContainer.innerHTML = "<p style='color: var(--text-muted);'>Votre panier est vide.</p>";
+            } else {
+                let html = "";
+                let total = 0;
+                cart.forEach((item, index) => {
+                    total += item.price;
+                    html += `<div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding: 8px 0;">
+                        <strong>${item.name}</strong> (${item.size}) - ${item.price.toFixed(2)} €<br>
+                        <small style="color: var(--text-muted);">Pâte: ${item.crust} | Boisson: ${item.drink}</small>
+                    </div>`;
+                });
+                html += `<p style="margin-top: 15px; font-weight: bold; font-size: 1.2rem; color: var(--price-color);">Total : ${total.toFixed(2)} €</p>`;
+                listContainer.innerHTML = html;
+            }
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert("Votre panier est vide !");
+                return;
+            }
+            const name = document.getElementById('clientName').value.trim();
+            if (!name) {
+                alert("Veuillez saisir votre nom.");
+                return;
+            }
+
+            const type = document.getElementById('orderType').value;
+            let text = `Bonjour Planet Pizza, je souhaite passer commande (${type}) :\n\n`;
+            let total = 0;
+
+            cart.forEach(item => {
+                text += `• *${item.name}* (${item.size}) - Pâte ${item.crust}`;
+                if(item.drink !== "Aucune") text += ` + ${item.drink}`;
+                text += ` : ${item.price.toFixed(2)}€\n`;
+                total += item.price;
+            });
+
+            text += `\n*Total : ${total.toFixed(2)} €*`;
+            text += `\nNom du client : ${name}`;
+
+            const phone = "596596717478";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+
+</body>
+</html>    <div class="container">
         <!-- Section Unifiée : Toutes les pizzas sur une même grille -->
         <section class="menu-category">
             <h3 class="category-title">🍕 Toutes nos Pizzas</h3>
