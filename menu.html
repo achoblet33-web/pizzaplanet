@@ -14,15 +14,16 @@
             background: var(--price-color, #ff6b6b);
             color: #fff;
             text-align: center;
-            padding: 12px;
+            padding: 14px;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             font-size: 0.95rem;
             letter-spacing: 1px;
             box-shadow: 0 2px 15px rgba(255, 107, 107, 0.4);
+            position: relative;
+            z-index: 1001;
         }
 
-        /* Menu de navigation fixe en haut */
         header {
             position: sticky;
             top: 0;
@@ -47,7 +48,6 @@
             gap: 25px;
         }
         
-        /* Nouveau design épuré des cartes Pizza */
         .pizza-card {
             background: var(--card-bg, #141a24);
             border: 1px solid rgba(84, 210, 210, 0.15);
@@ -117,13 +117,15 @@
             background: #0b0e14; border: 2px solid var(--primary-glow); border-radius: 16px;
             padding: 30px; width: 90%; max-width: 450px; position: relative;
             box-shadow: 0 15px 40px rgba(84, 210, 210, 0.2);
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .close-modal {
             position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; opacity: 0.7;
         }
         .close-modal:hover { opacity: 1; }
-        .config-title { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; margin-bottom: 5px; color: var(--primary-glow); }
-        .config-desc { font-size: 0.9rem; color: #a0aec0; margin-bottom: 25px; }
+        .config-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; margin-bottom: 5px; color: var(--primary-glow); }
+        .config-desc { font-size: 0.9rem; color: #a0aec0; margin-bottom: 20px; }
         
         .config-group { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
         .config-group label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 0.95rem; }
@@ -162,7 +164,7 @@
 <body>
 
     <div class="promo-banner">
-        🔥 OFFRES DU MOMENT : 1 Pizza Moyenne achetée = 1 Boisson offerte | 2 Pizzas Moyennes achetées = 1 Pizza Moyenne OFFERTE ! 🔥
+        🔥 1 Pizza Moyenne achetée = 1 Boisson offerte | 2 Pizzas Moyennes achetées = 1 Pizza Moyenne OFFERTE ! 🔥
     </div>
 
     <header>
@@ -184,7 +186,11 @@
     </header>
 
     <div class="container" style="padding-top: 30px; padding-bottom: 60px;">
-        <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2.2rem;">LA CARTE INTERGALACTIQUE</h1>
+        <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 10px; font-size: 2.2rem;">LA CARTE INTERGALACTIQUE</h1>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 0.9rem;">
+            Suppléments : Petite 1,50 € / Moyenne 2,00 € / Grande 2,50 €<br>
+            <em>Pour les personnes ne mangeant pas de porc, toutes les pizzas sont disponibles avec du jambon de dinde.</em>
+        </p>
         <div id="menuContainer"></div>
     </div>
 
@@ -200,7 +206,7 @@
                 <select id="modalSize" class="select-custom" onchange="updateModalPrice()">
                     <option value="petite">Petite</option>
                     <option value="moyenne" selected>Moyenne (Éligible aux promos 🎁)</option>
-                    <option value="grande">Grande</option>
+                    <option value="grande">Grande (Éligible aux promos 🎁)</option>
                 </select>
             </div>
 
@@ -269,40 +275,40 @@
 
     <script>
         const pizzaMenu = [
-            // CLASSIC / BASE TOMATE
-            { category: "🍕 Les Classiques Base Tomate", id: "margarita", name: "MARGARITA", ingredients: "tomate, emmental, olives", prices: { petite: 8.0, moyenne: 11.5, grande: 17.0 }, isVeggie: true, isSpicy: false, hasPork: false },
-            { category: "🍕 Les Classiques Base Tomate", id: "mozza", name: "MOZZA", ingredients: "tomate, mozzarella, olives", prices: { petite: 8.0, moyenne: 11.5, grande: 17.0 }, isVeggie: true, isSpicy: false, hasPork: false },
-            { category: "🍕 Les Classiques Base Tomate", id: "minot", name: "MINOT", ingredients: "tomate, jambon épaule, emmental, olives", prices: { petite: 9.0, moyenne: 12.5, grande: 18.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "ado", name: "ADO", ingredients: "tomate, épaule, crème, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "reine", name: "REINE", ingredients: "tomate, jambon épaule, champignon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "royal", name: "ROYAL", ingredients: "tomate, jambon épaule, champignon, mozzarella, œuf, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "hawaienne", name: "HAWAÏENNE", ingredients: "tomate, jambon épaule, ananas, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "oriental", name: "ORIENTAL", ingredients: "tomate, merguez, poivron, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: true, hasPork: false },
-            { category: "🍕 Les Classiques Base Tomate", id: "samaritaine", name: "SAMARITAINE", ingredients: "tomate, merguez, oignon, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: true, hasPork: false },
-            { category: "🍕 Les Classiques Base Tomate", id: "la-martiniquaise", name: "LA MARTINIQUAISE", ingredients: "tomate, merguez, jambon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "forestiere", name: "FORESTIÈRE", ingredients: "tomate, jambon épaule, champignon, merguez, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "peperoni-ananas", name: "PÉPÉRONI ANANAS", ingredients: "tomate, pépéroni, ananas, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: true, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "peperoni-jambon", name: "PÉPÉRONI JAMBON", ingredients: "tomate, pépéroni, jambon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: true, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "choriza", name: "CHORIZA", ingredients: "tomate, chorizo, poivron, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: true, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "4-saisons", name: "4 SAISONS", ingredients: "tomate, jambon, poivron, champignon, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍕 Les Classiques Base Tomate", id: "simply", name: "SIMPLY", ingredients: "tomate, merguez, emmental, olives", prices: { petite: 9.0, moyenne: 12.5, grande: 18.0 }, isVeggie: false, isSpicy: true, hasPork: false },
+            // BASE TOMATE CLASSIQUES
+            { category: "🍕 Base Tomate Classiques", id: "margarita", name: "MARGARITA", ingredients: "tomate, emmental, olives", prices: { petite: 8.0, moyenne: 11.5, grande: 17.0 }, isVeggie: true, isSpicy: false, hasPork: false },
+            { category: "🍕 Base Tomate Classiques", id: "mozza", name: "MOZZA", ingredients: "tomate, mozzarella, olives", prices: { petite: 8.0, moyenne: 11.5, grande: 17.0 }, isVeggie: true, isSpicy: false, hasPork: false },
+            { category: "🍕 Base Tomate Classiques", id: "minot", name: "MINOT", ingredients: "tomate, jambon, emmental, olives", prices: { petite: 9.0, moyenne: 12.5, grande: 18.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "ado", name: "ADO", ingredients: "tomate, épaule, crème, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "reine", name: "REINE", ingredients: "tomate, jambon épaule, champignon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "royal", name: "ROYAL", ingredients: "tomate, jambon épaule, champignon, mozzarella, œuf, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "hawaienne", name: "HAWAÏENNE", ingredients: "tomate, jambon épaule, ananas, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "oriental", name: "ORIENTAL", ingredients: "tomate, merguez, poivron, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: true, hasPork: false },
+            { category: "🍕 Base Tomate Classiques", id: "samaritaine", name: "SAMARITAINE", ingredients: "tomate, merguez, oignon, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: true, hasPork: false },
+            { category: "🍕 Base Tomate Classiques", id: "la-martiniquaise", name: "LA MARTINIQUAISE", ingredients: "tomate, merguez, jambon, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "forestiere", name: "FORESTIÈRE", ingredients: "tomate, jambon épaule, champignon, merguez, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "peperoni-ananas", name: "PÉPÉRONI ANANAS", ingredients: "tomate, pépéroni, ananas, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: true, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "peperoni-jambon", name: "PÉPÉRONI JAMBON", ingredients: "tomate, pépéroni, jambon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: true, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "choriza", name: "CHORIZA", ingredients: "tomate, chorizo, poivron, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: true, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "4-saisons", name: "4 SAISONS", ingredients: "tomate, jambon, poivron, champignon, œuf, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍕 Base Tomate Classiques", id: "simply", name: "SIMPLY", ingredients: "tomate, merguez, emmental, olives", prices: { petite: 9.0, moyenne: 12.5, grande: 18.0 }, isVeggie: false, isSpicy: true, hasPork: false },
             
             // SPECIALITES VIANDES PORC
             { category: "🍖 Spécialités Gourmandes & Viandes", id: "cochonne", name: "COCHONNE", ingredients: "tomate, jambon épaule, merguez, chorizo, lardon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: true, hasPork: true },
             { category: "🍖 Spécialités Gourmandes & Viandes", id: "grosse-cochonne", name: "GROSSE COCHONNE", ingredients: "tomate, jambon épaule, chorizo, pépéroni, merguez, lardon, œuf, mozzarella, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 23.0 }, isVeggie: false, isSpicy: true, hasPork: true },
             { category: "🍖 Spécialités Gourmandes & Viandes", id: "supra", name: "SUPRA", ingredients: "tomate, merguez, jambon, crème fraîche, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍖 Spécialités Gourmandes & Viandes", id: "gourmande", name: "GOURMANDE", ingredients: "tomate, épaule, lardon, champignon, oignon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
-            { category: "🍖 Spécialités Gourmandes & Viandes", id: "foyalaise", name: "FOYALAISE", ingredients: "tomate, épaule, merguez, champignon, oignon, œuf, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "gourmande", name: "GOURMANDE", ingredients: "tomate épaule, lardon, champignon, oignon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
+            { category: "🍖 Spécialités Gourmandes & Viandes", id: "foyalaise", name: "FOYALAISE", ingredients: "tomate épaule, merguez, champignon, oignon, œuf, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: false, isSpicy: false, hasPork: true },
             { category: "🍖 Spécialités Gourmandes & Viandes", id: "champetre", name: "CHAMPÊTRE", ingredients: "tomate, lardon, épaule, chèvre, miel, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
 
-            // VOLAILLES
+            // VOLAILLES & KEBAB
             { category: "🍗 Spécialités Volailles & Kebab", id: "poularde", name: "POULARDE", ingredients: "tomate, poulet, oignon, poivron, crème fraîche, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: false },
             { category: "🍗 Spécialités Volailles & Kebab", id: "madras", name: "MADRAS", ingredients: "sauce curry, poulet, ananas, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: true, hasPork: false },
             { category: "🍗 Spécialités Volailles & Kebab", id: "dinde", name: "DINDE", ingredients: "tomate, viande kebab, oignon, crème, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: false },
             { category: "🍗 Spécialités Volailles & Kebab", id: "grosse-dinde", name: "GROSSE DINDE", ingredients: "tomate, jambon de dinde, viande kebab, oignon, crème, mozzarella, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 23.0 }, isVeggie: false, isSpicy: false, hasPork: false },
             { category: "🍗 Spécialités Volailles & Kebab", id: "montagnarde", name: "MONTAGNARDE", ingredients: "crème fraîche, poulet, lardon, chèvre, mozzarella, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
 
-            // FROMAGES ET VEGETARIENNE
+            // FROMAGES ET VEGETARIENNES
             { category: "🧀 Fromages & Végétariennes", id: "chevre-miel", name: "CHÈVRE MIEL", ingredients: "tomate, champignon, chèvre, miel, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: true, isSpicy: false, hasPork: false },
             { category: "🧀 Fromages & Végétariennes", id: "3-fromages", name: "3 FROMAGES", ingredients: "tomate, chèvre, féta, mozzarella, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: true, isSpicy: false, hasPork: false },
             { category: "🧀 Fromages & Végétariennes", id: "4-fromages", name: "4 FROMAGES", ingredients: "tomate, chèvre, bleu, féta, parmesan, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: true, isSpicy: false, hasPork: false },
@@ -311,13 +317,13 @@
             { category: "🧀 Fromages & Végétariennes", id: "super-vege", name: "SUPER VÉGÉ", ingredients: "tomate, steak de soja, poivron, oignon pays, piment végétarien, mozzarella, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: true, isSpicy: false, hasPork: false },
 
             // PRODUITS DE LA MER
-            { category: "🐟 Produit de la Mer", id: "fruits-de-mer", name: "FRUITS DE MER", ingredients: "tomate, fruits de mer, persillade, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: false },
-            { category: "🐟 Produit de la Mer", id: "norvegienne", name: "NORVÉGIENNE", ingredients: "crème fraîche, saumon fumé, oignon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: false },
-            { category: "🐟 Produit de la Mer", id: "anchois", name: "ANCHOIS", ingredients: "tomate, anchois, persillade, câpres, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: false },
-            { category: "🐟 Produit de la Mer", id: "crevette", name: "CREVETTE", ingredients: "tomate, crevettes, persillade, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: false, isSpicy: false, hasPork: false },
-            { category: "🐟 Produit de la Mer", id: "grand-large", name: "GRAND LARGE", ingredients: "crème fraîche, crevette, champignon, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: false, isSpicy: false, hasPork: false },
-            { category: "🐟 Produit de la Mer", id: "pacific", name: "PACIFIC", ingredients: "tomate, fruit de mer, saumon, thon, persillade, crème, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 24.0 }, isVeggie: false, isSpicy: false, hasPork: false },
-            { category: "🐟 Produit de la Mer", id: "marine", name: "MARINE", ingredients: "tomate, thon, persillade, oignon, crème fraîche, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "fruits-de-mer", name: "FRUITS DE MER", ingredients: "tomate, fruits de mer, persillade, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "norvegienne", name: "NORVÉGIENNE", ingredients: "crème fraîche, saumon fumé, oignon, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "anchois", name: "ANCHOIS", ingredients: "tomate, anchois, persillade, câpres, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "crevette", name: "CREVETTE", ingredients: "tomate, crevettes, persillade, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "grand-large", name: "GRAND LARGE", ingredients: "crème fraîche, crevette, champignon, emmental, olives", prices: { petite: 12.0, moyenne: 15.5, grande: 22.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "pacific", name: "PACIFIC", ingredients: "tomate, fruit de mer, saumon, thon, persillade, crème, emmental, olives", prices: { petite: 13.0, moyenne: 16.5, grande: 24.0 }, isVeggie: false, isSpicy: false, hasPork: false },
+            { category: "🐟 Produits de la Mer", id: "marine", name: "MARINE", ingredients: "tomate, thon, persillade, oignon, crème fraîche, emmental, olives", prices: { petite: 10.0, moyenne: 13.5, grande: 20.0 }, isVeggie: false, isSpicy: false, hasPork: false },
 
             // BASE CREME FRAICHE
             { category: "🥛 Recettes Onctueuses Base Crème", id: "campagnarde", name: "CAMPAGNARDE", ingredients: "crème fraîche, jambon épaule, lardon, œuf, emmental, olives", prices: { petite: 11.0, moyenne: 14.5, grande: 21.0 }, isVeggie: false, isSpicy: false, hasPork: true },
@@ -338,10 +344,8 @@
 
         let cart = [];
         let currentPizzaIndex = null;
-
         const supplementPrices = { petite: 1.5, moyenne: 2.0, grande: 2.5 };
 
-        // Génération du menu propre
         function renderMenu() {
             const container = document.getElementById('menuContainer');
             container.innerHTML = '';
@@ -387,7 +391,6 @@
             });
         }
 
-        // Gestion de la modale Pizza
         function openPizzaModal(index) {
             currentPizzaIndex = index;
             const pizza = pizzaMenu[index];
@@ -395,12 +398,10 @@
             document.getElementById('modalPizzaName').innerText = pizza.name;
             document.getElementById('modalPizzaIngredients').innerText = pizza.ingredients;
             
-            // Reset fields
             document.getElementById('modalSize').value = 'moyenne';
             document.getElementById('modalCrust').value = 'Fine';
             document.getElementById('modalSupplement').checked = false;
             
-            // Show/Hide Dinde
             const dindeGroup = document.getElementById('modalDindeGroup');
             const dindeCheckbox = document.getElementById('modalDinde');
             if (pizza.hasPork) {
@@ -439,7 +440,6 @@
             document.getElementById('modalPrice').innerText = `${price.toFixed(2)} €`;
         }
 
-        // Ajouter au panier depuis la modale
         function confirmAddToCart() {
             const pizza = pizzaMenu[currentPizzaIndex];
             const size = document.getElementById('modalSize').value;
@@ -453,9 +453,8 @@
                 finalPrice += supplementPrices[size];
             }
 
-            // Création d'un ID unique basé sur les options choisies
             const cartItem = {
-                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'standard'}-${hasSupplement ? 'supp' : 'nosupp'}`,
+                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'std'}-${hasSupplement ? 'supp' : 'nosupp'}`,
                 name: pizza.name,
                 size: size.charAt(0).toUpperCase() + size.slice(1),
                 crust: crust,
@@ -476,7 +475,6 @@
             closePizzaModal();
             updateCartUI();
             
-            // Effet visuel panier
             const cartBtn = document.querySelector('.btn-call');
             cartBtn.style.transform = 'scale(1.1)';
             cartBtn.style.background = '#2ecc71';
@@ -499,7 +497,6 @@
             updateCartUI();
         }
 
-        // LOGIQUE PROMO ET MISE A JOUR PANIER
         function updateCartUI() {
             const listContainer = document.getElementById('cartItemsList');
             const alertContainer = document.getElementById('cartPromoAlertContainer');
@@ -516,7 +513,6 @@
                 return;
             }
 
-            // On "aplatit" le panier pour traiter la promo (1 ligne = 1 pizza physiquement)
             let flatCart = [];
             cart.forEach(item => {
                 for (let i = 0; i < item.quantity; i++) {
@@ -524,11 +520,9 @@
                 }
             });
 
-            // Séparation pour le calcul de promo (Uniquement les Moyennes)
             let mediumPizzas = flatCart.filter(p => p.size === 'Moyenne');
             let otherItems = flatCart.filter(p => p.size !== 'Moyenne');
 
-            // On trie les moyennes par prix décroissant pour que la remise s'applique sur la/les moins chère(s)
             mediumPizzas.sort((a, b) => b.price - a.price);
 
             let subTotal = 0;
@@ -536,26 +530,24 @@
             let totalDiscount = 0;
             let freeDrinks = 0;
             
-            // Calcul des "autres" pizzas
             otherItems.forEach(p => {
                 subTotal += p.price;
                 finalTotal += p.price;
-            });
-
-            // Calcul des moyennes avec règle : chaque 3ème est gratuite.
-            mediumPizzas.forEach((p, index) => {
-                subTotal += p.price;
-                if ((index + 1) % 3 === 0) {
-                    // Pizza gratuite (la moins chère du lot de 3)
-                    totalDiscount += p.price;
-                } else {
-                    // Pizza payée = 1 boisson offerte
-                    finalTotal += p.price;
-                    freeDrinks++;
+                if (p.size === 'Grande') {
+                    freeDrinks++; // Boisson offerte automatique pour Grande ou Moyenne
                 }
             });
 
-            // 1. Affichage de la liste des items
+            mediumPizzas.forEach((p, index) => {
+                subTotal += p.price;
+                freeDrinks++; // Boisson offerte automatique pour Moyenne
+                if ((index + 1) % 3 === 0) {
+                    totalDiscount += p.price;
+                } else {
+                    finalTotal += p.price;
+                }
+            });
+
             listContainer.innerHTML = '';
             cart.forEach(item => {
                 let optionsText = `Pâte ${item.crust}`;
@@ -584,28 +576,25 @@
                 listContainer.appendChild(itemElement);
             });
 
-            // 2. Alertes Promo Intelligentes
             alertContainer.innerHTML = '';
             if (mediumPizzas.length > 0) {
                 const rest = mediumPizzas.length % 3;
                 if (rest === 2) {
                     alertContainer.innerHTML = `<div class="cart-promo-alert">💡 Ajoutez encore <strong>1 Pizza Moyenne</strong>, elle sera <strong>GRATUITE</strong> !</div>`;
                 } else if (totalDiscount > 0) {
-                    alertContainer.innerHTML = `<div class="cart-promo-alert">🎉 Félicitations ! Votre promotion (2 achetées = 1 offerte) a bien été appliquée !</div>`;
+                    alertContainer.innerHTML = `<div class="cart-promo-alert">🎉 Félicitations ! Votre promotion (2 pizzas moyennes achetées = 1 offerte) est appliquée !</div>`;
                 }
             }
 
-            // 3. Détails récapitulatifs
             let summaryHTML = '';
             if (freeDrinks > 0) {
-                summaryHTML += `<div style="color: #54d2d2; margin-bottom: 5px;">🎁 Boisson(s) offerte(s) : <strong>${freeDrinks}</strong></div>`;
+                summaryHTML += `<div style="color: #54d2d2; margin-bottom: 5px;">🎁 Boisson(s) offerte(s) auto : <strong>${freeDrinks}</strong></div>`;
             }
             if (totalDiscount > 0) {
-                summaryHTML += `<div style="color: #2ecc71; margin-bottom: 5px;">✅ Remise Promo (-1 Pizza offerte) : <strong>-${totalDiscount.toFixed(2)} €</strong></div>`;
+                summaryHTML += `<div style="color: #2ecc71; margin-bottom: 5px;">✅ Remise Promo (-1 Pizza Moyenne) : <strong>-${totalDiscount.toFixed(2)} €</strong></div>`;
             }
             summaryDetails.innerHTML = summaryHTML;
 
-            // 4. Mise à jour Totaux
             const cartItemsCount = flatCart.length;
             document.getElementById('navCartCount').innerText = cartItemsCount;
             document.getElementById('navCartTotal').innerText = `${finalTotal.toFixed(2)} €`;
@@ -619,7 +608,7 @@
         }
 
         function proceedToCheckout() {
-            alert("Redirection vers la passerelle de paiement sécurisée Cloudflare/Stripe...");
+            alert("Redirection vers la passerelle de paiement sécurisée...");
         }
 
         document.addEventListener('DOMContentLoaded', () => {
