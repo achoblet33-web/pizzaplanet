@@ -14,11 +14,12 @@
             background: var(--price-color, #ff6b6b);
             color: #fff;
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             letter-spacing: 1px;
+            box-shadow: 0 2px 15px rgba(255, 107, 107, 0.4);
         }
 
         /* Menu de navigation fixe en haut */
@@ -31,155 +32,137 @@
             border-bottom: 1px solid rgba(84, 210, 210, 0.2);
         }
 
-        .menu-banner {
-            background: rgba(84, 210, 210, 0.08);
-            border: 1px solid rgba(84, 210, 210, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .menu-banner p { margin: 5px 0; font-size: 0.95rem; }
-        
         .category-header {
             color: var(--primary-glow, #54d2d2);
             font-family: 'Orbitron', sans-serif;
             border-bottom: 2px solid rgba(84, 210, 210, 0.3);
             padding-bottom: 8px;
-            margin: 35px 0 20px 0;
-            font-size: 1.4rem;
+            margin: 40px 0 25px 0;
+            font-size: 1.5rem;
         }
         
         .pizza-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
         }
         
+        /* Nouveau design épuré des cartes Pizza */
         .pizza-card {
             background: var(--card-bg, #141a24);
             border: 1px solid rgba(84, 210, 210, 0.15);
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .pizza-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--primary-glow, #54d2d2); transform: scaleX(0); transform-origin: left; transition: transform 0.3s ease;
         }
         .pizza-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
             border-color: var(--primary-glow, #54d2d2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
+        .pizza-card:hover::before { transform: scaleX(1); }
         
         .pizza-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.3rem;
             color: #fff;
-            margin-bottom: 5px;
-        }
-
-        /* Badges Végé et Épicé */
-        .badges-container {
-            display: flex;
-            gap: 8px;
             margin-bottom: 10px;
         }
+
+        .badges-container {
+            display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;
+        }
         .badge {
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: 600;
+            font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .badge-veggie {
-            background: rgba(46, 204, 113, 0.15);
-            color: #2ecc71;
-            border: 1px solid #2ecc71;
-        }
-        .badge-spicy {
-            background: rgba(231, 76, 60, 0.15);
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-        }
+        .badge-veggie { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid #2ecc71; }
+        .badge-spicy { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid #e74c3c; }
         
         .pizza-ingredients {
             color: var(--text-muted, #a0aec0);
-            font-size: 0.88rem;
-            margin-bottom: 15px;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
             flex-grow: 1;
+            line-height: 1.4;
         }
         
-        .pizza-options {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
+        .card-footer {
+            display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 15px;
         }
+        .base-price {
+            font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--price-color, #ff6b6b);
+        }
+        .btn-select {
+            background: rgba(84, 210, 210, 0.1); color: var(--primary-glow); border: 1px solid var(--primary-glow);
+            padding: 8px 15px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .pizza-card:hover .btn-select { background: var(--primary-glow); color: #0b0e14; }
+
+        /* Modal de Configuration Pizza */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px);
+        }
+        .config-modal {
+            background: #0b0e14; border: 2px solid var(--primary-glow); border-radius: 16px;
+            padding: 30px; width: 90%; max-width: 450px; position: relative;
+            box-shadow: 0 15px 40px rgba(84, 210, 210, 0.2);
+        }
+        .close-modal {
+            position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; opacity: 0.7;
+        }
+        .close-modal:hover { opacity: 1; }
+        .config-title { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; margin-bottom: 5px; color: var(--primary-glow); }
+        .config-desc { font-size: 0.9rem; color: #a0aec0; margin-bottom: 25px; }
         
-        .option-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-        .option-row:last-child { margin-bottom: 0; }
+        .config-group { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .config-group label { display: block; font-weight: 600; margin-bottom: 10px; font-size: 0.95rem; }
         
         .select-custom {
-            background: #0b0e14;
-            color: #fff;
-            border: 1px solid rgba(84, 210, 210, 0.3);
-            padding: 5px 8px;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            width: 100%; background: #141a24; color: #fff; border: 1px solid rgba(84, 210, 210, 0.3); padding: 10px; border-radius: 8px; font-size: 1rem; cursor: pointer;
         }
         
-        .price-tag {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            color: var(--price-color, #ff6b6b);
-            font-weight: 700;
+        .checkbox-label {
+            display: flex; align-items: center; gap: 10px; font-size: 0.9rem; cursor: pointer; padding: 10px; background: #141a24; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); transition: border 0.2s;
         }
-        
+        .checkbox-label:hover { border-color: var(--primary-glow); }
+        .checkbox-label input { width: 18px; height: 18px; cursor: pointer; }
+
+        .modal-footer {
+            display: flex; justify-content: space-between; align-items: center; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(84, 210, 210, 0.2);
+        }
+        .modal-price { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--price-color); font-weight: 700; }
         .btn-add-cart {
-            background: var(--primary-glow, #54d2d2);
-            color: #0b0e14;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            transition: opacity 0.2s ease;
+            background: var(--primary-glow); color: #0b0e14; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s;
         }
-        .btn-add-cart:hover { opacity: 0.9; }
+        .btn-add-cart:hover { transform: scale(1.05); }
 
         /* Cart Drawer Modal */
         .cart-modal {
-            display: none;
-            position: fixed;
-            top: 0; right: 0; bottom: 0; left: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: flex-end;
+            display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: flex-end;
         }
         .cart-content {
-            background: #0b0e14;
-            width: 100%;
-            max-width: 420px;
-            height: 100%;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid rgba(84, 210, 210, 0.3);
-            overflow-y: auto;
+            background: #0b0e14; width: 100%; max-width: 450px; height: 100%; padding: 25px; display: flex; flex-direction: column; border-left: 1px solid rgba(84, 210, 210, 0.3); overflow-y: auto;
+        }
+        .cart-promo-alert {
+            background: rgba(46, 204, 113, 0.15); border: 1px solid #2ecc71; color: #2ecc71; padding: 12px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 15px; text-align: center;
         }
     </style>
 </head>
 <body>
 
     <div class="promo-banner">
-        🔥 OFFRE DU MOMENT : DÉCOUVREZ NOTRE CARTE INTERGALACTIQUE ! 🔥
+        🔥 OFFRES DU MOMENT : 1 Pizza Moyenne achetée = 1 Boisson offerte | 2 Pizzas Moyennes achetées = 1 Pizza Moyenne OFFERTE ! 🔥
     </div>
 
     <header>
@@ -201,17 +184,56 @@
     </header>
 
     <div class="container" style="padding-top: 30px; padding-bottom: 60px;">
-        
-        <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 20px;">LA CARTE INTERGALACTIQUE</h1>
-        
-        <div class="menu-banner">
-            <p><strong>🍕 Choix de pâte :</strong> Pâte Fine ou Pâte Épaisse (au choix sans supplément)</p>
-            <p><strong>🧀 Suppléments d'ingrédients :</strong> Petite : 1,50 € | Moyenne : 2,00 € | Grande : 2,50 €</p>
-            <p style="color: #2ecc71; margin-top: 8px;"><strong>🦃 Option Sans Porc :</strong> Les pizzas contenant du porc peuvent être modifiées avec du jambon de dinde.</p>
-        </div>
-
+        <h1 style="font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; font-size: 2.2rem;">LA CARTE INTERGALACTIQUE</h1>
         <div id="menuContainer"></div>
+    </div>
 
+    <!-- Modale de configuration d'une Pizza au Clic -->
+    <div id="pizzaConfigModal" class="modal-overlay" onclick="closePizzaModal(event)">
+        <div class="config-modal" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closePizzaModal(event)">✕</button>
+            <h2 id="modalPizzaName" class="config-title">NOM PIZZA</h2>
+            <p id="modalPizzaIngredients" class="config-desc">Ingrédients...</p>
+
+            <div class="config-group">
+                <label>📏 Choisissez la taille :</label>
+                <select id="modalSize" class="select-custom" onchange="updateModalPrice()">
+                    <option value="petite">Petite</option>
+                    <option value="moyenne" selected>Moyenne (Éligible aux promos 🎁)</option>
+                    <option value="grande">Grande</option>
+                </select>
+            </div>
+
+            <div class="config-group">
+                <label>🍕 Choisissez votre pâte :</label>
+                <select id="modalCrust" class="select-custom">
+                    <option value="Fine">Pâte Fine</option>
+                    <option value="Épaisse">Pâte Épaisse</option>
+                </select>
+            </div>
+
+            <div class="config-group" id="modalDindeGroup" style="display: none;">
+                <label>🦃 Préférence viande :</label>
+                <label class="checkbox-label" style="color: #f39c12; border-color: rgba(243, 156, 18, 0.4);">
+                    <input type="checkbox" id="modalDinde"> Remplacer le porc par du jambon de dinde
+                </label>
+            </div>
+
+            <div class="config-group">
+                <label>🧀 Envie d'un supplément ?</label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="modalSupplement" onchange="updateModalPrice()"> Ajouter un ingrédient supplémentaire
+                </label>
+                <div id="supplementInfo" style="font-size: 0.8rem; color: #a0aec0; margin-top: 5px; margin-left: 30px;">
+                    (+1.50€ Petite / +2.00€ Moyenne / +2.50€ Grande)
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div id="modalPrice" class="modal-price">0.00 €</div>
+                <button class="btn-add-cart" onclick="confirmAddToCart()">Ajouter 🛒</button>
+            </div>
+        </div>
     </div>
 
     <!-- Cart Modal Drawer -->
@@ -221,13 +243,18 @@
                 <h2 style="font-family: 'Orbitron', sans-serif; color: var(--primary-glow);">Votre Commande</h2>
                 <button onclick="toggleCart()" style="background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">✕</button>
             </div>
+            
+            <div id="cartPromoAlertContainer"></div>
+
             <div id="cartItemsList" style="flex-grow: 1; overflow-y: auto;">
                 <p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Votre panier est vide pour le moment.</p>
             </div>
+
             <div style="border-top: 1px solid rgba(84, 210, 210, 0.2); padding-top: 15px; margin-top: 15px;">
-                <div style="display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; margin-bottom: 15px;">
-                    <span>Total :</span>
-                    <span id="cartModalTotal" style="color: var(--price-color);">0.00 €</span>
+                <div id="cartSummaryDetails" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;"></div>
+                <div style="display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif; font-size: 1.3rem; margin-bottom: 15px;">
+                    <span>Total à Payer :</span>
+                    <span id="cartModalTotal" style="color: var(--price-color); font-weight: bold;">0.00 €</span>
                 </div>
                 <button id="btnCheckout" onclick="proceedToCheckout()" class="btn-primary" style="width: 100%; border: none; cursor: pointer;" disabled> Commander & Payer en Ligne</button>
             </div>
@@ -310,11 +337,14 @@
         ];
 
         let cart = [];
+        let currentPizzaIndex = null;
 
+        const supplementPrices = { petite: 1.5, moyenne: 2.0, grande: 2.5 };
+
+        // Génération du menu propre
         function renderMenu() {
             const container = document.getElementById('menuContainer');
             container.innerHTML = '';
-
             let currentCategory = '';
             let currentGrid = null;
 
@@ -331,7 +361,6 @@
                     container.appendChild(currentGrid);
                 }
 
-                // Construction des badges
                 let badgesHTML = '';
                 if (item.isVeggie || item.isSpicy) {
                     badgesHTML += '<div class="badges-container">';
@@ -340,78 +369,100 @@
                     badgesHTML += '</div>';
                 }
 
-                // Construction de l'option Dinde (Uniquement s'il y a du porc)
-                let dindeOptionHTML = '';
-                if (item.hasPork) {
-                    dindeOptionHTML = `
-                    <div class="option-row" style="margin-top: 5px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px;">
-                        <label style="font-size: 0.8rem; cursor: pointer; color: #f39c12;">
-                            <input type="checkbox" id="dinde-${index}"> 🦃 Remplacer le porc par du jambon de dinde
-                        </label>
-                    </div>`;
-                }
-
                 const card = document.createElement('div');
                 card.className = 'pizza-card';
+                card.setAttribute('onclick', `openPizzaModal(${index})`);
                 card.innerHTML = `
                     <div>
                         <div class="pizza-title">${item.name}</div>
                         ${badgesHTML}
                         <div class="pizza-ingredients">${item.ingredients}</div>
                     </div>
-                    <div>
-                        <div class="pizza-options">
-                            <div class="option-row">
-                                <label>Taille :</label>
-                                <select id="size-${index}" class="select-custom" onchange="updateCardPrice(${index})">
-                                    <option value="petite">Petite</option>
-                                    <option value="moyenne" selected>Moyenne</option>
-                                    <option value="grande">Grande</option>
-                                </select>
-                            </div>
-                            <div class="option-row">
-                                <label>Pâte :</label>
-                                <select id="crust-${index}" class="select-custom">
-                                    <option value="Fine">Pâte Fine</option>
-                                    <option value="Épaisse">Pâte Épaisse</option>
-                                </select>
-                            </div>
-                            ${dindeOptionHTML}
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="price-tag" id="price-${index}">${item.prices.moyenne.toFixed(2)} €</span>
-                        </div>
-                        <button class="btn-add-cart" onclick="addToCart(${index})">🛒 Ajouter au Panier</button>
+                    <div class="card-footer">
+                        <span class="base-price">Dès ${item.prices.petite.toFixed(2)} €</span>
+                        <button class="btn-select">Choisir</button>
                     </div>
                 `;
                 currentGrid.appendChild(card);
             });
         }
 
-        function updateCardPrice(index) {
-            const size = document.getElementById(`size-${index}`).value;
-            const price = pizzaMenu[index].prices[size];
-            document.getElementById(`price-${index}`).innerText = `${price.toFixed(2)} €`;
+        // Gestion de la modale Pizza
+        function openPizzaModal(index) {
+            currentPizzaIndex = index;
+            const pizza = pizzaMenu[index];
+            
+            document.getElementById('modalPizzaName').innerText = pizza.name;
+            document.getElementById('modalPizzaIngredients').innerText = pizza.ingredients;
+            
+            // Reset fields
+            document.getElementById('modalSize').value = 'moyenne';
+            document.getElementById('modalCrust').value = 'Fine';
+            document.getElementById('modalSupplement').checked = false;
+            
+            // Show/Hide Dinde
+            const dindeGroup = document.getElementById('modalDindeGroup');
+            const dindeCheckbox = document.getElementById('modalDinde');
+            if (pizza.hasPork) {
+                dindeGroup.style.display = 'block';
+                dindeCheckbox.checked = false;
+            } else {
+                dindeGroup.style.display = 'none';
+                dindeCheckbox.checked = false;
+            }
+
+            updateModalPrice();
+            document.getElementById('pizzaConfigModal').style.display = 'flex';
         }
 
-        function addToCart(index) {
-            const pizza = pizzaMenu[index];
-            const size = document.getElementById(`size-${index}`).value;
-            const crust = document.getElementById(`crust-${index}`).value;
-            
-            // On vérifie si la case dinde existe (si la pizza a du porc) et si elle est cochée
-            const dindeCheckbox = document.getElementById(`dinde-${index}`);
-            const isDinde = dindeCheckbox ? dindeCheckbox.checked : false;
-            
-            const price = pizza.prices[size];
+        function closePizzaModal(event) {
+            if (event) {
+                if (event.target.classList.contains('modal-overlay') || event.target.classList.contains('close-modal')) {
+                    document.getElementById('pizzaConfigModal').style.display = 'none';
+                }
+            } else {
+                document.getElementById('pizzaConfigModal').style.display = 'none';
+            }
+        }
 
+        function updateModalPrice() {
+            if (currentPizzaIndex === null) return;
+            const pizza = pizzaMenu[currentPizzaIndex];
+            const size = document.getElementById('modalSize').value;
+            const hasSupplement = document.getElementById('modalSupplement').checked;
+            
+            let price = pizza.prices[size];
+            if (hasSupplement) {
+                price += supplementPrices[size];
+            }
+            
+            document.getElementById('modalPrice').innerText = `${price.toFixed(2)} €`;
+        }
+
+        // Ajouter au panier depuis la modale
+        function confirmAddToCart() {
+            const pizza = pizzaMenu[currentPizzaIndex];
+            const size = document.getElementById('modalSize').value;
+            const crust = document.getElementById('modalCrust').value;
+            const isDinde = document.getElementById('modalDinde').checked;
+            const hasSupplement = document.getElementById('modalSupplement').checked;
+            
+            let basePrice = pizza.prices[size];
+            let finalPrice = basePrice;
+            if (hasSupplement) {
+                finalPrice += supplementPrices[size];
+            }
+
+            // Création d'un ID unique basé sur les options choisies
             const cartItem = {
-                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'standard'}`,
+                id: `${pizza.id}-${size}-${crust}-${isDinde ? 'dinde' : 'standard'}-${hasSupplement ? 'supp' : 'nosupp'}`,
                 name: pizza.name,
                 size: size.charAt(0).toUpperCase() + size.slice(1),
                 crust: crust,
                 isDinde: isDinde,
-                price: price,
+                hasSupplement: hasSupplement,
+                basePrice: basePrice,
+                price: finalPrice,
                 quantity: 1
             };
 
@@ -422,7 +473,19 @@
                 cart.push(cartItem);
             }
 
+            closePizzaModal();
             updateCartUI();
+            
+            // Effet visuel panier
+            const cartBtn = document.querySelector('.btn-call');
+            cartBtn.style.transform = 'scale(1.1)';
+            cartBtn.style.background = '#2ecc71';
+            cartBtn.style.color = '#fff';
+            setTimeout(() => {
+                cartBtn.style.transform = 'none';
+                cartBtn.style.background = 'transparent';
+                cartBtn.style.color = 'var(--primary-glow)';
+            }, 300);
         }
 
         function updateCartQuantity(id, change) {
@@ -436,47 +499,118 @@
             updateCartUI();
         }
 
+        // LOGIQUE PROMO ET MISE A JOUR PANIER
         function updateCartUI() {
-            let totalCount = 0;
-            let totalPrice = 0;
             const listContainer = document.getElementById('cartItemsList');
-
+            const alertContainer = document.getElementById('cartPromoAlertContainer');
+            const summaryDetails = document.getElementById('cartSummaryDetails');
+            
             if (cart.length === 0) {
                 listContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Votre panier est vide pour le moment.</p>`;
+                alertContainer.innerHTML = '';
+                summaryDetails.innerHTML = '';
+                document.getElementById('navCartCount').innerText = '0';
+                document.getElementById('navCartTotal').innerText = '0.00 €';
+                document.getElementById('cartModalTotal').innerText = '0.00 €';
                 document.getElementById('btnCheckout').disabled = true;
-            } else {
-                listContainer.innerHTML = '';
-                cart.forEach(item => {
-                    totalCount += item.quantity;
-                    totalPrice += item.price * item.quantity;
-
-                    const itemElement = document.createElement('div');
-                    itemElement.style.cssText = 'background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.9rem;';
-                    itemElement.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; font-weight: 600;">
-                            <span>${item.name} (${item.size})</span>
-                            <span>${(item.price * item.quantity).toFixed(2)} €</span>
-                        </div>
-                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
-                            Pâte ${item.crust} ${item.isDinde ? '<br>🦃 Remplacement par jambon de dinde' : ''}
-                        </div>
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-                            <div>
-                                <button onclick="updateCartQuantity('${item.id}', -1)" style="background: rgba(255,255,255,0.1); color:#fff; border:none; padding: 2px 8px; border-radius: 4px; cursor:pointer;">-</button>
-                                <span style="margin: 0 8px;">${item.quantity}</span>
-                                <button onclick="updateCartQuantity('${item.id}', 1)" style="background: rgba(255,255,255,0.1); color:#fff; border:none; padding: 2px 8px; border-radius: 4px; cursor:pointer;">+</button>
-                            </div>
-                            <button onclick="updateCartQuantity('${item.id}', -${item.quantity})" style="background: none; border:none; color: var(--price-color); cursor:pointer; font-size: 0.8rem;">Supprimer</button>
-                        </div>
-                    `;
-                    listContainer.appendChild(itemElement);
-                });
-                document.getElementById('btnCheckout').disabled = false;
+                return;
             }
 
-            document.getElementById('navCartCount').innerText = totalCount;
-            document.getElementById('navCartTotal').innerText = `${totalPrice.toFixed(2)} €`;
-            document.getElementById('cartModalTotal').innerText = `${totalPrice.toFixed(2)} €`;
+            // On "aplatit" le panier pour traiter la promo (1 ligne = 1 pizza physiquement)
+            let flatCart = [];
+            cart.forEach(item => {
+                for (let i = 0; i < item.quantity; i++) {
+                    flatCart.push({...item});
+                }
+            });
+
+            // Séparation pour le calcul de promo (Uniquement les Moyennes)
+            let mediumPizzas = flatCart.filter(p => p.size === 'Moyenne');
+            let otherItems = flatCart.filter(p => p.size !== 'Moyenne');
+
+            // On trie les moyennes par prix décroissant pour que la remise s'applique sur la/les moins chère(s)
+            mediumPizzas.sort((a, b) => b.price - a.price);
+
+            let subTotal = 0;
+            let finalTotal = 0;
+            let totalDiscount = 0;
+            let freeDrinks = 0;
+            
+            // Calcul des "autres" pizzas
+            otherItems.forEach(p => {
+                subTotal += p.price;
+                finalTotal += p.price;
+            });
+
+            // Calcul des moyennes avec règle : chaque 3ème est gratuite.
+            mediumPizzas.forEach((p, index) => {
+                subTotal += p.price;
+                if ((index + 1) % 3 === 0) {
+                    // Pizza gratuite (la moins chère du lot de 3)
+                    totalDiscount += p.price;
+                } else {
+                    // Pizza payée = 1 boisson offerte
+                    finalTotal += p.price;
+                    freeDrinks++;
+                }
+            });
+
+            // 1. Affichage de la liste des items
+            listContainer.innerHTML = '';
+            cart.forEach(item => {
+                let optionsText = `Pâte ${item.crust}`;
+                if (item.isDinde) optionsText += ` <br>🦃 Remplacement par jambon de dinde`;
+                if (item.hasSupplement) optionsText += ` <br>🧀 Supplément ajouté (+${(item.price - item.basePrice).toFixed(2)}€)`;
+
+                const itemElement = document.createElement('div');
+                itemElement.style.cssText = 'background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; margin-bottom: 12px; font-size: 0.95rem;';
+                itemElement.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; color: #fff;">
+                        <span>${item.name} (${item.size})</span>
+                        <span>${(item.price * item.quantity).toFixed(2)} €</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; line-height: 1.4;">
+                        ${optionsText}
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                        <div style="display: flex; align-items: center; background: rgba(0,0,0,0.3); border-radius: 6px; padding: 2px;">
+                            <button onclick="updateCartQuantity('${item.id}', -1)" style="background: none; color:#fff; border:none; width: 25px; height: 25px; cursor:pointer; font-weight: bold;">-</button>
+                            <span style="width: 20px; text-align: center;">${item.quantity}</span>
+                            <button onclick="updateCartQuantity('${item.id}', 1)" style="background: none; color:#fff; border:none; width: 25px; height: 25px; cursor:pointer; font-weight: bold;">+</button>
+                        </div>
+                        <button onclick="updateCartQuantity('${item.id}', -${item.quantity})" style="background: none; border:none; color: var(--price-color); cursor:pointer; font-size: 0.8rem; text-decoration: underline;">Supprimer</button>
+                    </div>
+                `;
+                listContainer.appendChild(itemElement);
+            });
+
+            // 2. Alertes Promo Intelligentes
+            alertContainer.innerHTML = '';
+            if (mediumPizzas.length > 0) {
+                const rest = mediumPizzas.length % 3;
+                if (rest === 2) {
+                    alertContainer.innerHTML = `<div class="cart-promo-alert">💡 Ajoutez encore <strong>1 Pizza Moyenne</strong>, elle sera <strong>GRATUITE</strong> !</div>`;
+                } else if (totalDiscount > 0) {
+                    alertContainer.innerHTML = `<div class="cart-promo-alert">🎉 Félicitations ! Votre promotion (2 achetées = 1 offerte) a bien été appliquée !</div>`;
+                }
+            }
+
+            // 3. Détails récapitulatifs
+            let summaryHTML = '';
+            if (freeDrinks > 0) {
+                summaryHTML += `<div style="color: #54d2d2; margin-bottom: 5px;">🎁 Boisson(s) offerte(s) : <strong>${freeDrinks}</strong></div>`;
+            }
+            if (totalDiscount > 0) {
+                summaryHTML += `<div style="color: #2ecc71; margin-bottom: 5px;">✅ Remise Promo (-1 Pizza offerte) : <strong>-${totalDiscount.toFixed(2)} €</strong></div>`;
+            }
+            summaryDetails.innerHTML = summaryHTML;
+
+            // 4. Mise à jour Totaux
+            const cartItemsCount = flatCart.length;
+            document.getElementById('navCartCount').innerText = cartItemsCount;
+            document.getElementById('navCartTotal').innerText = `${finalTotal.toFixed(2)} €`;
+            document.getElementById('cartModalTotal').innerText = `${finalTotal.toFixed(2)} €`;
+            document.getElementById('btnCheckout').disabled = false;
         }
 
         function toggleCart() {
