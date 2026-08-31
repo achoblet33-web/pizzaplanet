@@ -1,4 +1,5 @@
 // main.js
+// Gestion du statut d'ouverture et estimation du temps d'attente
 const RESTAURANT_SCHEDULE = [
   { open: "11:30", close: "14:00" },
   { open: "18:30", close: "22:30" }
@@ -47,20 +48,19 @@ function renderStatus() {
   if (!statusBadge || !waitTimeDisplay || !statusSubtext) return;
 
   if (canOrder) {
-    statusBadge.innerHTML = "🟢 <span style='color: #2ecc71;'>PRISE DE COMMANDE OUVERTE</span>";
+    statusBadge.innerHTML = "🟢 <span class='status-open'>PRISE DE COMMANDE OUVERTE</span>";
     statusSubtext.innerText = "Temps d'attente estimé en cuisine :";
-    // Exemple d'estimation plus flexible
     if (currentMinutes >= (19 * 60 + 30) && currentMinutes <= (21 * 60)) {
       waitTimeDisplay.innerText = "25 - 35 min";
     } else {
       waitTimeDisplay.innerText = "15 - 20 min";
     }
   } else if (isOpen) {
-    statusBadge.innerHTML = "🟠 <span style='color: #f39c12;'>COMMANDES FERMÉES (FIN DE SERVICE)</span>";
+    statusBadge.innerHTML = "🟠 <span class='status-warning'>COMMANDES FERMÉES (FIN DE SERVICE)</span>";
     statusSubtext.innerText = "Le restaurant est ouvert mais la prise de commande est arrêtée 30 min avant la fermeture.";
     waitTimeDisplay.innerText = "Service en cours";
   } else {
-    statusBadge.innerHTML = "🔴 <span style='color: #e74c3c;'>RESTAURANT FERMÉ</span>";
+    statusBadge.innerHTML = "🔴 <span class='status-closed'>RESTAURANT FERMÉ</span>";
     statusSubtext.innerText = "Horaires : 11h30 - 14h00 & 18h30 - 22h30";
     waitTimeDisplay.innerText = "Réouverture au prochain service";
   }
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(renderStatus, 60000);
 });
 
-// Export functions pour tests unitaires si bundler utilisé
+// Exports pour tests unitaires si environnement CommonJS
 if (typeof module !== 'undefined') {
   module.exports = { getCurrentMinutesInTimezone, evaluateStoreStatus, renderStatus };
 }
