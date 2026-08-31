@@ -1,8 +1,9 @@
 // main.js
 // Gestion du statut d'ouverture et estimation du temps d'attente
+// Horaires mis à jour : 17:30 - 22:30 tous les jours
+
 const RESTAURANT_SCHEDULE = [
-  { open: "11:30", close: "14:00" },
-  { open: "18:30", close: "22:30" }
+  { open: "17:30", close: "22:30" }
 ];
 const CUTOFF_MINUTES = 30;
 const TIMEZONE = 'America/Martinique';
@@ -50,6 +51,7 @@ function renderStatus() {
   if (canOrder) {
     statusBadge.innerHTML = "🟢 <span class='status-open'>PRISE DE COMMANDE OUVERTE</span>";
     statusSubtext.innerText = "Temps d'attente estimé en cuisine :";
+    // Estimation : pic 19:30 - 21:00
     if (currentMinutes >= (19 * 60 + 30) && currentMinutes <= (21 * 60)) {
       waitTimeDisplay.innerText = "25 - 35 min";
     } else {
@@ -61,7 +63,7 @@ function renderStatus() {
     waitTimeDisplay.innerText = "Service en cours";
   } else {
     statusBadge.innerHTML = "🔴 <span class='status-closed'>RESTAURANT FERMÉ</span>";
-    statusSubtext.innerText = "Horaires : 11h30 - 14h00 & 18h30 - 22h30";
+    statusSubtext.innerText = "Horaires : 17h30 - 22h30";
     waitTimeDisplay.innerText = "Réouverture au prochain service";
   }
 }
@@ -71,7 +73,56 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(renderStatus, 60000);
 });
 
-// Exports pour tests unitaires si environnement CommonJS
-if (typeof module !== 'undefined') {
-  module.exports = { getCurrentMinutesInTimezone, evaluateStoreStatus, renderStatus };
-}
+// --- Mobile menu toggle ---
+(function(){
+  const toggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+
+  if (!toggle || !mobileNav) return;
+
+  function openMenu(){
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    mobileNav.classList.add('open');
+    mobileNav.removeAttribute('hidden');
+    const first = mobileNav.querySelector('a');
+    if (first) first.focus();
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  function closeMenu(){
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    mobileNav.classList.remove('open');
+    mobileNav.setAttribute('hidden', '');
+    document.documentElement.style.overflow = '';
+    toggle.focus();
+  }
+
+  toggle.addEventListener('click', (e) => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    if (expanded) closeMenu(); else openMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!mobileNav.classList.contains('open')) return;
+    const isInside = mobileNav.contains(e.target) || toggle.contains(e.target);
+    if (!isInside) closeMenu();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && mobileNav.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  mobileNav.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') closeMenu();
+  });
+})();
