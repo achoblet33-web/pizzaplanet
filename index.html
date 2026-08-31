@@ -38,12 +38,26 @@
                 <img src="logo.jpg" alt="Logo Planet Pizza Religieuses" class="logo-img" loading="lazy" width="90" height="90">
                 <div class="logo-title">Planet Pizza</div>
             </div>
+
+            <!-- Bouton hamburger (mobile) -->
+            <button id="navToggle" class="nav-toggle" aria-controls="mobileNav" aria-expanded="false" aria-label="Ouvrir le menu">
+                <span class="hamburger" aria-hidden="true"></span>
+            </button>
+
             <nav class="main-nav" role="navigation" aria-label="Navigation principale">
                 <a href="index.html" aria-current="page">Accueil</a>
                 <a href="menu.html">La Carte</a>
                 <a href="contact.html">Contact & Accès</a>
             </nav>
+
             <a href="menu.html" class="btn-call" role="button">🛒 Commande en Ligne</a>
+
+            <nav id="mobileNav" class="mobile-nav" role="navigation" aria-label="Menu mobile" hidden>
+                <a href="index.html" class="mobile-link" aria-current="page">Accueil</a>
+                <a href="menu.html" class="mobile-link">La Carte</a>
+                <a href="contact.html" class="mobile-link">Contact & Accès</a>
+                <a href="menu.html" class="mobile-cta btn-primary">🛒 Commander</a>
+            </nav>
         </div>
     </header>
 
@@ -101,7 +115,7 @@
         "postalCode": "97200",
         "addressCountry": "FR"
       },
-      "openingHours": ["Mo-Su 11:30-14:00","Mo-Su 18:30-22:30"],
+      "openingHours": ["Mo-Su 17:30-22:30"],
       "url": "https://religieuses.planetpizza.workers.dev/"
     }
     </script>
