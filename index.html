@@ -4,62 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PlanetPizza Religieuses</title>
+    <meta name="description" content="Planet Pizza Religieuses - Pizzas artisanales à Fort-de-France. Commande en ligne, retrait et livraison. Horaires et avis clients.">
+    <meta name="theme-color" content="#0b0e14">
     <link rel="icon" type="image/png" href="logo2.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Planet Pizza">
+    <meta property="og:title" content="Planet Pizza Religieuses">
+    <meta property="og:description" content="Pizzas artisanales à Fort-de-France. Commandez en ligne pour retrait ou livraison.">
+    <meta property="og:type" content="restaurant">
+    <meta property="og:image" content="https://religieuses.planetpizza.workers.dev/logo2.png">
+    <meta property="og:url" content="https://religieuses.planetpizza.workers.dev/">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Planet Pizza Religieuses">
+    <meta name="twitter:description" content="Pizzas artisanales à Fort-de-France. Commandez en ligne.">
+    <meta name="twitter:image" content="https://religieuses.planetpizza.workers.dev/logo2.png">
+
+    <link rel="canonical" href="https://religieuses.planetpizza.workers.dev/">
 </head>
 <body>
+    <a class="skip-link" href="#main">Aller au contenu</a>
 
     <header>
         <div class="container nav-wrapper">
             <div class="logo-box">
-                <img src="logo.jpg" alt="Planet Pizza Logo" class="logo-img" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'45\' height=\'45\' viewBox=\'0 0 45 45\'><circle cx=\'22.5\' cy=\'22.5\' r=\'21\' fill=\'%230b0e14\' stroke=\'%2354d2d2\' stroke-width=\'2\'/><text x=\'50%\' y=\'55%\' font-size=\'16\' font-weight=\'900\' fill=\'%2354d2d2\' font-family=\'sans-serif\' text-anchor=\'middle\' dominant-baseline=\'middle\'>PP</text></svg>';">
+                <img src="logo.jpg" alt="Logo Planet Pizza Religieuses" class="logo-img" loading="lazy" width="90" height="90">
                 <div class="logo-title">Planet Pizza</div>
             </div>
-            <nav class="main-nav">
-                <a href="index.html">Accueil</a>
+            <nav class="main-nav" role="navigation" aria-label="Navigation principale">
+                <a href="index.html" aria-current="page">Accueil</a>
                 <a href="menu.html">La Carte</a>
                 <a href="contact.html">Contact & Accès</a>
             </nav>
-            <a href="menu.html" class="btn-call">🛒 Commande en Ligne</a>
+            <a href="menu.html" class="btn-call" role="button">🛒 Commande en Ligne</a>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>PLANET PIZZA</h1>
-            <p>Pizzas artisanales au goût intergalactique</p>
-            <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <a href="menu.html" class="btn-primary" style="display: inline-block; width: auto; padding: 15px 30px; text-decoration: none;">🍕 Commander en Ligne & Payer</a>
-                <a href="tel:+596596717478" class="btn-primary" style="display: inline-block; width: auto; padding: 15px 30px; text-decoration: none; background: transparent; border: 2px solid var(--primary-glow); color: var(--primary-glow);">📞 Appeler le Restaurant</a>
-            </div>
-        </div>
-    </section>
-
-    <div class="container">
-        <!-- Statut d'ouverture, Prise de commande & Temps d'attente dynamique -->
-        <section style="background: var(--card-bg); padding: 30px; border-radius: 16px; text-align: center; margin-bottom: 40px; border: 1px solid rgba(84, 210, 210, 0.2);">
-            <div id="statusBadge" style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; margin-bottom: 10px;"></div>
-            <h3 class="category-title" style="justify-content: center;">⚡ Service & Commandes en Temps Réel</h3>
-            <p id="statusSubtext" style="color: var(--text-muted); margin-bottom: 10px;"></p>
-            <div id="waitTimeDisplay" style="font-family: 'Orbitron', sans-serif; font-size: 2.2rem; color: var(--price-color);"></div>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">
-                ⏰ <strong>Rappel :</strong> La prise de commande ferme 30 minutes avant la fermeture du restaurant.
-            </p>
-        </section>
-
-        <!-- Section Avis Google en direct via Trustindex -->
-        <section class="reviews-section">
+    <main id="main">
+        <section class="hero" aria-label="Bannière principale">
             <div class="container">
-                <h3 class="category-title" style="justify-content: center;">⭐ Nos Avis Google</h3>
-                <div style="margin-top: 20px;">
-                    <script defer async src='https://cdn.trustindex.io/loader.js?201ac3680c393223eb26af422bf'></script>
+                <h1>PLANET PIZZA</h1>
+                <p>Pizzas artisanales au goût intergalactique</p>
+                <div class="hero-actions">
+                    <a href="menu.html" class="btn-primary">🍕 Commander en Ligne & Payer</a>
+                    <a href="tel:+596596717478" class="btn-primary btn-outline">📞 Appeler le Restaurant</a>
                 </div>
             </div>
         </section>
-    </div>
+
+        <div class="container">
+            <section class="status-card" aria-labelledby="statusTitle">
+                <div id="statusBadge" class="status-badge" aria-live="polite"></div>
+                <h3 id="statusTitle" class="category-title">⚡ Service & Commandes en Temps Réel</h3>
+                <p id="statusSubtext" class="muted"></p>
+                <div id="waitTimeDisplay" class="wait-time" aria-hidden="false"></div>
+                <p class="muted small-note">⏰ <strong>Rappel :</strong> La prise de commande ferme 30 minutes avant la fermeture du restaurant.</p>
+            </section>
+
+            <section class="reviews-section" aria-labelledby="reviewsTitle">
+                <h3 id="reviewsTitle" class="category-title">⭐ Nos Avis Google</h3>
+                <div class="reviews-widget">
+                    <noscript>Les avis sont disponibles lorsque JavaScript est activé.</noscript>
+                    <script defer async src="https://cdn.trustindex.io/loader.js?201ac3680c393223eb26af422bf"></script>
+                </div>
+            </section>
+        </div>
+    </main>
 
     <footer>
         <div class="container">
@@ -67,77 +84,26 @@
         </div>
     </footer>
 
-    <script>
-        function updateStoreStatus() {
-            const RESTAURANT_SCHEDULE = [
-                { open: "11:30", close: "14:00" },
-                { open: "18:30", close: "22:30" }
-            ];
-            const CUTOFF_MINUTES = 30;
+    <script src="main.js" defer></script>
 
-            const now = new Date();
-            const options = { timeZone: 'America/Martinique', hour: 'numeric', minute: 'numeric', hour12: false };
-            const formatter = new Intl.DateTimeFormat('fr-FR', options);
-            const parts = formatter.formatToParts(now);
-            
-            let hours = 0;
-            let minutes = 0;
-            parts.forEach(p => {
-                if (p.type === 'hour') hours = parseInt(p.value, 10);
-                if (p.type === 'minute') minutes = parseInt(p.value, 10);
-            });
-
-            if (hours === 24) hours = 0;
-
-            const currentMinutes = hours * 60 + minutes;
-
-            const statusBadge = document.getElementById('statusBadge');
-            const waitTimeDisplay = document.getElementById('waitTimeDisplay');
-            const statusSubtext = document.getElementById('statusSubtext');
-
-            let isOpen = false;
-            let canOrder = false;
-
-            for (let slot of RESTAURANT_SCHEDULE) {
-                const [openH, openM] = slot.open.split(':').map(Number);
-                const [closeH, closeM] = slot.close.split(':').map(Number);
-
-                const openTime = openH * 60 + openM;
-                const closeTime = closeH * 60 + closeM;
-                const cutoffTime = closeTime - CUTOFF_MINUTES;
-
-                if (currentMinutes >= openTime && currentMinutes < closeTime) {
-                    isOpen = true;
-                    if (currentMinutes < cutoffTime) {
-                        canOrder = true;
-                    }
-                    break;
-                }
-            }
-
-            if (canOrder) {
-                statusBadge.innerHTML = "🟢 <span style='color: #2ecc71;'>PRISE DE COMMANDE OUVERTE</span>";
-                statusSubtext.innerText = "Temps d'attente estimé en cuisine :";
-
-                if (currentMinutes >= (19 * 60 + 30) && currentMinutes <= (21 * 60)) {
-                    waitTimeDisplay.innerText = "25 - 35 min";
-                } else {
-                    waitTimeDisplay.innerText = "15 - 20 min";
-                }
-            } else if (isOpen) {
-                statusBadge.innerHTML = "🟠 <span style='color: #f39c12;'>COMMANDES FERMÉES (FIN DE SERVICE)</span>";
-                statusSubtext.innerText = "Le restaurant est ouvert mais la prise de commande est arrêtée 30 min avant la fermeture.";
-                waitTimeDisplay.innerText = "Service en cours";
-            } else {
-                statusBadge.innerHTML = "🔴 <span style='color: #e74c3c;'>RESTAURANT FERMÉ</span>";
-                statusSubtext.innerText = "Horaires : 11h30 - 14h00 & 18h30 - 22h30";
-                waitTimeDisplay.innerText = "Réouverture au prochain service";
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', updateStoreStatus);
-        setInterval(updateStoreStatus, 60000);
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Planet Pizza Religieuses",
+      "image": "https://religieuses.planetpizza.workers.dev/logo2.png",
+      "telephone": "+596596717478",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Adresse du restaurant",
+        "addressLocality": "Fort-de-France",
+        "addressRegion": "Martinique",
+        "postalCode": "97200",
+        "addressCountry": "FR"
+      },
+      "openingHours": ["Mo-Su 11:30-14:00","Mo-Su 18:30-22:30"],
+      "url": "https://religieuses.planetpizza.workers.dev/"
+    }
     </script>
-
 </body>
 </html>
