@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Planet Pizza - commande en ligne">
+  <meta name="description" content="Planet Pizza - commande en ligne à retirer sur place">
   <title>Planet Pizza — Commander</title>
   <link rel="stylesheet" href="style.css">
   <style>
@@ -17,7 +17,7 @@
 <body>
 <header><div class="container nav-wrapper"><div class="logo-box"><img src="logo.jpg" class="logo-img" alt="Planet Pizza"><div class="logo-title">Planet Pizza</div></div><nav class="main-nav"><a href="index.html">Accueil</a><a href="menu.html">La Carte</a><a href="customer.html" aria-current="page">Commander</a></nav></div></header>
 <main class="app-shell">
-  <div class="app-head"><div><p class="pill">🟢 Service de commande</p><h1>Commander en ligne</h1><p class="muted">Choisissez votre pizza et sa taille. Les prix et promotions sont recalculés côté serveur avant paiement.</p></div><a class="btn-primary" href="menu.html">Voir la carte</a></div>
+  <div class="app-head"><div><p class="pill">🟢 Commande en ligne · retrait sur place</p><h1>Commander en ligne</h1><p class="muted">Choisissez votre pizza et sa taille. Toutes les commandes sont à retirer au restaurant. Les prix et promotions sont recalculés côté serveur avant paiement.</p></div><a class="btn-primary" href="menu.html">Voir la carte</a></div>
   <section class="promo-box" aria-label="Offres promotionnelles">
     <p>🥤 <strong>1 pizza moyenne achetée = 1 boisson offerte</strong></p>
     <p>🍕 <strong>2 pizzas moyennes achetées = 1 pizza moyenne offerte</strong> : ajoutez 3 moyennes au panier, la moins chère passe automatiquement à 0 €.</p>
@@ -25,6 +25,6 @@
   </section>
   <section id="products" class="product-grid" aria-live="polite"></section>
 </main>
-<aside class="cart" aria-label="Panier"><h2>🛒 Votre panier</h2><div id="cartItems"></div><div id="promoSummary"></div><div class="cart-total"><span>Total à payer</span><span id="cartTotal">0,00 €</span></div><div class="checkout"><button class="btn-primary" id="checkoutBtn">Continuer</button></div><p class="muted" style="font-size:.8rem">Paiement sécurisé par Stripe. Les offres sont recalculées côté serveur : le montant du navigateur ne peut pas modifier le prix payé.</p></aside>
+<aside class="cart" aria-label="Panier"><h2>🛒 Votre panier</h2><div id="cartItems"></div><div id="promoSummary"></div><div class="cart-total"><span>Total à payer</span><span id="cartTotal">0,00 €</span></div><div class="checkout"><button class="btn-primary" id="checkoutBtn">Continuer</button></div><p class="muted" style="font-size:.8rem">🏪 Retrait sur place uniquement · paiement sécurisé par Stripe. Les offres sont recalculées côté serveur.</p></aside>
 <script src="customer.js" defer></script>
 </body></html>
