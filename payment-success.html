@@ -5,29 +5,33 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Commande confirmée — Planet Pizza</title>
   <link rel="stylesheet" href="style.css">
-  <style>.success-card{max-width:720px;margin:70px auto;padding:32px 24px;text-align:center;background:#141a24;border:1px solid rgba(84,210,210,.3);border-radius:18px}.order-number{display:inline-block;margin:18px 0;padding:12px 18px;border-radius:12px;background:rgba(84,210,210,.12);border:1px solid rgba(84,210,210,.4);font-size:1.45rem;font-weight:800;letter-spacing:.08em}.muted{color:#a0aec0}</style>
+  <style>.success-card{max-width:720px;margin:70px auto;padding:32px 24px;text-align:center;background:#141a24;border:1px solid rgba(84,210,210,.3);border-radius:18px}.order-number{display:inline-block;margin:18px 0;padding:12px 18px;border-radius:12px;background:rgba(84,210,210,.12);border:1px solid rgba(84,210,210,.4);font-size:2rem;font-weight:900;letter-spacing:.18em}.muted{color:#a0aec0}</style>
 </head>
 <body>
 <main class="container">
   <section class="success-card">
     <h1>✅ Commande enregistrée</h1>
     <p>Votre paiement a été transmis à Planet Pizza. La commande apparaît automatiquement sur l’écran du restaurant dès confirmation Stripe.</p>
-    <div>Votre numéro de commande :</div>
+    <div>Votre code de commande :</div>
     <div id="orderNumber" class="order-number">—</div>
-    <p class="muted">Conservez ce numéro pour le retrait ou pour toute question concernant votre commande.</p>
+    <p class="muted">Conservez ces 4 caractères pour le retrait ou pour toute question concernant votre commande.</p>
     <a class="btn-primary" href="customer.html">Faire une nouvelle commande</a>
   </section>
 </main>
 <script>
 (function(){
+  const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function orderCode(id){
+    try{
+      let n=BigInt(String(id))%BigInt(alphabet.length**4),out='';
+      for(let i=0;i<4;i++){out=alphabet[Number(n%BigInt(alphabet.length))]+out;n/=BigInt(alphabet.length)}
+      return out;
+    }catch{return '----'}
+  }
   const params=new URLSearchParams(location.search);
   const orderId=params.get('order_id')||localStorage.getItem('pp-last-order-id');
   const sessionId=params.get('session_id');
-  if(orderId){
-    try{document.getElementById('orderNumber').textContent='PP-'+BigInt(orderId).toString(36).toUpperCase();}
-    catch{document.getElementById('orderNumber').textContent='#'+orderId;}
-  }
-  // Le panier n'est vidé qu'au retour de la page de succès Stripe.
+  if(orderId)document.getElementById('orderNumber').textContent=orderCode(orderId);
   if(sessionId&&orderId){
     localStorage.removeItem('pp-cart');
     localStorage.setItem('pp-last-order-id',orderId);
