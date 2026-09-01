@@ -12,66 +12,36 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+      .home-track{margin-top:20px;padding-top:18px;border-top:1px solid #ffffff14}.home-track form{display:flex;gap:9px;max-width:480px;margin:10px auto 0}.home-track input{flex:1;min-width:0;background:#0b0e14;color:#fff;border:1px solid rgba(84,210,210,.35);border-radius:9px;padding:11px;text-transform:uppercase;text-align:center;letter-spacing:.16em;font-weight:800}@media(max-width:600px){.home-track form{flex-direction:column}}
+    </style>
 
-    <!-- Open Graph -->
     <meta property="og:site_name" content="Planet Pizza">
     <meta property="og:title" content="Planet Pizza Religieuses">
     <meta property="og:description" content="Pizzas artisanales à Fort-de-France. Commandez en ligne pour retrait ou livraison.">
     <meta property="og:type" content="restaurant">
     <meta property="og:image" content="https://religieuses.planetpizza.workers.dev/logo2.png">
     <meta property="og:url" content="https://religieuses.planetpizza.workers.dev/">
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Planet Pizza Religieuses">
     <meta name="twitter:description" content="Pizzas artisanales à Fort-de-France. Commandez en ligne.">
     <meta name="twitter:image" content="https://religieuses.planetpizza.workers.dev/logo2.png">
-
     <link rel="canonical" href="https://religieuses.planetpizza.workers.dev/">
 </head>
 <body>
     <a class="skip-link" href="#main">Aller au contenu</a>
-
     <header>
         <div class="container nav-wrapper">
-            <div class="logo-box">
-                <img src="logo.jpg" alt="Logo Planet Pizza Religieuses" class="logo-img" loading="lazy" width="90" height="90">
-                <div class="logo-title">Planet Pizza</div>
-            </div>
-
-            <!-- Bouton hamburger (mobile) -->
-            <button id="navToggle" class="nav-toggle" aria-controls="mobileNav" aria-expanded="false" aria-label="Ouvrir le menu">
-                <span class="hamburger" aria-hidden="true"></span>
-            </button>
-
-            <nav class="main-nav" role="navigation" aria-label="Navigation principale">
-                <a href="index.html" aria-current="page">Accueil</a>
-                <a href="menu.html">La Carte</a>
-                <a href="contact.html">Contact & Accès</a>
-            </nav>
-
-            <a href="menu.html" class="btn-call" role="button">🛒 Commande en Ligne</a>
-
-            <nav id="mobileNav" class="mobile-nav" role="navigation" aria-label="Menu mobile" hidden>
-                <a href="index.html" class="mobile-link" aria-current="page">Accueil</a>
-                <a href="menu.html" class="mobile-link">La Carte</a>
-                <a href="contact.html" class="mobile-link">Contact & Accès</a>
-                <a href="menu.html" class="mobile-cta btn-primary">🛒 Commander</a>
-            </nav>
+            <div class="logo-box"><img src="logo.jpg" alt="Logo Planet Pizza Religieuses" class="logo-img" loading="lazy" width="90" height="90"><div class="logo-title">Planet Pizza</div></div>
+            <button id="navToggle" class="nav-toggle" aria-controls="mobileNav" aria-expanded="false" aria-label="Ouvrir le menu"><span class="hamburger" aria-hidden="true"></span></button>
+            <nav class="main-nav" role="navigation" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="menu.html">La Carte</a><a href="suivi.html">Suivre ma commande</a><a href="contact.html">Contact & Accès</a></nav>
+            <a href="customer.html" class="btn-call" role="button">🛒 Commande en Ligne</a>
+            <nav id="mobileNav" class="mobile-nav" role="navigation" aria-label="Menu mobile" hidden><a href="index.html" class="mobile-link" aria-current="page">Accueil</a><a href="menu.html" class="mobile-link">La Carte</a><a href="suivi.html" class="mobile-link">Suivre ma commande</a><a href="contact.html" class="mobile-link">Contact & Accès</a><a href="customer.html" class="mobile-cta btn-primary">🛒 Commander</a></nav>
         </div>
     </header>
 
     <main id="main">
-        <section class="hero" aria-label="Bannière principale">
-            <div class="container">
-                <h1>PLANET PIZZA</h1>
-                <p>Pizzas artisanales au goût intergalactique</p>
-                <div class="hero-actions">
-                    <a href="menu.html" class="btn-primary">🍕 Commander en Ligne & Payer</a>
-                    <a href="tel:+596596717478" class="btn-primary btn-outline">📞 Appeler le Restaurant</a>
-                </div>
-            </div>
-        </section>
+        <section class="hero" aria-label="Bannière principale"><div class="container"><h1>PLANET PIZZA</h1><p>Pizzas artisanales au goût intergalactique</p><div class="hero-actions"><a href="customer.html" class="btn-primary">🍕 Commander en Ligne & Payer</a><a href="suivi.html" class="btn-primary btn-outline">📍 Suivre ma commande</a><a href="tel:+596596717478" class="btn-primary btn-outline">📞 Appeler le Restaurant</a></div></div></section>
 
         <div class="container">
             <section class="status-card" aria-labelledby="statusTitle">
@@ -79,45 +49,16 @@
                 <h3 id="statusTitle" class="category-title">⚡ Service & Commandes en Temps Réel</h3>
                 <p id="statusSubtext" class="muted"></p>
                 <div id="waitTimeDisplay" class="wait-time" aria-hidden="false"></div>
+                <div class="home-track"><strong>Vous avez déjà commandé ?</strong><p class="muted">Entrez votre code de 4 caractères pour suivre la préparation en direct.</p><form id="homeTrackForm"><input id="homeTrackCode" maxlength="4" autocomplete="off" placeholder="K7QF" aria-label="Code de commande"><button class="btn-primary" type="submit">Suivre</button></form></div>
                 <p class="muted small-note">⏰ <strong>Rappel :</strong> La prise de commande ferme 30 minutes avant la fermeture du restaurant.</p>
             </section>
 
-            <section class="reviews-section" aria-labelledby="reviewsTitle">
-                <h3 id="reviewsTitle" class="category-title">⭐ Nos Avis Google</h3>
-                <div class="reviews-widget">
-                    <noscript>Les avis sont disponibles lorsque JavaScript est activé.</noscript>
-                    <script defer async src="https://cdn.trustindex.io/loader.js?201ac3680c393223eb26af422bf"></script>
-                </div>
-            </section>
+            <section class="reviews-section" aria-labelledby="reviewsTitle"><h3 id="reviewsTitle" class="category-title">⭐ Nos Avis Google</h3><div class="reviews-widget"><noscript>Les avis sont disponibles lorsque JavaScript est activé.</noscript><script defer async src="https://cdn.trustindex.io/loader.js?201ac3680c393223eb26af422bf"></script></div></section>
         </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Planet Pizza. Tous droits réservés.</p>
-        </div>
-    </footer>
-
+    <footer><div class="container"><p>&copy; 2026 Planet Pizza. Tous droits réservés.</p></div></footer>
     <script src="main.js" defer></script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Restaurant",
-      "name": "Planet Pizza Religieuses",
-      "image": "https://religieuses.planetpizza.workers.dev/logo2.png",
-      "telephone": "+596596717478",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Adresse du restaurant",
-        "addressLocality": "Fort-de-France",
-        "addressRegion": "Martinique",
-        "postalCode": "97200",
-        "addressCountry": "FR"
-      },
-      "openingHours": ["Mo-Su 17:30-22:30"],
-      "url": "https://religieuses.planetpizza.workers.dev/"
-    }
-    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Planet Pizza Religieuses","image":"https://religieuses.planetpizza.workers.dev/logo2.png","telephone":"+596596717478","address":{"@type":"PostalAddress","streetAddress":"Adresse du restaurant","addressLocality":"Fort-de-France","addressRegion":"Martinique","postalCode":"97200","addressCountry":"FR"},"openingHours":["Mo-Su 17:30-22:30"],"url":"https://religieuses.planetpizza.workers.dev/"}</script>
 </body>
 </html>
