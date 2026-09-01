@@ -1,6 +1,7 @@
 import { json, body } from '../_lib/db.js';
 import { recordStatusEvent, publicOrderCode, estimateOrder } from '../_lib/tracking.js';
 import { notifyOrderSubscribers } from '../_lib/push.js';
+import { purgeStalePendingOrders, cutoffIdForAge, PENDING_HIDE_MS } from '../_lib/order-cleanup.js';
 
 const ALLOWED = new Set(['new','confirmed','preparing','ready','completed','cancelled']);
 const ACTIVE_ORDERING = `CASE status
@@ -33,21 +34,36 @@ async function attachItems(db, orders){
 export async function onRequest(context){
  const db=context.env.DB;
  if(context.request.method==='GET'){
+  const now=Date.now();
+  try{await purgeStalePendingOrders(db,now)}catch{}
+
   const url=new URL(context.request.url);
   const archive=url.searchParams.get('archive')==='1';
   const requested=Number(url.searchParams.get('limit'));
   const limit=archive?Math.min(100,Math.max(10,requested||50)):Math.min(250,Math.max(50,requested||250));
   const page=Math.max(1,Number(url.searchParams.get('page'))||1);
   const offset=(page-1)*limit;
-  const cutoffId=(Date.now()-ARCHIVE_AFTER_MS)*1000;
-  const operator=archive?'<':'>=';
+  const cutoffId=(now-ARCHIVE_AFTER_MS)*1000;
+  const pendingHideCutoffId=cutoffIdForAge(PENDING_HIDE_MS,now);
   const orderBy=archive?'created_at DESC':ACTIVE_ORDERING;
   const fetchLimit=limit+1;
-  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE id ${operator} ? ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(cutoffId,fetchLimit,offset).all();
+
+  let where;
+  let bindValues;
+  if(archive){
+   where='id < ?';
+   bindValues=[cutoffId];
+  }else{
+   // Une tentative Stripe non payée disparaît de la tablette après 30 minutes.
+   where=`id >= ? AND NOT (id < ? AND status='new' AND payment_status='pending')`;
+   bindValues=[cutoffId,pendingHideCutoffId];
+  }
+
+  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(...bindValues,fetchLimit,offset).all();
   const hasMore=rawResults.length>limit;
   const results=hasMore?rawResults.slice(0,limit):rawResults;
   const orders=await attachItems(db,results);
-  return json({orders,page,limit,has_more:hasMore,archive});
+  return json({orders,page,limit,has_more:hasMore,archive,pending_hidden_after_minutes:30});
  }
  if(context.request.method!=='PATCH')return json({error:'Méthode non autorisée'},405,{Allow:'GET, PATCH'});
  const input=await body(context.request);
