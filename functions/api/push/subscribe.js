@@ -33,8 +33,7 @@ export async function onRequest(context){
   await context.env.DB.prepare(`
     INSERT INTO push_subscriptions (order_id,endpoint,p256dh,auth,created_at,updated_at)
     VALUES (?,?,?,?,?,?)
-    ON CONFLICT(endpoint) DO UPDATE SET
-      order_id=excluded.order_id,
+    ON CONFLICT(order_id,endpoint) DO UPDATE SET
       p256dh=excluded.p256dh,
       auth=excluded.auth,
       updated_at=excluded.updated_at
