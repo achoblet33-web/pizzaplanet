@@ -23,7 +23,7 @@ export async function onRequest(context) {
   const restaurant = await db.prepare(`SELECT id FROM restaurants ORDER BY id LIMIT 1`).first();
   if (!restaurant) return json({ error: 'Restaurant non configuré' }, 500);
   const orderId = makeId(); const now = new Date().toISOString();
-  const stmts = [db.prepare(`INSERT INTO orders (id,restaurant_id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).bind(orderId,restaurant.id,input.customer.name,input.customer.phone ?? null,input.customer.email ?? null,input.fulfillment_type ?? 'pickup',total,'new','pending',input.notes ?? null,now,now)];
+  const stmts = [db.prepare(`INSERT INTO orders (id,restaurant_id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`).bind(orderId,restaurant.id,input.customer.name,input.customer.phone ?? null,input.customer.email ?? null,'pickup',total,'new','pending',input.notes ?? null,now,now)];
   for (const i of normalized) stmts.push(db.prepare(`INSERT INTO order_items (order_id,product_id,product_name,quantity,unit_price_cents,options_json) VALUES (?,?,?,?,?,?)`).bind(orderId,i.id,i.name,i.quantity,i.price_cents,JSON.stringify(i.options)));
-  await db.batch(stmts); return json({ order: { id: orderId,total_cents: total,status:'new',payment_status:'pending' } },201);
+  await db.batch(stmts); return json({ order: { id: orderId,total_cents: total,status:'new',payment_status:'pending',fulfillment_type:'pickup' } },201);
 }
