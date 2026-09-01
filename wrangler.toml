@@ -1,0 +1,11 @@
+name = "planet-pizza"
+compatibility_date = "2026-09-01"
+pages_build_output_dir = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "planet-pizza-db"
+database_id = "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID"
+
+# Do not put Stripe secret keys in this file. Add them with:
+# wrangler pages secret put STRIPE_SECRET_KEY
