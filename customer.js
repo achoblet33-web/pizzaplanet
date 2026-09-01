@@ -78,6 +78,17 @@ function calculatePromotions(){
  return {rows,subtotal,pizzaDiscount,total:subtotal-pizzaDiscount,mediumCount:mediumUnits.length,freePizzaCount,freeByRow,freeDrinks};
 }
 
+function cartQuantity(){return cart.reduce((sum,item)=>sum+Number(item.qty||0),0)}
+
+function setCartExpanded(expanded){
+ const panel=document.querySelector('#cartPanel');
+ const button=document.querySelector('#cartToggle');
+ if(!panel||!button)return;
+ panel.classList.toggle('cart-collapsed',!expanded);
+ button.setAttribute('aria-expanded',String(expanded));
+ button.textContent=expanded?'Réduire':'Voir le panier';
+}
+
 function renderCart(){
  const root=document.querySelector('#cartItems');
  const promoRoot=document.querySelector('#promoSummary');
@@ -86,6 +97,7 @@ function renderCart(){
  if(!cart.length){
   root.innerHTML='<div class="empty muted">Votre panier est vide.</div>';
   promoRoot.innerHTML='';
+  if(window.matchMedia('(max-width:700px)').matches)setCartExpanded(false);
  } else {
   root.innerHTML=cart.map((i,index)=>{
    const d=itemDetails(i); if(!d)return '';
@@ -105,7 +117,11 @@ function renderCart(){
   else if(rest===1) messages.push('💡 Ajoutez 2 autres pizzas moyennes pour obtenir la moins chère des 3 offerte.');
   promoRoot.innerHTML=messages.length?`<div class="promo-summary">${messages.map(x=>`<div>${x}</div>`).join('')}</div>`:'';
  }
- document.querySelector('#cartTotal').textContent=euroCents(promo.total);
+
+ const total=euroCents(promo.total);
+ document.querySelector('#cartTotal').textContent=total;
+ const mini=document.querySelector('#cartMiniTotal');if(mini)mini.textContent=total;
+ const count=document.querySelector('#cartCount');if(count)count.textContent=String(cartQuantity());
 }
 
 function removeFromCart(index){const r=cart[index];if(!r)return;r.qty--;if(r.qty<=0)cart.splice(index,1);save();}
@@ -128,6 +144,15 @@ async function checkout(){
 }
 
 document.querySelector('#checkoutBtn').onclick=checkout;
+document.querySelector('#cartToggle')?.addEventListener('click',()=>{
+ const panel=document.querySelector('#cartPanel');
+ setCartExpanded(panel?.classList.contains('cart-collapsed'));
+});
+window.addEventListener('resize',()=>{
+ if(window.matchMedia('(max-width:700px)').matches)return;
+ const button=document.querySelector('#cartToggle');
+ if(button){button.setAttribute('aria-expanded','true');button.textContent='Réduire'}
+});
 function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 loadProducts();
 setInterval(loadProducts,30000);
