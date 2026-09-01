@@ -15,21 +15,41 @@ export async function onRequest(context) {
   if (!Array.isArray(input.items) || !input.items.length) return json({ error: 'Panier vide' }, 400);
   if (!input.customer?.name) return json({ error: 'Nom client requis' }, 400);
 
-  const ids = [...new Set(input.items.map(i => Number(i.product_id)))];
-  const placeholders = ids.map(() => '?').join(',');
-  const { results: products } = await context.env.DB.prepare(`SELECT id,name,price_cents,active,available FROM products WHERE id IN (${placeholders})`).bind(...ids).all();
-  const byId = new Map(products.map(p => [Number(p.id), p]));
+  const productIds = [...new Set(input.items.map(i => Number(i.product_id)))];
+  const variantIds = [...new Set(input.items.map(i => Number(i.variant_id)).filter(Number.isFinite))];
+  const productPlaceholders = productIds.map(() => '?').join(',');
+  const { results: products } = await context.env.DB.prepare(`SELECT id,name,price_cents,active,available FROM products WHERE id IN (${productPlaceholders})`).bind(...productIds).all();
+  const byProductId = new Map(products.map(p => [Number(p.id), p]));
+
+  let variants = [];
+  if (variantIds.length) {
+    const variantPlaceholders = variantIds.map(() => '?').join(',');
+    ({ results: variants } = await context.env.DB.prepare(`SELECT id,product_id,size_code,label,price_cents,active FROM product_variants WHERE id IN (${variantPlaceholders})`).bind(...variantIds).all());
+  }
+  const byVariantId = new Map(variants.map(v => [Number(v.id), v]));
+
   const normalized = [];
   let total = 0;
 
   for (const item of input.items) {
-    const product = byId.get(Number(item.product_id));
+    const product = byProductId.get(Number(item.product_id));
     const quantity = Number(item.quantity);
     if (!product || !product.active || !product.available || !Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
       return json({ error: `Produit indisponible: ${product?.name ?? item.product_id}` }, 409);
     }
-    total += product.price_cents * quantity;
-    normalized.push({ product, quantity });
+
+    const activeVariants = await context.env.DB.prepare(`SELECT COUNT(*) count FROM product_variants WHERE product_id=? AND active=1`).bind(product.id).first();
+    let variant = null;
+    if (Number(activeVariants?.count || 0) > 0) {
+      variant = byVariantId.get(Number(item.variant_id));
+      if (!variant || Number(variant.product_id) !== Number(product.id) || !variant.active) {
+        return json({ error: `Taille invalide pour ${product.name}` }, 409);
+      }
+    }
+
+    const unitPrice = Number(variant?.price_cents ?? product.price_cents);
+    total += unitPrice * quantity;
+    normalized.push({ product, variant, quantity, unitPrice });
   }
 
   const restaurant = await context.env.DB.prepare(`SELECT id,currency FROM restaurants ORDER BY id LIMIT 1`).first();
@@ -43,8 +63,8 @@ export async function onRequest(context) {
   ).run();
   if (!order.meta.changes) return json({ error: 'Impossible de créer la commande' }, 500);
 
-  const orderStatements = normalized.map(({ product, quantity }) => context.env.DB.prepare(`INSERT INTO order_items (order_id,product_id,product_name,quantity,unit_price_cents,options_json) VALUES (?,?,?,?,?,?)`).bind(
-    orderId, product.id, product.name, quantity, product.price_cents, JSON.stringify({})
+  const orderStatements = normalized.map(({ product, variant, quantity, unitPrice }) => context.env.DB.prepare(`INSERT INTO order_items (order_id,product_id,product_name,quantity,unit_price_cents,options_json) VALUES (?,?,?,?,?,?)`).bind(
+    orderId, product.id, product.name, quantity, unitPrice, JSON.stringify(variant ? { variant_id: variant.id, size_code: variant.size_code, size_label: variant.label } : {})
   ));
   await context.env.DB.batch(orderStatements);
 
@@ -58,11 +78,11 @@ export async function onRequest(context) {
   add(params, 'metadata[order_id]', orderId);
   add(params, 'payment_intent_data[metadata][order_id]', orderId);
 
-  normalized.forEach(({ product, quantity }, index) => {
+  normalized.forEach(({ product, variant, quantity, unitPrice }, index) => {
     add(params, `line_items[${index}][quantity]`, quantity);
     add(params, `line_items[${index}][price_data][currency]`, restaurant.currency || 'eur');
-    add(params, `line_items[${index}][price_data][unit_amount]`, product.price_cents);
-    add(params, `line_items[${index}][price_data][product_data][name]`, product.name);
+    add(params, `line_items[${index}][price_data][unit_amount]`, unitPrice);
+    add(params, `line_items[${index}][price_data][product_data][name]`, variant ? `${product.name} — ${variant.label}` : product.name);
   });
 
   const response = await fetch(STRIPE_API, { method: 'POST', headers: stripeHeaders(context.env.STRIPE_SECRET_KEY), body: params });
