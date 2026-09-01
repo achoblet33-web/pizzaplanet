@@ -76,6 +76,13 @@ CREATE TABLE IF NOT EXISTS order_items (
   unit_price_cents INTEGER NOT NULL,
   options_json TEXT
 );
+CREATE TABLE IF NOT EXISTS order_status_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  status TEXT NOT NULL,
+  occurred_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  source TEXT NOT NULL DEFAULT 'system'
+);
 CREATE TABLE IF NOT EXISTS inventory_movements (
   id INTEGER PRIMARY KEY,
   ingredient_id INTEGER NOT NULL REFERENCES ingredients(id),
@@ -88,6 +95,8 @@ CREATE INDEX IF NOT EXISTS idx_products_restaurant ON products(restaurant_id, ac
 CREATE INDEX IF NOT EXISTS idx_orders_restaurant_status ON orders(restaurant_id, status, created_at);
 CREATE INDEX IF NOT EXISTS idx_inventory_ingredient ON inventory_movements(ingredient_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_variants_product ON product_variants(product_id, active);
+CREATE INDEX IF NOT EXISTS idx_order_status_events_order ON order_status_events(order_id, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_order_status_events_status ON order_status_events(status, occurred_at);
 
 CREATE TRIGGER IF NOT EXISTS prevent_negative_stock
 BEFORE UPDATE OF quantity ON ingredients
