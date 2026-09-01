@@ -36,16 +36,17 @@ export async function onRequest(context){
   const limit=archive?Math.min(100,Math.max(10,requested||50)):Math.min(250,Math.max(50,requested||250));
   const page=Math.max(1,Number(url.searchParams.get('page'))||1);
   const offset=(page-1)*limit;
-  // Les IDs de commande sont basés sur Date.now()*1000 : la clé primaire permet donc
-  // de séparer les dernières 48 h des archives sans scanner tout l'historique.
   const cutoffId=(Date.now()-ARCHIVE_AFTER_MS)*1000;
   const operator=archive?'<':'>=';
   const orderBy=archive?'created_at DESC':ACTIVE_ORDERING;
-  const {results}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE id ${operator} ? ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(cutoffId,limit,offset).all();
-  const countRow=await db.prepare(`SELECT COUNT(*) total FROM orders WHERE id ${operator} ?`).bind(cutoffId).first();
-  const total=Number(countRow?.total||0);
+  // On demande une ligne de plus pour savoir s'il existe une page suivante,
+  // ce qui évite un COUNT(*) sur tout l'historique à chaque rafraîchissement.
+  const fetchLimit=limit+1;
+  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE id ${operator} ? ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(cutoffId,fetchLimit,offset).all();
+  const hasMore=rawResults.length>limit;
+  const results=hasMore?rawResults.slice(0,limit):rawResults;
   const orders=await attachItems(db,results);
-  return json({orders,total,page,limit,has_more:offset+orders.length<total,archive});
+  return json({orders,page,limit,has_more:hasMore,archive});
  }
  if(context.request.method!=='PATCH')return json({error:'Méthode non autorisée'},405,{Allow:'GET, PATCH'});
  const input=await body(context.request);
