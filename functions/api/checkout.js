@@ -3,6 +3,7 @@ import { json, body } from './_lib/db.js';
 const STRIPE_API = 'https://api.stripe.com/v1/checkout/sessions';
 const ORDER_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const ORDER_CODE_LENGTH = 4;
+const ACTIVE_ORDER_WINDOW_MS = 48 * 60 * 60 * 1000;
 
 function stripeHeaders(secret) {
   return { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -18,7 +19,8 @@ function orderNumber(id) {
   return out;
 }
 async function makeOrderIdentity(db) {
-  const { results } = await db.prepare(`SELECT id FROM orders WHERE created_at >= datetime('now','-48 hours')`).all();
+  const cutoffId = (Date.now() - ACTIVE_ORDER_WINDOW_MS) * 1000;
+  const { results } = await db.prepare(`SELECT id FROM orders WHERE id >= ?`).bind(cutoffId).all();
   const used = new Set(results.map(r => orderNumber(r.id)));
   for (let attempt = 0; attempt < 40; attempt++) {
     const orderId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
