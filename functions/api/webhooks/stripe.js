@@ -1,4 +1,5 @@
 import { json } from '../_lib/db.js';
+import { recordStatusEvent } from '../_lib/tracking.js';
 
 const TOLERANCE_SECONDS = 300;
 
@@ -55,6 +56,7 @@ async function deductStock(db, orderId) {
   }
   statements.push(db.prepare(`UPDATE orders SET stock_deducted=1,status='confirmed',updated_at=? WHERE id=? AND stock_deducted=0`).bind(now, orderId));
   await db.batch(statements);
+  try{await recordStatusEvent(db,orderId,'confirmed',now,'stripe')}catch{}
   return { ok: true, changed: true };
 }
 
@@ -84,7 +86,9 @@ export async function onRequest(context) {
         }
       }
     } else if (orderId && event.type === 'checkout.session.async_payment_failed') {
-      await context.env.DB.prepare(`UPDATE orders SET payment_status='failed',status='cancelled',updated_at=? WHERE id=?`).bind(new Date().toISOString(),orderId).run();
+      const now=new Date().toISOString();
+      await context.env.DB.prepare(`UPDATE orders SET payment_status='failed',status='cancelled',updated_at=? WHERE id=?`).bind(now,orderId).run();
+      try{await recordStatusEvent(context.env.DB,orderId,'cancelled',now,'stripe')}catch{}
     }
 
     await context.env.DB.prepare(`UPDATE stripe_events SET status='processed',processed_at=? WHERE event_id=?`).bind(new Date().toISOString(),event.id).run();
