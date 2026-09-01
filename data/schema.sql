@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS ingredients (
   unit TEXT NOT NULL,
   quantity REAL NOT NULL DEFAULT 0 CHECK(quantity >= 0),
   low_threshold REAL NOT NULL DEFAULT 0,
+  out_of_stock_confirmed INTEGER NOT NULL DEFAULT 0,
+  out_of_stock_confirmed_at TEXT,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS recipes (
