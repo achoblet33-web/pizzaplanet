@@ -85,8 +85,6 @@ export async function onRequest(context) {
     });
   }
 
-  // Offre 2 moyennes achetées = 1 moyenne offerte : le client met 3 moyennes
-  // au panier et la moins chère de chaque groupe de 3 passe à 0 €.
   const mediumUnits = [];
   normalized.forEach((row, rowIndex) => {
     if (row.variant?.size_code === 'moyenne') {
@@ -101,7 +99,6 @@ export async function onRequest(context) {
     freeByRow.set(rowIndex, (freeByRow.get(rowIndex) || 0) + 1);
   }
 
-  // Une boisson est offerte pour chaque pizza moyenne effectivement payée.
   const paidMediumCount = mediumUnits.length - freePizzaCount;
   const freeDrinks = paidMediumCount;
   const orderLines = [];
@@ -170,7 +167,7 @@ export async function onRequest(context) {
     `INSERT INTO orders (id,restaurant_id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
   ).bind(
     orderId, restaurant.id, input.customer.name.trim(), input.customer.phone ?? null, input.customer.email ?? null,
-    input.fulfillment_type ?? 'pickup', total, 'new', 'pending', [input.notes, promoNote].filter(Boolean).join(' | ') || null, now, now
+    'pickup', total, 'new', 'pending', [input.notes, promoNote].filter(Boolean).join(' | ') || null, now, now
   ).run();
   if (!order.meta.changes) return json({ error: 'Impossible de créer la commande' }, 500);
 
@@ -215,6 +212,7 @@ export async function onRequest(context) {
     checkout_url: session.url,
     order_id: orderId,
     order_number: displayOrderNumber,
+    fulfillment_type: 'pickup',
     total_cents: total,
     promotions: { free_drinks: freeDrinks, free_medium_pizzas: freePizzaCount, pizza_discount_cents: pizzaDiscount }
   });
