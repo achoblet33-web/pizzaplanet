@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Commande confirmée — Planet Pizza</title>
   <link rel="stylesheet" href="style.css">
-  <style>.success-card{max-width:720px;margin:70px auto;padding:32px 24px;text-align:center;background:#141a24;border:1px solid rgba(84,210,210,.3);border-radius:18px}.order-number{display:inline-block;margin:18px 0;padding:12px 18px;border-radius:12px;background:rgba(84,210,210,.12);border:1px solid rgba(84,210,210,.4);font-size:2rem;font-weight:900;letter-spacing:.18em}.muted{color:#a0aec0}</style>
+  <style>.success-card{max-width:720px;margin:70px auto;padding:32px 24px;text-align:center;background:#141a24;border:1px solid rgba(84,210,210,.3);border-radius:18px}.order-number{display:inline-block;margin:18px 0;padding:12px 18px;border-radius:12px;background:rgba(84,210,210,.12);border:1px solid rgba(84,210,210,.4);font-size:2rem;font-weight:900;letter-spacing:.18em}.muted{color:#a0aec0}.success-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}</style>
 </head>
 <body>
 <main class="container">
   <section class="success-card">
     <h1>✅ Commande enregistrée</h1>
-    <p>Votre paiement a été transmis à Planet Pizza. La commande apparaît automatiquement sur l’écran du restaurant dès confirmation Stripe.</p>
+    <p>Votre paiement a été transmis à Planet Pizza. Le restaurant voit automatiquement votre commande et pourra la prendre en charge.</p>
     <div>Votre code de commande :</div>
     <div id="orderNumber" class="order-number">—</div>
-    <p class="muted">Conservez ces 4 caractères pour le retrait ou pour toute question concernant votre commande.</p>
-    <a class="btn-primary" href="customer.html">Faire une nouvelle commande</a>
+    <p class="muted">Conservez ces 4 caractères : ils permettent de suivre la préparation en direct.</p>
+    <div class="success-actions"><a id="trackOrderLink" class="btn-primary" href="suivi.html">📍 Suivre ma commande</a><a class="btn-primary btn-outline" href="customer.html">Faire une nouvelle commande</a></div>
   </section>
 </main>
 <script>
@@ -31,7 +31,11 @@
   const params=new URLSearchParams(location.search);
   const orderId=params.get('order_id')||localStorage.getItem('pp-last-order-id');
   const sessionId=params.get('session_id');
-  if(orderId)document.getElementById('orderNumber').textContent=orderCode(orderId);
+  if(orderId){
+    const code=orderCode(orderId);
+    document.getElementById('orderNumber').textContent=code;
+    document.getElementById('trackOrderLink').href=`suivi.html?code=${encodeURIComponent(code)}`;
+  }
   if(sessionId&&orderId){
     localStorage.removeItem('pp-cart');
     localStorage.setItem('pp-last-order-id',orderId);
