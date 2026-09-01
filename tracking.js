@@ -10,10 +10,28 @@ let activeCode='';
 let refreshTimer=null;
 let lastStatus='';
 let notificationsEnabled=localStorage.getItem('pp-track-notifications')==='1';
+let notificationRegistration=null;
 
 function cleanCode(v){return String(v||'').toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,4)}
 function fmtTime(iso){try{return new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}catch{return ''}}
 function statusStorageKey(code){return `pp-track-status-${code}`}
+
+async function registerNotificationServiceWorker(){
+  if(!('serviceWorker' in navigator))return null;
+  try{
+    notificationRegistration=await navigator.serviceWorker.register('/notification-sw.js');
+    return notificationRegistration;
+  }catch{return null}
+}
+
+async function showSystemNotification(title,options){
+  if(!notificationsEnabled||!('Notification' in window)||Notification.permission!=='granted')return;
+  try{
+    const registration=notificationRegistration||await registerNotificationServiceWorker();
+    if(registration?.showNotification){await registration.showNotification(title,options);return;}
+    new Notification(title,options);
+  }catch{}
+}
 
 async function fetchTracking(code){
   const r=await fetch(`/api/track?code=${encodeURIComponent(code)}`,{cache:'no-store'});
@@ -32,7 +50,7 @@ function showToast(title,body){
   showToast.timer=setTimeout(()=>{toast.classList.remove('show');toast.classList.add('hidden')},8000);
 }
 
-function sendCustomerNotification(data,force=false){
+function sendCustomerNotification(data){
   const meta=STATUS_META[data.status];
   if(!meta)return;
   const eta=(data.status==='confirmed'||data.status==='preparing')&&Number.isFinite(Number(data.estimated_minutes_remaining))
@@ -43,9 +61,7 @@ function sendCustomerNotification(data,force=false){
   try{if(navigator.vibrate)navigator.vibrate([120,60,120])}catch{}
   document.title=`🔔 ${meta.title} — ${data.code}`;
   setTimeout(()=>{document.title='Suivre ma commande — Planet Pizza'},10000);
-  if(notificationsEnabled&&'Notification' in window&&Notification.permission==='granted'){
-    try{new Notification(title,{body,icon:'logo2.png',tag:`planet-pizza-${data.code}`,renotify:true})}catch{}
-  }
+  showSystemNotification(title,{body,icon:'/logo2.png',badge:'/logo2.png',tag:`planet-pizza-${data.code}`,renotify:true,data:{url:`/suivi.html?code=${encodeURIComponent(data.code)}`}});
 }
 
 function updateNotificationButton(){
@@ -66,13 +82,14 @@ function updateNotificationButton(){
 
 async function enableNotifications(){
   if(!('Notification' in window))return updateNotificationButton();
+  await registerNotificationServiceWorker();
   let permission=Notification.permission;
   if(permission!=='granted')permission=await Notification.requestPermission();
   notificationsEnabled=permission==='granted';
   localStorage.setItem('pp-track-notifications',notificationsEnabled?'1':'0');
   updateNotificationButton();
   if(notificationsEnabled&&activeCode){
-    try{sendCustomerNotification(await fetchTracking(activeCode),true)}catch{}
+    try{sendCustomerNotification(await fetchTracking(activeCode))}catch{}
   }
 }
 
@@ -132,6 +149,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     loadCode(code);
   });
   document.querySelector('#notificationBtn')?.addEventListener('click',enableNotifications);
+  registerNotificationServiceWorker();
   updateNotificationButton();
   const initial=cleanCode(new URLSearchParams(location.search).get('code')||localStorage.getItem('pp-last-order-code'));
   if(initial.length===4)loadCode(initial);
