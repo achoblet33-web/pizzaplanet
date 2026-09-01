@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS restaurants (
   ordering_enabled INTEGER NOT NULL DEFAULT 1,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
 CREATE TABLE IF NOT EXISTS categories (
   id INTEGER PRIMARY KEY,
   restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),
@@ -16,7 +15,6 @@ CREATE TABLE IF NOT EXISTS categories (
   sort_order INTEGER NOT NULL DEFAULT 0,
   active INTEGER NOT NULL DEFAULT 1
 );
-
 CREATE TABLE IF NOT EXISTS products (
   id INTEGER PRIMARY KEY,
   restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),
@@ -28,7 +26,15 @@ CREATE TABLE IF NOT EXISTS products (
   available INTEGER NOT NULL DEFAULT 1,
   sort_order INTEGER NOT NULL DEFAULT 0
 );
-
+CREATE TABLE IF NOT EXISTS product_variants (
+  id INTEGER PRIMARY KEY,
+  product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  size_code TEXT NOT NULL CHECK(size_code IN ('petite','moyenne','grande')),
+  label TEXT NOT NULL,
+  price_cents INTEGER NOT NULL CHECK(price_cents >= 0),
+  active INTEGER NOT NULL DEFAULT 1,
+  UNIQUE(product_id,size_code)
+);
 CREATE TABLE IF NOT EXISTS ingredients (
   id INTEGER PRIMARY KEY,
   restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),
@@ -37,14 +43,12 @@ CREATE TABLE IF NOT EXISTS ingredients (
   quantity REAL NOT NULL DEFAULT 0,
   low_threshold REAL NOT NULL DEFAULT 0
 );
-
 CREATE TABLE IF NOT EXISTS recipes (
   product_id INTEGER NOT NULL REFERENCES products(id),
   ingredient_id INTEGER NOT NULL REFERENCES ingredients(id),
   quantity REAL NOT NULL,
-  PRIMARY KEY(product_id, ingredient_id)
+  PRIMARY KEY(product_id,ingredient_id)
 );
-
 CREATE TABLE IF NOT EXISTS orders (
   id INTEGER PRIMARY KEY,
   restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),
@@ -59,7 +63,6 @@ CREATE TABLE IF NOT EXISTS orders (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
 CREATE TABLE IF NOT EXISTS order_items (
   id INTEGER PRIMARY KEY,
   order_id INTEGER NOT NULL REFERENCES orders(id),
@@ -69,7 +72,6 @@ CREATE TABLE IF NOT EXISTS order_items (
   unit_price_cents INTEGER NOT NULL,
   options_json TEXT
 );
-
 CREATE TABLE IF NOT EXISTS inventory_movements (
   id INTEGER PRIMARY KEY,
   ingredient_id INTEGER NOT NULL REFERENCES ingredients(id),
@@ -78,7 +80,7 @@ CREATE TABLE IF NOT EXISTS inventory_movements (
   order_id INTEGER REFERENCES orders(id),
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
 CREATE INDEX IF NOT EXISTS idx_products_restaurant ON products(restaurant_id, active, available);
 CREATE INDEX IF NOT EXISTS idx_orders_restaurant_status ON orders(restaurant_id, status, created_at);
 CREATE INDEX IF NOT EXISTS idx_inventory_ingredient ON inventory_movements(ingredient_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_variants_product ON product_variants(product_id, active);
