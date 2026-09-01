@@ -40,13 +40,14 @@ CREATE TABLE IF NOT EXISTS ingredients (
   restaurant_id INTEGER NOT NULL REFERENCES restaurants(id),
   name TEXT NOT NULL,
   unit TEXT NOT NULL,
-  quantity REAL NOT NULL DEFAULT 0,
-  low_threshold REAL NOT NULL DEFAULT 0
+  quantity REAL NOT NULL DEFAULT 0 CHECK(quantity >= 0),
+  low_threshold REAL NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS recipes (
   product_id INTEGER NOT NULL REFERENCES products(id),
   ingredient_id INTEGER NOT NULL REFERENCES ingredients(id),
-  quantity REAL NOT NULL,
+  quantity REAL NOT NULL CHECK(quantity > 0),
   PRIMARY KEY(product_id,ingredient_id)
 );
 CREATE TABLE IF NOT EXISTS orders (
@@ -60,6 +61,7 @@ CREATE TABLE IF NOT EXISTS orders (
   payment_status TEXT NOT NULL DEFAULT 'pending',
   total_cents INTEGER NOT NULL,
   notes TEXT,
+  stock_deducted INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -84,3 +86,10 @@ CREATE INDEX IF NOT EXISTS idx_products_restaurant ON products(restaurant_id, ac
 CREATE INDEX IF NOT EXISTS idx_orders_restaurant_status ON orders(restaurant_id, status, created_at);
 CREATE INDEX IF NOT EXISTS idx_inventory_ingredient ON inventory_movements(ingredient_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_variants_product ON product_variants(product_id, active);
+
+CREATE TRIGGER IF NOT EXISTS prevent_negative_stock
+BEFORE UPDATE OF quantity ON ingredients
+WHEN NEW.quantity < 0
+BEGIN
+  SELECT RAISE(ABORT, 'STOCK_INSUFFICIENT');
+END;
