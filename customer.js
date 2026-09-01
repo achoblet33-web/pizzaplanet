@@ -148,11 +148,6 @@ document.querySelector('#cartToggle')?.addEventListener('click',()=>{
  const panel=document.querySelector('#cartPanel');
  setCartExpanded(panel?.classList.contains('cart-collapsed'));
 });
-window.addEventListener('resize',()=>{
- if(window.matchMedia('(max-width:700px)').matches)return;
- const button=document.querySelector('#cartToggle');
- if(button){button.setAttribute('aria-expanded','true');button.textContent='Réduire'}
-});
 function escapeHtml(v){return String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 loadProducts();
 setInterval(loadProducts,30000);
