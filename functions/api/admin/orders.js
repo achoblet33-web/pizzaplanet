@@ -31,10 +31,11 @@ export async function onRequest(context){
  if(context.request.method==='GET'){
   const url=new URL(context.request.url);
   const archive=url.searchParams.get('archive')==='1';
-  const limit=Math.min(100,Math.max(10,Number(url.searchParams.get('limit'))||50));
+  const requested=Number(url.searchParams.get('limit'));
+  const limit=archive?Math.min(100,Math.max(10,requested||50)):Math.min(250,Math.max(50,requested||250));
   const page=Math.max(1,Number(url.searchParams.get('page'))||1);
   const offset=(page-1)*limit;
-  const where=archive?`created_at < datetime('now','-48 hours')`:`created_at >= datetime('now','-48 hours')`;
+  const where=archive?`datetime(created_at) < datetime('now','-48 hours')`:`datetime(created_at) >= datetime('now','-48 hours')`;
   const orderBy=archive?'created_at DESC':ACTIVE_ORDERING;
   const {results}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(limit,offset).all();
   const countRow=await db.prepare(`SELECT COUNT(*) total FROM orders WHERE ${where}`).first();
