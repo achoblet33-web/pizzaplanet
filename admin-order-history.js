@@ -61,11 +61,9 @@
       const data=await api(`/api/admin/orders?archive=1&page=${page}&limit=50`);
       archivePage=Number(data.page||page);
       archiveHasMore=Boolean(data.has_more);
-      const count=document.querySelector('#archiveCount');
-      if(count)count.textContent=`(${Number(data.total||0)})`;
       renderOrderCards(data.orders||[],true);
       const pager=document.querySelector('#archivePager');
-      if(pager)pager.classList.toggle('hidden',Number(data.total||0)<=50);
+      if(pager)pager.classList.toggle('hidden',archivePage<=1&&!archiveHasMore);
       const label=document.querySelector('#archivePageLabel');
       if(label)label.textContent=`Page ${archivePage}`;
       const prev=document.querySelector('#archivePrev');
@@ -75,14 +73,6 @@
     }catch(e){
       document.querySelector('#orders').innerHTML='<p class="muted">Archives indisponibles.</p>';
     }
-  }
-
-  async function refreshArchiveCount(){
-    try{
-      const data=await api('/api/admin/orders?archive=1&page=1&limit=10');
-      const count=document.querySelector('#archiveCount');
-      if(count)count.textContent=`(${Number(data.total||0)})`;
-    }catch{}
   }
 
   const activeBtn=document.querySelector('#ordersActiveBtn');
@@ -109,7 +99,4 @@
 
   document.querySelector('#archivePrev')?.addEventListener('click',()=>{if(archivePage>1)loadArchive(archivePage-1)});
   document.querySelector('#archiveNext')?.addEventListener('click',()=>{if(archiveHasMore)loadArchive(archivePage+1)});
-
-  setTimeout(refreshArchiveCount,800);
-  setInterval(refreshArchiveCount,60000);
 })();
