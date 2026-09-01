@@ -11,10 +11,20 @@ let refreshTimer=null;
 let lastStatus='';
 let notificationsEnabled=localStorage.getItem('pp-track-notifications')==='1';
 let notificationRegistration=null;
+let pushSubscribed=false;
+let pushConfigured=null;
 
 function cleanCode(v){return String(v||'').toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,4)}
 function fmtTime(iso){try{return new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}catch{return ''}}
 function statusStorageKey(code){return `pp-track-status-${code}`}
+function pushStorageKey(code){return `pp-track-push-${code}`}
+
+function b64urlToBytes(value){
+  const normalized=String(value||'').replace(/-/g,'+').replace(/_/g,'/');
+  const padded=normalized+'='.repeat((4-normalized.length%4)%4);
+  const raw=atob(padded);
+  return Uint8Array.from(raw,c=>c.charCodeAt(0));
+}
 
 async function registerNotificationServiceWorker(){
   if(!('serviceWorker' in navigator))return null;
@@ -31,6 +41,32 @@ async function showSystemNotification(title,options){
     if(registration?.showNotification){await registration.showNotification(title,options);return;}
     new Notification(title,options);
   }catch{}
+}
+
+async function subscribeForPush(){
+  pushSubscribed=false;
+  if(!activeCode||!notificationsEnabled||Notification.permission!=='granted'||!('serviceWorker' in navigator))return false;
+  try{
+    const configResponse=await fetch('/api/push/config',{cache:'no-store'});
+    const config=await configResponse.json();
+    pushConfigured=Boolean(config.configured&&config.public_key);
+    if(!pushConfigured)return false;
+    const registration=notificationRegistration||await registerNotificationServiceWorker();
+    if(!registration?.pushManager)return false;
+    let subscription=await registration.pushManager.getSubscription();
+    if(!subscription){
+      subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64urlToBytes(config.public_key)});
+    }
+    const response=await fetch('/api/push/subscribe',{
+      method:'POST',headers:{'content-type':'application/json','accept':'application/json'},
+      body:JSON.stringify({code:activeCode,subscription:subscription.toJSON()})
+    });
+    if(!response.ok)return false;
+    pushSubscribed=true;
+    localStorage.setItem(pushStorageKey(activeCode),'1');
+    return true;
+  }catch{return false}
+  finally{updateNotificationButton()}
 }
 
 async function fetchTracking(code){
@@ -75,7 +111,11 @@ function updateNotificationButton(){
     btn.disabled=true;btn.textContent='Notifications bloquées';text.textContent='Autorisez les notifications pour ce site dans les réglages du navigateur.';return;
   }
   if(Notification.permission==='granted'&&notificationsEnabled){
-    btn.textContent='🔔 Notifications activées';text.textContent='Vous serez alerté à chaque changement d’état tant que le suivi reste actif sur cet appareil.';return;
+    btn.textContent='🔔 Notifications activées';
+    if(pushSubscribed)text.textContent='Notifications push actives : vous serez prévenu même si la page de suivi est fermée.';
+    else if(pushConfigured===false)text.textContent='Alertes actives sur la page. Le push en arrière-plan doit encore être configuré côté restaurant.';
+    else text.textContent='Notifications activées. Connexion au service push en cours…';
+    return;
   }
   btn.textContent='🔔 Activer les notifications';text.textContent='Activez les alertes pour être prévenu lorsque la commande passe en préparation, devient prête puis est remise.';
 }
@@ -87,6 +127,7 @@ async function enableNotifications(){
   if(permission!=='granted')permission=await Notification.requestPermission();
   notificationsEnabled=permission==='granted';
   localStorage.setItem('pp-track-notifications',notificationsEnabled?'1':'0');
+  if(notificationsEnabled&&activeCode)await subscribeForPush();
   updateNotificationButton();
   if(notificationsEnabled&&activeCode){
     try{sendCustomerNotification(await fetchTracking(activeCode))}catch{}
@@ -128,10 +169,13 @@ async function loadCode(code){
   if(nextCode!==activeCode){
     activeCode=nextCode;
     lastStatus=localStorage.getItem(statusStorageKey(activeCode))||'';
+    pushSubscribed=localStorage.getItem(pushStorageKey(activeCode))==='1';
   }
   document.querySelector('#trackCode').value=activeCode;
-  try{render(await fetchTracking(activeCode))}
-  catch(e){
+  try{
+    render(await fetchTracking(activeCode));
+    if(notificationsEnabled&&Notification.permission==='granted'&&!pushSubscribed)subscribeForPush();
+  }catch(e){
     document.querySelector('#trackingResult').classList.add('hidden');
     const err=document.querySelector('#trackError');err.textContent=e.message;err.classList.remove('hidden');
   }
