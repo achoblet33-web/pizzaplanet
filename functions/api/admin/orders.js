@@ -1,5 +1,6 @@
 import { json, body } from '../_lib/db.js';
-import { recordStatusEvent } from '../_lib/tracking.js';
+import { recordStatusEvent, publicOrderCode, estimateOrder } from '../_lib/tracking.js';
+import { notifyOrderSubscribers } from '../_lib/push.js';
 
 const ALLOWED = new Set(['new','confirmed','preparing','ready','completed','cancelled']);
 const ACTIVE_ORDERING = `CASE status
@@ -51,7 +52,7 @@ export async function onRequest(context){
  if(context.request.method!=='PATCH')return json({error:'Méthode non autorisée'},405,{Allow:'GET, PATCH'});
  const input=await body(context.request);
  if(!input.id||!ALLOWED.has(input.status))return json({error:'Commande ou statut invalide'},400);
- const order=await db.prepare(`SELECT id,status,payment_status,stock_deducted FROM orders WHERE id=?`).bind(input.id).first();
+ const order=await db.prepare(`SELECT id,status,payment_status,stock_deducted,created_at,updated_at FROM orders WHERE id=?`).bind(input.id).first();
  if(!order)return json({error:'Commande introuvable'},404);
  if(order.status===input.status)return json({ok:true,stock:'unchanged'});
  if(input.status!=='cancelled' && order.payment_status!=='paid')return json({error:'Cette commande doit être payée avant d’être prise en charge.'},409);
@@ -63,5 +64,18 @@ export async function onRequest(context){
  const result=await db.prepare(`UPDATE orders SET status=?,updated_at=? WHERE id=?`).bind(input.status,now,input.id).run();
  if(!result.meta.changes)return json({error:'Commande introuvable'},404);
  try{await recordStatusEvent(db,input.id,input.status,now,'restaurant')}catch{}
+
+ const pushTask=(async()=>{
+  try{
+   let etaMinutes=null;
+   if(input.status==='preparing'){
+    const eta=await estimateOrder(db,{...order,status:'preparing',updated_at:now});
+    etaMinutes=eta.estimated_minutes_remaining;
+   }
+   await notifyOrderSubscribers(db,context.env,input.id,publicOrderCode(input.id),input.status,etaMinutes);
+  }catch{}
+ })();
+ if(typeof context.waitUntil==='function')context.waitUntil(pushTask);else await pushTask;
+
  return json({ok:true,stock:'unchanged',status:input.status,updated_at:now});
 }
