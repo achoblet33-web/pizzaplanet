@@ -1,12 +1,32 @@
 import { json, body } from './_lib/db.js';
 
 const STRIPE_API = 'https://api.stripe.com/v1/checkout/sessions';
+const ORDER_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+const ORDER_CODE_LENGTH = 4;
 
 function stripeHeaders(secret) {
   return { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/x-www-form-urlencoded' };
 }
 function add(params, key, value) { params.append(key, String(value)); }
-function orderNumber(id) { return `PP-${BigInt(String(id)).toString(36).toUpperCase()}`; }
+function orderNumber(id) {
+  let n = BigInt(String(id)) % BigInt(ORDER_CODE_ALPHABET.length ** ORDER_CODE_LENGTH);
+  let out = '';
+  for (let i = 0; i < ORDER_CODE_LENGTH; i++) {
+    out = ORDER_CODE_ALPHABET[Number(n % BigInt(ORDER_CODE_ALPHABET.length))] + out;
+    n /= BigInt(ORDER_CODE_ALPHABET.length);
+  }
+  return out;
+}
+async function makeOrderIdentity(db) {
+  const { results } = await db.prepare(`SELECT id FROM orders WHERE created_at >= datetime('now','-48 hours')`).all();
+  const used = new Set(results.map(r => orderNumber(r.id)));
+  for (let attempt = 0; attempt < 40; attempt++) {
+    const orderId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
+    const displayOrderNumber = orderNumber(orderId);
+    if (!used.has(displayOrderNumber)) return { orderId, displayOrderNumber };
+  }
+  throw new Error('Impossible de générer un code de commande disponible');
+}
 
 export async function onRequest(context) {
   if (context.request.method !== 'POST') return json({ error: 'Méthode non autorisée' }, 405, { Allow: 'POST' });
@@ -134,8 +154,10 @@ export async function onRequest(context) {
   const restaurant = await context.env.DB.prepare(`SELECT id,currency FROM restaurants ORDER BY id LIMIT 1`).first();
   if (!restaurant) return json({ error: 'Restaurant non configuré' }, 500);
 
-  const orderId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
-  const displayOrderNumber = orderNumber(orderId);
+  let identity;
+  try { identity = await makeOrderIdentity(context.env.DB); }
+  catch { return json({ error: 'Impossible de générer le code de commande. Réessayez.' }, 503); }
+  const { orderId, displayOrderNumber } = identity;
   const now = new Date().toISOString();
   const promoNote = [
     freeDrinks ? `${freeDrinks} boisson(s) offerte(s)` : '',
