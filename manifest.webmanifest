@@ -1,0 +1,17 @@
+{
+  "name": "Planet Pizza",
+  "short_name": "Planet Pizza",
+  "description": "Commande, suivi et gestion Planet Pizza",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0e14",
+  "theme_color": "#0b0e14",
+  "icons": [
+    {
+      "src": "/logo.jpg",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
