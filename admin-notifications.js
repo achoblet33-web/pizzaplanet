@@ -51,7 +51,7 @@
     localStorage.setItem('pp-admin-notifications',enabled?'1':'0');
     refreshButton();
     if(enabled){
-      showNotification('Planet Pizza',{body:'Alertes tablette activées. Vous serez prévenu à la prochaine nouvelle commande.',icon:'/logo2.png',badge:'/logo2.png',tag:'planet-pizza-admin-test',data:{url:'/admin.html'}});
+      showNotification('Planet Pizza',{body:'Alertes tablette activées. Vous serez prévenu à la prochaine nouvelle commande.',icon:'/logo.jpg',badge:'/logo.jpg',tag:'planet-pizza-admin-test',data:{url:'/admin.html'}});
     }
   }
 
@@ -66,8 +66,8 @@
       const code=typeof orderNumber==='function'?orderNumber(order.id):String(order.id);
       showNotification(`🍕 Nouvelle commande ${code}`,{
         body:'Nouvelle commande payée à prendre en charge maintenant.',
-        icon:'/logo2.png',
-        badge:'/logo2.png',
+        icon:'/logo.jpg',
+        badge:'/logo.jpg',
         tag:`planet-pizza-order-${order.id}`,
         renotify:true,
         requireInteraction:true,
