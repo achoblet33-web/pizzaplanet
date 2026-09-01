@@ -115,14 +115,14 @@ async function checkout(){
  if(!cart.length)return alert('Ajoutez au moins un produit.');
  const name=prompt('Votre nom :'); if(!name?.trim())return;
  const email=prompt('Votre e-mail pour le reçu (facultatif) :')||'';
- const fulfillment=confirm('OK = retrait sur place\nAnnuler = livraison')?'pickup':'delivery';
  const items=cart.map(i=>({product_id:Number(i.id),variant_id:i.variant_id==null?null:Number(i.variant_id),quantity:Number(i.qty)}));
  const button=document.querySelector('#checkoutBtn');button.disabled=true;button.textContent='Calcul des offres et paiement…';
  try{
-  const r=await fetch(`${API_BASE}/api/checkout`,{method:'POST',headers:{'content-type':'application/json','accept':'application/json'},body:JSON.stringify({items,customer:{name:name.trim(),email:email.trim()||undefined},fulfillment_type:fulfillment})});
+  const r=await fetch(`${API_BASE}/api/checkout`,{method:'POST',headers:{'content-type':'application/json','accept':'application/json'},body:JSON.stringify({items,customer:{name:name.trim(),email:email.trim()||undefined},fulfillment_type:'pickup'})});
   const data=await r.json();
   if(!r.ok)throw new Error(data.error||'Impossible de démarrer le paiement');
   localStorage.setItem('pp-last-order-id',String(data.order_id||''));
+  if(data.order_number)localStorage.setItem('pp-last-order-code',String(data.order_number));
   window.location.assign(data.checkout_url);
  }catch(e){alert(e.message);button.disabled=false;button.textContent='Continuer';}
 }
