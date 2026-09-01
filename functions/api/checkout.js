@@ -1,9 +1,11 @@
 import { json, body } from './_lib/db.js';
+import { purgeStalePendingOrders } from './_lib/order-cleanup.js';
 
 const STRIPE_API = 'https://api.stripe.com/v1/checkout/sessions';
 const ORDER_CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const ORDER_CODE_LENGTH = 4;
 const ACTIVE_ORDER_WINDOW_MS = 48 * 60 * 60 * 1000;
+const STRIPE_CHECKOUT_LIFETIME_SECONDS = 31 * 60;
 
 function stripeHeaders(secret) {
   return { Authorization: `Bearer ${secret}`, 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -33,6 +35,8 @@ async function makeOrderIdentity(db) {
 export async function onRequest(context) {
   if (context.request.method !== 'POST') return json({ error: 'Méthode non autorisée' }, 405, { Allow: 'POST' });
   if (!context.env.STRIPE_SECRET_KEY) return json({ error: 'Stripe non configuré côté serveur' }, 503);
+
+  try { await purgeStalePendingOrders(context.env.DB); } catch {}
 
   const input = await body(context.request);
   if (!Array.isArray(input.items) || !input.items.length) return json({ error: 'Panier vide' }, 400);
@@ -181,6 +185,9 @@ export async function onRequest(context) {
   const origin = new URL(context.request.url).origin;
   const params = new URLSearchParams();
   add(params, 'mode', 'payment');
+  // Stripe accepte 30 min minimum. On laisse 31 min pour éviter qu'une latence réseau
+  // rende expires_at trop proche du minimum, puis la purge D1 intervient quelques minutes après.
+  add(params, 'expires_at', Math.floor(Date.now() / 1000) + STRIPE_CHECKOUT_LIFETIME_SECONDS);
   add(params, 'success_url', `${origin}/payment-success.html?order_id=${orderId}&session_id={CHECKOUT_SESSION_ID}`);
   add(params, 'cancel_url', `${origin}/payment-cancel.html?order_id=${orderId}`);
   add(params, 'client_reference_id', orderId);
