@@ -14,7 +14,7 @@ export async function onRequest(context) {
 
   const cutoff = activeCutoffId();
   const { results } = await context.env.DB.prepare(`
-    SELECT id,status,payment_status,fulfillment_type,created_at,updated_at
+    SELECT id,status,payment_status,created_at,updated_at
     FROM orders
     WHERE id>=? AND payment_status='paid'
     ORDER BY id DESC
@@ -51,7 +51,7 @@ export async function onRequest(context) {
   return json({
     code,
     status: order.status,
-    fulfillment_type: order.fulfillment_type,
+    fulfillment_type: 'pickup',
     created_at: order.created_at,
     updated_at: order.updated_at,
     timeline: events,
