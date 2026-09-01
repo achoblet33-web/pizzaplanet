@@ -97,7 +97,7 @@ function sendCustomerNotification(data){
   try{if(navigator.vibrate)navigator.vibrate([120,60,120])}catch{}
   document.title=`🔔 ${meta.title} — ${data.code}`;
   setTimeout(()=>{document.title='Suivre ma commande — Planet Pizza'},10000);
-  showSystemNotification(title,{body,icon:'/logo2.png',badge:'/logo2.png',tag:`planet-pizza-${data.code}`,renotify:true,data:{url:`/suivi.html?code=${encodeURIComponent(data.code)}`}});
+  showSystemNotification(title,{body,icon:'/logo.jpg',badge:'/logo.jpg',tag:`planet-pizza-${data.code}`,renotify:true,data:{url:`/suivi.html?code=${encodeURIComponent(data.code)}`}});
 }
 
 function updateNotificationButton(){
