@@ -60,7 +60,7 @@
           <div class="small ${paymentClass}" style="margin-top:6px">${paymentLabels[o.payment_status]||esc(o.payment_status)}</div>
         </div>
       </div>
-      <p class="muted small">Créée il y a ${ageText(o.created_at)} · étape actuelle depuis ${ageText(statusSince)} · ${money(o.total_cents)} · ${o.fulfillment_type==='delivery'?'🚗 Livraison':'🏪 Retrait'}</p>
+      <p class="muted small">Créée il y a ${ageText(o.created_at)} · étape actuelle depuis ${ageText(statusSince)} · ${money(o.total_cents)} · 🏪 Retrait sur place</p>
       ${contacts?`<p class="muted small">${contacts}</p>`:''}
       <div class="order-items">${orderItems(o)}</div>
       ${o.notes?`<p class="muted small">📝 ${esc(o.notes)}</p>`:''}
@@ -90,7 +90,7 @@
     root.innerHTML=(await kitchenSummary())+
       section('À prendre en charge','🆕',confirmed,'Aucune nouvelle commande payée.')+
       section('En préparation','🔥',preparing,'Aucune commande en préparation.')+
-      section('Prêtes à remettre','✅',ready,'Aucune commande prête.')+
+      section('Prêtes à retirer','✅',ready,'Aucune commande prête.')+
       section('Paiements en attente','💳',pending,'Aucun paiement en attente.')+
       section('Terminées récemment','🧾',done,'Aucune commande terminée récemment.');
 
