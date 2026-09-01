@@ -1,0 +1,6 @@
+CREATE TRIGGER IF NOT EXISTS prevent_negative_stock
+BEFORE UPDATE OF quantity ON ingredients
+WHEN NEW.quantity < 0
+BEGIN
+  SELECT RAISE(ABORT, 'STOCK_INSUFFICIENT');
+END;
