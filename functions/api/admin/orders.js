@@ -9,6 +9,7 @@ const ACTIVE_ORDERING = `CASE status
  WHEN 'completed' THEN 4
  WHEN 'cancelled' THEN 5
  ELSE 6 END, created_at DESC`;
+const ARCHIVE_AFTER_MS = 48 * 60 * 60 * 1000;
 
 async function attachItems(db, orders){
  if(!orders.length)return [];
@@ -35,10 +36,13 @@ export async function onRequest(context){
   const limit=archive?Math.min(100,Math.max(10,requested||50)):Math.min(250,Math.max(50,requested||250));
   const page=Math.max(1,Number(url.searchParams.get('page'))||1);
   const offset=(page-1)*limit;
-  const where=archive?`datetime(created_at) < datetime('now','-48 hours')`:`datetime(created_at) >= datetime('now','-48 hours')`;
+  // Les IDs de commande sont basés sur Date.now()*1000 : la clé primaire permet donc
+  // de séparer les dernières 48 h des archives sans scanner tout l'historique.
+  const cutoffId=(Date.now()-ARCHIVE_AFTER_MS)*1000;
+  const operator=archive?'<':'>=';
   const orderBy=archive?'created_at DESC':ACTIVE_ORDERING;
-  const {results}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(limit,offset).all();
-  const countRow=await db.prepare(`SELECT COUNT(*) total FROM orders WHERE ${where}`).first();
+  const {results}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE id ${operator} ? ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(cutoffId,limit,offset).all();
+  const countRow=await db.prepare(`SELECT COUNT(*) total FROM orders WHERE id ${operator} ?`).bind(cutoffId).first();
   const total=Number(countRow?.total||0);
   const orders=await attachItems(db,results);
   return json({orders,total,page,limit,has_more:offset+orders.length<total,archive});
