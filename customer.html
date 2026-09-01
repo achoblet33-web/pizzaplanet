@@ -2,16 +2,26 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="description" content="Planet Pizza - commande en ligne à retirer sur place">
+  <meta name="theme-color" content="#0b0e14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Planet Pizza">
   <title>Planet Pizza — Commander</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/logo.jpg">
+  <link rel="icon" href="/logo.jpg" type="image/jpeg">
   <link rel="stylesheet" href="style.css">
   <style>
     .app-shell{max-width:1100px;margin:auto;padding:32px 20px 170px}.app-head{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}.app-head h1{margin:0}.pill{padding:8px 12px;border-radius:999px;background:rgba(84,210,210,.12);border:1px solid rgba(84,210,210,.35)}
     .promo-box{margin:0 0 28px;padding:18px 20px;border:1px solid rgba(255,190,70,.55);border-radius:14px;background:rgba(255,190,70,.10)}.promo-box strong{color:#ffd166}.promo-box p{margin:6px 0}.promo-note{font-size:.86rem;color:#c7d0db}
     .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.product{background:#141a24;border:1px solid rgba(84,210,210,.18);border-radius:14px;padding:20px}.product h3{margin:0 0 8px}.product p{color:#a0aec0;min-height:48px}.price{font-weight:700;font-size:1.15rem}.product button,.checkout button{width:100%;margin-top:14px}.size-label{display:grid;gap:6px;margin-top:12px;color:#dce7ef;font-size:.9rem}.size-select{width:100%;padding:10px 12px;border-radius:9px;border:1px solid rgba(84,210,210,.35);background:#0b0e14;color:#fff}
-    .cart{position:fixed;right:18px;bottom:18px;width:min(420px,calc(100% - 36px));max-height:72vh;overflow:auto;background:#0b0e14;border:1px solid rgba(84,210,210,.4);border-radius:16px;padding:18px;box-shadow:0 20px 50px #0008;z-index:20}.cart h2{margin-top:0}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #ffffff12;padding:9px 0}.cart-row small{color:#a0aec0}.cart-row .promo-line{display:block;color:#2ecc71;font-size:.78rem;margin-top:3px}.old-price{text-decoration:line-through;color:#8793a2;font-size:.85rem;margin-right:4px}.promo-summary{margin:12px 0;padding:10px 12px;border-radius:10px;background:rgba(46,204,113,.10);border:1px solid rgba(46,204,113,.3);font-size:.88rem}.promo-summary div+div{margin-top:5px}.cart-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.2rem;margin-top:14px}.muted{color:#a0aec0}.empty{padding:30px;text-align:center;border:1px dashed #ffffff22;border-radius:14px}
-    @media(max-width:700px){.app-head{align-items:flex-start;flex-direction:column}.cart{left:12px;right:12px;bottom:12px;width:auto;max-height:55vh}.app-shell{padding-bottom:340px}}
+    .cart{position:fixed;right:18px;bottom:18px;width:min(420px,calc(100% - 36px));max-height:72vh;overflow:auto;background:#0b0e14;border:1px solid rgba(84,210,210,.4);border-radius:16px;padding:18px;box-shadow:0 20px 50px #0008;z-index:20}.cart-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.cart h2{margin:0 0 10px}.cart-toggle,.cart-mini{display:none}.cart-count{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 6px;margin-left:5px;border-radius:999px;background:#54d2d226;color:#54d2d2;font-size:.78rem}.cart-row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #ffffff12;padding:9px 0}.cart-row small{color:#a0aec0}.cart-row .promo-line{display:block;color:#2ecc71;font-size:.78rem;margin-top:3px}.old-price{text-decoration:line-through;color:#8793a2;font-size:.85rem;margin-right:4px}.promo-summary{margin:12px 0;padding:10px 12px;border-radius:10px;background:rgba(46,204,113,.10);border:1px solid rgba(46,204,113,.3);font-size:.88rem}.promo-summary div+div{margin-top:5px}.cart-total{display:flex;justify-content:space-between;font-weight:700;font-size:1.2rem;margin-top:14px}.muted{color:#a0aec0}.empty{padding:30px;text-align:center;border:1px dashed #ffffff22;border-radius:14px}
+    @media(max-width:700px){
+      .app-head{align-items:flex-start;flex-direction:column}.app-shell{padding:24px 14px 118px}.product-grid{grid-template-columns:1fr}.product{padding:17px}.promo-box{padding:15px}
+      .cart{left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));width:auto;max-height:72dvh;padding:12px 14px;border-radius:14px;overflow:auto}.cart h2{font-size:1rem;margin:0}.cart-toggle{display:inline-flex;align-items:center;justify-content:center;border:1px solid #54d2d255;border-radius:9px;background:#141a24;color:#fff;padding:8px 10px;font-weight:700}.cart-mini{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:.92rem}.cart-mini strong{font-size:1.05rem}.cart.cart-collapsed{max-height:none;overflow:hidden}.cart.cart-collapsed .cart-body{display:none}.cart:not(.cart-collapsed) .cart-mini{display:none}.cart:not(.cart-collapsed) .cart-head{position:sticky;top:-12px;background:#0b0e14;padding:12px 0 8px;z-index:2}.cart-row{font-size:.92rem}.empty{padding:18px}.checkout button{min-height:46px}
+    }
   </style>
 </head>
 <body>
@@ -25,6 +35,12 @@
   </section>
   <section id="products" class="product-grid" aria-live="polite"></section>
 </main>
-<aside class="cart" aria-label="Panier"><h2>🛒 Votre panier</h2><div id="cartItems"></div><div id="promoSummary"></div><div class="cart-total"><span>Total à payer</span><span id="cartTotal">0,00 €</span></div><div class="checkout"><button class="btn-primary" id="checkoutBtn">Continuer</button></div><p class="muted" style="font-size:.8rem">🏪 Retrait sur place uniquement · paiement sécurisé par Stripe. Les offres sont recalculées côté serveur.</p></aside>
+<aside id="cartPanel" class="cart cart-collapsed" aria-label="Panier">
+  <div class="cart-head"><h2>🛒 Panier <span id="cartCount" class="cart-count">0</span></h2><button id="cartToggle" class="cart-toggle" type="button" aria-expanded="false" aria-controls="cartBody">Voir le panier</button></div>
+  <div class="cart-mini"><span>Total</span><strong id="cartMiniTotal">0,00 €</strong></div>
+  <div id="cartBody" class="cart-body">
+    <div id="cartItems"></div><div id="promoSummary"></div><div class="cart-total"><span>Total à payer</span><span id="cartTotal">0,00 €</span></div><div class="checkout"><button class="btn-primary" id="checkoutBtn">Continuer</button></div><p class="muted" style="font-size:.8rem">🏪 Retrait sur place uniquement · paiement sécurisé par Stripe. Les offres sont recalculées côté serveur.</p>
+  </div>
+</aside>
 <script src="customer.js" defer></script>
 </body></html>
