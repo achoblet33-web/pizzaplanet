@@ -1,5 +1,6 @@
 import { json } from './_lib/db.js';
 import { activeCutoffId, publicOrderCode, estimateOrder, hasStatusEventTable } from './_lib/tracking.js';
+import { ensureProductionSchema } from './_lib/store.js';
 
 const PUBLIC_STATUSES = new Set(['confirmed','preparing','ready','completed','cancelled']);
 
@@ -9,12 +10,13 @@ function cleanCode(value) {
 
 export async function onRequest(context) {
   if (context.request.method !== 'GET') return json({ error: 'Méthode non autorisée' }, 405, { Allow: 'GET' });
+  await ensureProductionSchema(context.env.DB);
   const code = cleanCode(new URL(context.request.url).searchParams.get('code'));
   if (code.length !== 4) return json({ error: 'Code de commande invalide' }, 400);
 
   const cutoff = activeCutoffId();
   const { results } = await context.env.DB.prepare(`
-    SELECT id,status,payment_status,created_at,updated_at
+    SELECT id,status,payment_status,created_at,updated_at,estimated_ready_at
     FROM orders
     WHERE id>=? AND payment_status='paid'
     ORDER BY id DESC

@@ -339,3 +339,12 @@ footer{
 @media (prefers-reduced-motion: reduce){
   *{ transition: none !important; animation: none !important; }
 }
+
+/* Planet Pizza flyer-inspired production branding */
+:root{--font-flyer:"Comic Sans MS","Trebuchet MS",cursive;--flyer-yellow:#fff6b0;--flyer-blue:#6267bb}
+body{background-color:#050711;background-image:radial-gradient(circle at 20% 10%,rgba(120,130,255,.18),transparent 26%),radial-gradient(circle,#fff 0 1px,transparent 1.5px),radial-gradient(circle,#9fb5ff 0 1px,transparent 1.5px),linear-gradient(180deg,#050711,#0a0e1b);background-size:auto,67px 67px,97px 97px,auto;background-position:0 0,0 0,31px 18px,0 0;background-attachment:fixed}
+.hero h1,.category-title,.logo-title{font-family:var(--font-flyer);font-style:italic;text-shadow:0 0 8px rgba(255,246,176,.45)}
+.hero h1{color:var(--flyer-yellow)}
+.planet-orb-header{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-flyer);font-weight:950;font-size:1.6rem;color:var(--flyer-yellow);background:radial-gradient(circle at 30% 25%,#7179cc,#17142e 62%,#04050a 72%);border:2px solid #edf0ff;box-shadow:0 0 18px #d8ddff99,inset -13px -11px 20px #0009}
+.header-phone{display:block;color:var(--flyer-yellow);font-size:1.05rem;font-weight:950;text-decoration:none;letter-spacing:.04em;text-shadow:0 0 8px #fff5}
+.status-card{background:linear-gradient(180deg,rgba(37,35,92,.82),rgba(12,16,31,.9));border-color:rgba(255,246,176,.2)}

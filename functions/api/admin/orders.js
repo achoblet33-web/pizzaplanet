@@ -2,6 +2,7 @@ import { json, body } from '../_lib/db.js';
 import { recordStatusEvent, publicOrderCode, estimateOrder } from '../_lib/tracking.js';
 import { notifyOrderSubscribers } from '../_lib/push.js';
 import { purgeStalePendingOrders, cutoffIdForAge, PENDING_HIDE_MS } from '../_lib/order-cleanup.js';
+import { ensureProductionSchema } from '../_lib/store.js';
 
 const ALLOWED = new Set(['new','confirmed','preparing','ready','completed','cancelled']);
 const ACTIVE_ORDERING = `CASE status
@@ -13,7 +14,7 @@ const ACTIVE_ORDERING = `CASE status
  WHEN 'cancelled' THEN 5
  ELSE 6 END, created_at ASC`;
 const ARCHIVE_AFTER_MS = 48 * 60 * 60 * 1000;
-const FORWARD_TRANSITIONS = { confirmed: 'preparing', preparing: 'ready', ready: 'completed' };
+const FORWARD_TRANSITIONS = { confirmed: 'ready', preparing: 'ready', ready: 'completed' };
 
 async function attachItems(db, orders){
  if(!orders.length)return [];
@@ -33,6 +34,7 @@ async function attachItems(db, orders){
 
 export async function onRequest(context){
  const db=context.env.DB;
+ await ensureProductionSchema(db);
  if(context.request.method==='GET'){
   const now=Date.now();
   try{await purgeStalePendingOrders(db,now)}catch{}
@@ -59,7 +61,7 @@ export async function onRequest(context){
    bindValues=[cutoffId,pendingHideCutoffId];
   }
 
-  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(...bindValues,fetchLimit,offset).all();
+  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at,estimated_ready_at,printed_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(...bindValues,fetchLimit,offset).all();
   const hasMore=rawResults.length>limit;
   const results=hasMore?rawResults.slice(0,limit):rawResults;
   const orders=await attachItems(db,results);

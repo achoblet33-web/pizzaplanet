@@ -1,8 +1,8 @@
 // main.js
 // Statut d'ouverture + attente cuisine calculée à partir des commandes réelles.
 
-const RESTAURANT_SCHEDULE = [{ open: "17:30", close: "22:30" }];
-const CUTOFF_MINUTES = 30;
+const RESTAURANT_SCHEDULE = [{ open: "17:30", close: "22:20" }];
+const CUTOFF_MINUTES = 20;
 const TIMEZONE = 'America/Martinique';
 let liveKitchenEstimate = null;
 
@@ -54,7 +54,11 @@ function renderStatus() {
   const statusSubtext = document.getElementById('statusSubtext');
   if (!statusBadge || !waitTimeDisplay || !statusSubtext) return;
 
-  if (canOrder) {
+  if (liveKitchenEstimate?.exceptional_closed) {
+    statusBadge.innerHTML = "🔴 <span class='status-closed'>FERMETURE EXCEPTIONNELLE</span>";
+    statusSubtext.innerText = "Le restaurant a interrompu temporairement la prise de commandes en ligne.";
+    waitTimeDisplay.innerText = "Commandes fermées";
+  } else if (canOrder) {
     statusBadge.innerHTML = "🟢 <span class='status-open'>PRISE DE COMMANDE OUVERTE</span>";
     statusSubtext.innerText = "Temps d'attente estimé actuellement :";
     if (liveKitchenEstimate) {
@@ -67,11 +71,11 @@ function renderStatus() {
     }
   } else if (isOpen) {
     statusBadge.innerHTML = "🟠 <span class='status-warning'>COMMANDES FERMÉES (FIN DE SERVICE)</span>";
-    statusSubtext.innerText = "Le restaurant est ouvert mais la prise de commande est arrêtée 30 min avant la fermeture.";
+    statusSubtext.innerText = "Le restaurant est ouvert mais la prise de commande est arrêtée à 22h00.";
     waitTimeDisplay.innerText = liveKitchenEstimate?.active_orders ? `${liveKitchenEstimate.active_orders} commande(s) en cours` : "Service en cours";
   } else {
     statusBadge.innerHTML = "🔴 <span class='status-closed'>RESTAURANT FERMÉ</span>";
-    statusSubtext.innerText = "Horaires : 17h30 - 22h30";
+    statusSubtext.innerText = "Horaires : 17h30 - 22h20";
     waitTimeDisplay.innerText = "Réouverture au prochain service";
   }
 }

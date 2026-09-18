@@ -15,7 +15,7 @@ let pushSubscribed=false;
 let pushConfigured=null;
 
 function cleanCode(v){return String(v||'').toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,4)}
-function fmtTime(iso){try{return new Date(iso).toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}catch{return ''}}
+function fmtTime(iso){try{return new Intl.DateTimeFormat('fr-FR',{timeZone:'America/Martinique',hour:'2-digit',minute:'2-digit'}).format(new Date(iso))}catch{return ''}}
 function statusStorageKey(code){return `pp-track-status-${code}`}
 function pushStorageKey(code){return `pp-track-push-${code}`}
 
@@ -144,7 +144,7 @@ function render(data){
   if(data.status==='ready')eta.textContent='Prête maintenant';
   else if(data.status==='completed')eta.textContent='Terminée';
   else if(data.status==='cancelled')eta.textContent='—';
-  else eta.textContent=`≈ ${data.estimated_minutes_remaining} min`;
+  else eta.textContent=data.estimated_ready_at?`Retrait estimé à ${fmtTime(data.estimated_ready_at)} · ≈ ${data.estimated_minutes_remaining} min`:`≈ ${data.estimated_minutes_remaining} min`;
   document.querySelector('#resultRefresh').textContent=`Mise à jour automatique · dernière vérification ${fmtTime(data.refreshed_at)}`;
 
   const eventMap=new Map((data.timeline||[]).map(e=>[e.status,e.occurred_at]));
