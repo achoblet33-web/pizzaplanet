@@ -348,3 +348,196 @@ body{background-color:#050711;background-image:radial-gradient(circle at 20% 10%
 .planet-orb-header{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-flyer);font-weight:950;font-size:1.6rem;color:var(--flyer-yellow);background:radial-gradient(circle at 30% 25%,#7179cc,#17142e 62%,#04050a 72%);border:2px solid #edf0ff;box-shadow:0 0 18px #d8ddff99,inset -13px -11px 20px #0009}
 .header-phone{display:block;color:var(--flyer-yellow);font-size:1.05rem;font-weight:950;text-decoration:none;letter-spacing:.04em;text-shadow:0 0 8px #fff5}
 .status-card{background:linear-gradient(180deg,rgba(37,35,92,.82),rgba(12,16,31,.9));border-color:rgba(255,246,176,.2)}
+
+
+/* =========================================================
+   PLANET PIZZA — identité flyer / production v3
+   ========================================================= */
+:root{
+  --space:#03040a;
+  --space-2:#080a17;
+  --planet-blue:#5559a9;
+  --planet-violet:#2d2c68;
+  --cream:#fff4c7;
+  --ice:#e9edff;
+  --brand-font:"Kalam","Trebuchet MS","Arial Rounded MT Bold",cursive;
+}
+
+body{
+  position:relative;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% -20%, rgba(88,91,177,.22) 0%, transparent 42%),
+    radial-gradient(ellipse at 8% 28%, rgba(70,84,160,.11) 0%, transparent 27%),
+    radial-gradient(ellipse at 92% 62%, rgba(88,55,132,.10) 0%, transparent 24%),
+    linear-gradient(180deg,#020308 0%,#060815 48%,#03040a 100%);
+  color:#f3f4fb;
+}
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-2;
+}
+body::before{
+  opacity:.56;
+  background-image:
+    radial-gradient(circle at 8% 13%,#fff 0 1px,transparent 1.8px),
+    radial-gradient(circle at 21% 72%,#dfe6ff 0 1px,transparent 1.7px),
+    radial-gradient(circle at 33% 34%,#fff 0 1.3px,transparent 2px),
+    radial-gradient(circle at 49% 11%,#cfd8ff 0 1px,transparent 1.8px),
+    radial-gradient(circle at 63% 64%,#fff 0 1.1px,transparent 1.8px),
+    radial-gradient(circle at 74% 26%,#eef2ff 0 1.4px,transparent 2.1px),
+    radial-gradient(circle at 88% 81%,#fff 0 1px,transparent 1.7px),
+    radial-gradient(circle at 94% 18%,#aebcff 0 1px,transparent 1.7px);
+  background-size:310px 280px,370px 360px,430px 390px,510px 460px,570px 520px,650px 610px,760px 680px,890px 810px;
+}
+body::after{
+  z-index:-1;
+  opacity:.22;
+  background:
+    radial-gradient(circle at 14% 18%,rgba(255,255,255,.85) 0 2px,transparent 3px),
+    radial-gradient(circle at 70% 14%,rgba(255,246,199,.85) 0 2px,transparent 3px),
+    radial-gradient(circle at 82% 72%,rgba(210,222,255,.8) 0 2px,transparent 3px);
+  filter:drop-shadow(0 0 7px #dfe6ff);
+}
+
+header{
+  background:rgba(3,4,10,.86);
+  border-bottom:1px solid rgba(227,231,255,.12);
+  backdrop-filter:blur(18px) saturate(120%);
+}
+
+.logo-box,.planet-mark,.kitchen-brand{display:flex;align-items:center;gap:12px}
+.brand-logo{
+  width:68px;
+  height:68px;
+  object-fit:cover;
+  border-radius:50%;
+  border:2px solid rgba(246,247,255,.9);
+  box-shadow:0 0 11px rgba(255,255,255,.42),0 0 28px rgba(126,139,255,.34);
+  background:#050611;
+  flex:0 0 auto;
+}
+.brand-logo.large{
+  width:clamp(148px,22vw,220px);
+  height:clamp(148px,22vw,220px);
+  border-width:3px;
+  box-shadow:0 0 14px rgba(255,255,255,.5),0 0 42px rgba(116,126,230,.48);
+}
+.logo-title,.flyer-title,.hero-wordmark,.category-title,.promo-box h2,.product h3{
+  font-family:var(--brand-font);
+  font-style:italic;
+  font-weight:700;
+  color:var(--cream);
+  letter-spacing:.015em;
+  text-shadow:
+    -1px -1px 0 #26365f,
+    1px -1px 0 #26365f,
+    -1px 1px 0 #26365f,
+    1px 1px 0 #26365f,
+    0 0 12px rgba(255,244,199,.34);
+}
+.logo-title{font-size:1.18rem;line-height:1.05}
+
+.header-phone,.phone-big,.phone{
+  color:var(--cream)!important;
+  text-decoration:none;
+  font-weight:950;
+  letter-spacing:.035em;
+  text-shadow:0 0 13px rgba(255,244,199,.42);
+}
+.header-phone:hover,.phone-big:hover,.phone:hover{color:#fff!important}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:54px 0 48px;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:8% 12% auto;
+  height:310px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,190,.21),transparent 67%);
+  filter:blur(18px);
+  pointer-events:none;
+}
+.hero-brand{
+  position:relative;
+  display:grid;
+  justify-items:center;
+  gap:14px;
+  margin-bottom:16px;
+}
+.hero-wordmark{
+  font-size:clamp(2.8rem,8vw,5.8rem);
+  line-height:.78;
+  margin:0;
+  color:var(--cream);
+}
+.hero-wordmark span{display:block}
+.hero-wordmark span:last-child{margin-left:clamp(45px,10vw,110px);margin-top:.17em}
+.hero-subtitle{
+  max-width:680px;
+  margin:18px auto 0!important;
+  color:#d8dbea!important;
+}
+.hero-phone{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:18px;
+  color:var(--cream);
+  font-size:clamp(1.35rem,4.2vw,2.1rem);
+  font-weight:950;
+  text-decoration:none;
+  letter-spacing:.06em;
+  text-shadow:0 0 15px rgba(255,244,199,.45);
+}
+
+.btn-primary,.btn-call,.btn-main{
+  background:linear-gradient(180deg,#fff7cc,#eadc99);
+  color:#171424;
+  border:1px solid rgba(255,255,255,.35);
+  box-shadow:0 8px 26px rgba(0,0,0,.32),inset 0 1px 0 #fff;
+}
+.btn-primary:hover,.btn-call:hover,.btn-main:hover{
+  box-shadow:0 10px 32px rgba(0,0,0,.38),0 0 18px rgba(255,244,199,.18);
+}
+.btn-outline{
+  background:rgba(24,25,57,.72);
+  color:#f2f3ff;
+  border:1px solid rgba(202,208,255,.28);
+}
+
+.status-card,.tracking-card,.success-card,.product,.pizza-card,.promo-box,.info,.order,.stock{
+  background:linear-gradient(180deg,rgba(20,22,51,.91),rgba(7,9,21,.94))!important;
+  border-color:rgba(177,185,255,.17)!important;
+  box-shadow:0 16px 50px rgba(0,0,0,.22);
+}
+
+.promo-box,.promo-card{
+  border-color:rgba(255,244,199,.25)!important;
+  background:linear-gradient(135deg,rgba(70,68,144,.34),rgba(15,16,39,.9))!important;
+}
+.promo-card strong,.offer-note{color:var(--cream)!important}
+
+.wait-time,.track-code{color:#dce3ff!important}
+.category-title{font-size:clamp(1.6rem,4vw,2.15rem)}
+
+@media(max-width:900px){
+  .brand-logo{width:58px;height:58px}
+  .logo-title{font-size:1.05rem}
+  .hero{padding-top:34px}
+}
+@media(max-width:600px){
+  .nav-wrapper{width:94%;align-items:center}
+  .brand-logo{width:52px;height:52px}
+  .header-phone{font-size:.95rem}
+  .hero-wordmark{font-size:clamp(2.5rem,16vw,4rem)}
+  .hero-wordmark span:last-child{margin-left:42px}
+}
