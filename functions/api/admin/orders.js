@@ -14,7 +14,7 @@ const ACTIVE_ORDERING = `CASE status
  WHEN 'cancelled' THEN 5
  ELSE 6 END, created_at ASC`;
 const ARCHIVE_AFTER_MS = 48 * 60 * 60 * 1000;
-const FORWARD_TRANSITIONS = { confirmed: 'preparing', preparing: 'ready', ready: 'completed' };
+const FORWARD_TRANSITIONS = { confirmed: 'ready', preparing: 'ready', ready: 'completed' };
 
 async function attachItems(db, orders){
  if(!orders.length)return [];
