@@ -5,6 +5,7 @@ export const CLOSE_MINUTES=22*60+20;
 export const BASE_WAIT_MINUTES=15;
 
 export async function ensureProductionSchema(db){
+  try{await db.prepare(`DROP TRIGGER IF EXISTS prevent_order_item_for_confirmed_outage`).run()}catch{}
   await db.prepare(`CREATE TABLE IF NOT EXISTS dough_stock (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     restaurant_id INTEGER NOT NULL DEFAULT 1,
