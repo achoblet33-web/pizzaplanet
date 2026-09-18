@@ -54,7 +54,11 @@ function renderStatus() {
   const statusSubtext = document.getElementById('statusSubtext');
   if (!statusBadge || !waitTimeDisplay || !statusSubtext) return;
 
-  if (liveKitchenEstimate?.exceptional_closed) {\n    statusBadge.innerHTML = \"🔴 <span class='status-closed'>FERMETURE EXCEPTIONNELLE</span>\";\n    statusSubtext.innerText = \"Le restaurant a interrompu temporairement la prise de commandes en ligne.\";\n    waitTimeDisplay.innerText = \"Commandes fermées\";\n  } else if (canOrder) {
+  if (liveKitchenEstimate?.exceptional_closed) {
+    statusBadge.innerHTML = "🔴 <span class='status-closed'>FERMETURE EXCEPTIONNELLE</span>";
+    statusSubtext.innerText = "Le restaurant a interrompu temporairement la prise de commandes en ligne.";
+    waitTimeDisplay.innerText = "Commandes fermées";
+  } else if (canOrder) {
     statusBadge.innerHTML = "🟢 <span class='status-open'>PRISE DE COMMANDE OUVERTE</span>";
     statusSubtext.innerText = "Temps d'attente estimé actuellement :";
     if (liveKitchenEstimate) {
