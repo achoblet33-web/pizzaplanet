@@ -1,0 +1,1 @@
+{"name":"planet-pizza-production","version":"2.0.0","private":true,"type":"module","scripts":{"start":"node server-production.js"},"engines":{"node":">=20"},"dependencies":{"better-sqlite3":"^11.10.0"}}
