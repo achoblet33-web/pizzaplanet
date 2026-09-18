@@ -64,6 +64,8 @@ CREATE TABLE IF NOT EXISTS orders (
   total_cents INTEGER NOT NULL,
   notes TEXT,
   stock_deducted INTEGER NOT NULL DEFAULT 0,
+  estimated_ready_at TEXT,
+  printed_at TEXT,
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -105,12 +107,26 @@ BEGIN
   SELECT RAISE(ABORT, 'STOCK_INSUFFICIENT');
 END;
 
-CREATE TRIGGER IF NOT EXISTS prevent_order_item_for_confirmed_outage
-BEFORE INSERT ON order_items
-WHEN EXISTS (
-  SELECT 1 FROM recipes r JOIN ingredients i ON i.id=r.ingredient_id
-  WHERE r.product_id=NEW.product_id AND i.quantity<=0 AND i.out_of_stock_confirmed=1
-)
-BEGIN
-  SELECT RAISE(ABORT, 'PRODUCT_OUT_OF_STOCK_CONFIRMED');
-END;
+
+CREATE TABLE IF NOT EXISTS dough_stock (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  restaurant_id INTEGER NOT NULL DEFAULT 1,
+  dough_type TEXT NOT NULL CHECK(dough_type IN ('fine','epaisse')),
+  size_code TEXT NOT NULL CHECK(size_code IN ('petite','moyenne','grande')),
+  quantity INTEGER NOT NULL DEFAULT 0 CHECK(quantity>=0),
+  low_threshold INTEGER NOT NULL DEFAULT 5,
+  configured INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(restaurant_id,dough_type,size_code)
+);
+CREATE TABLE IF NOT EXISTS print_jobs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  order_id INTEGER NOT NULL UNIQUE,
+  printer_id TEXT,
+  status TEXT NOT NULL DEFAULT 'pending',
+  attempts INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  sent_at TEXT,
+  printed_at TEXT,
+  last_error TEXT
+);
