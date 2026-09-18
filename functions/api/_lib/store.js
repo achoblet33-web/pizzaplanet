@@ -28,6 +28,14 @@ export async function ensureProductionSchema(db){
     printed_at TEXT,
     last_error TEXT
   )`).run();
+  await db.prepare(`CREATE TABLE IF NOT EXISTS printer_state (
+    printer_id TEXT PRIMARY KEY,
+    last_seen_at TEXT,
+    last_result_at TEXT,
+    last_success INTEGER,
+    last_error TEXT,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run();
   for(const sql of [
     `ALTER TABLE orders ADD COLUMN estimated_ready_at TEXT`,
     `ALTER TABLE orders ADD COLUMN printed_at TEXT`
