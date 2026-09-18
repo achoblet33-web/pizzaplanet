@@ -3,8 +3,7 @@ import {ensureProductionSchema,orderingState} from '../_lib/store.js';
 export async function onRequest(context){
  const db=context.env.DB;await ensureProductionSchema(db);
  if(context.request.method==='GET'){
-  const state=await orderingState(db);
-  return json({...state,printer_server_direct_configured:Boolean(context.env.EPSON_PRINTER_ID)});
+  return json(await orderingState(db));
  }
  if(context.request.method!=='PATCH')return json({error:'Méthode non autorisée'},405,{Allow:'GET, PATCH'});
  const input=await body(context.request);
