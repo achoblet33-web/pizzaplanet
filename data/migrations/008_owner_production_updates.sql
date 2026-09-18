@@ -1,4 +1,5 @@
 PRAGMA foreign_keys=ON;
+DROP TRIGGER IF EXISTS prevent_order_item_for_confirmed_outage;
 CREATE TABLE IF NOT EXISTS dough_stock (
  id INTEGER PRIMARY KEY AUTOINCREMENT,
  restaurant_id INTEGER NOT NULL DEFAULT 1,
