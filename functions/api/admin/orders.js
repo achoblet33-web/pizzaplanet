@@ -59,7 +59,7 @@ export async function onRequest(context){
    bindValues=[cutoffId,pendingHideCutoffId];
   }
 
-  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(...bindValues,fetchLimit,offset).all();
+  const {results:rawResults}=await db.prepare(`SELECT id,customer_name,customer_phone,customer_email,fulfillment_type,total_cents,status,payment_status,notes,stock_deducted,created_at,updated_at,estimated_ready_at,printed_at FROM orders WHERE ${where} ORDER BY ${orderBy} LIMIT ? OFFSET ?`).bind(...bindValues,fetchLimit,offset).all();
   const hasMore=rawResults.length>limit;
   const results=hasMore?rawResults.slice(0,limit):rawResults;
   const orders=await attachItems(db,results);
