@@ -37,9 +37,15 @@ export async function onRequest(context){
   if(!DOUGHS.has(dough))return json({error:`Choisissez pâte fine ou pâte épaisse pour ${product.name}`},400);
   normalized.push({product,variant,quantity:qty,dough_type:dough,unitPrice:Number(variant.price_cents)});
  }
- const mediumCount=normalized.filter(r=>r.variant.size_code==='moyenne').reduce((s,r)=>s+r.quantity,0);
- const largeCount=normalized.filter(r=>r.variant.size_code==='grande').reduce((s,r)=>s+r.quantity,0);
+ const mediumUnits=[]; const largeUnits=[];
+ for(const r of normalized){
+  if(r.variant.size_code==='moyenne')for(let i=0;i<r.quantity;i++)mediumUnits.push(r.unitPrice);
+  if(r.variant.size_code==='grande')for(let i=0;i<r.quantity;i++)largeUnits.push(r.unitPrice);
+ }
+ const mediumCount=mediumUnits.length,largeCount=largeUnits.length;
  const mediumRewards=Math.floor(mediumCount/2),largeRewards=Math.floor(largeCount/2),rewardCount=mediumRewards+largeRewards;
+ const mediumPairCap=mediumRewards?Math.min(...mediumUnits.slice().sort((a,b)=>a-b).slice(0,mediumRewards*2)):MAX_FREE_MEDIUM_CENTS;
+ const freePizzaCap=Math.min(MAX_FREE_MEDIUM_CENTS,mediumPairCap);
  const promo=input.promotion||{},reward=rewardCount?String(promo.reward||'drinks'):'none';
  if(rewardCount&& !['drinks','pizza'].includes(reward))return json({error:'Choix de promotion invalide'},400);
 
@@ -55,7 +61,7 @@ export async function onRequest(context){
   const freeProductId=Number(promo.free_product_id),freeDough=DOUGHS.has(String(promo.dough_type))?String(promo.dough_type):'fine';
   if(!Number.isFinite(freeProductId))return json({error:'Choisissez la pizza moyenne offerte.'},400);
   const row=await db.prepare(`SELECT p.id,p.name,p.active,p.available,v.id variant_id,v.label,v.price_cents FROM products p JOIN product_variants v ON v.product_id=p.id WHERE p.id=? AND p.active=1 AND p.available=1 AND v.size_code='moyenne' AND v.active=1 LIMIT 1`).bind(freeProductId).first();
-  if(!row||Number(row.price_cents)>MAX_FREE_MEDIUM_CENTS)return json({error:'La pizza offerte doit être une moyenne d’une valeur maximale de 14,50 €.'},409);
+  if(!row||Number(row.price_cents)>freePizzaCap)return json({error:`La pizza offerte doit être une moyenne d’une valeur maximale de ${(freePizzaCap/100).toFixed(2).replace('.',',')} € et ne pas dépasser la moins chère des pizzas moyennes ouvrant droit à l’offre.`},409);
   freePizza={id:row.id,name:row.name,variant_id:row.variant_id,label:row.label,price:Number(row.price_cents),dough_type:freeDough};
   orderLines.push({product:{id:row.id},productName:row.name,quantity:rewardCount,unitPrice:0,options:{variant_id:row.variant_id,size_code:'moyenne',size_label:row.label,dough_type:freeDough,promotion:'pizza_offerte',promotion_label:`${rewardCount} pizza(s) moyenne(s) offerte(s)`},stripeName:`🎁 ${row.name} — moyenne offerte`});
   addRequirement(freeDough,'moyenne',rewardCount);
@@ -76,5 +82,5 @@ export async function onRequest(context){
  orderLines.filter(l=>l.unitPrice>0).forEach((line,i)=>{add(p,`line_items[${i}][quantity]`,line.quantity);add(p,`line_items[${i}][price_data][currency]`,restaurant.currency||'eur');add(p,`line_items[${i}][price_data][unit_amount]`,line.unitPrice);add(p,`line_items[${i}][price_data][product_data][name]`,line.stripeName)});
  const response=await fetch(STRIPE_API,{method:'POST',headers:stripeHeaders(context.env.STRIPE_SECRET_KEY),body:p}),session=await response.json();
  if(!response.ok||!session.id||!session.url){await db.prepare(`UPDATE orders SET status='cancelled',payment_status='failed',updated_at=? WHERE id=?`).bind(new Date().toISOString(),identity.orderId).run();return json({error:'Impossible de créer la session de paiement',details:session?.error?.message},502)}
- return json({checkout_url:session.url,order_id:identity.orderId,order_number:identity.displayOrderNumber,total_cents:total,estimated_wait_minutes:estimate.estimated_wait_minutes,estimated_ready_at:readyAt,promotions:{reward,medium_rewards:mediumRewards,large_rewards:largeRewards,free_medium_pizzas:reward==='pizza'?rewardCount:0,free_50cl:reward==='drinks'?mediumRewards*2:0,free_2l:reward==='drinks'?largeRewards*2:0}});
+ return json({checkout_url:session.url,order_id:identity.orderId,order_number:identity.displayOrderNumber,total_cents:total,estimated_wait_minutes:estimate.estimated_wait_minutes,estimated_ready_at:readyAt,promotions:{reward,medium_rewards:mediumRewards,large_rewards:largeRewards,free_pizza_cap_cents:freePizzaCap,free_medium_pizzas:reward==='pizza'?rewardCount:0,free_50cl:reward==='drinks'?mediumRewards*2:0,free_2l:reward==='drinks'?largeRewards*2:0}});
 }
