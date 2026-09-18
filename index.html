@@ -1,69 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>PlanetPizza Religieuses</title>
-    <meta name="description" content="Planet Pizza Religieuses - Pizzas artisanales à Fort-de-France. Commande en ligne et retrait sur place. Horaires et avis clients.">
-    <meta name="theme-color" content="#0b0e14">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Planet Pizza">
-    <link rel="manifest" href="/manifest.webmanifest">
-    <link rel="apple-touch-icon" href="/logo.jpg">
-    <link rel="icon" type="image/jpeg" href="/logo.jpg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <style>
-      .home-track{margin-top:20px;padding-top:18px;border-top:1px solid #ffffff14}.home-track form{display:flex;gap:9px;max-width:480px;margin:10px auto 0}.home-track input{flex:1;min-width:0;background:#0b0e14;color:#fff;border:1px solid rgba(84,210,210,.35);border-radius:9px;padding:11px;text-transform:uppercase;text-align:center;letter-spacing:.16em;font-weight:800}@media(max-width:600px){.home-track form{flex-direction:column}}
-    </style>
-
-    <meta property="og:site_name" content="Planet Pizza">
-    <meta property="og:title" content="Planet Pizza Religieuses">
-    <meta property="og:description" content="Pizzas artisanales à Fort-de-France. Commandez en ligne et retirez votre commande au restaurant.">
-    <meta property="og:type" content="restaurant">
-    <meta property="og:image" content="https://religieuses.planetpizza.workers.dev/logo2.png">
-    <meta property="og:url" content="https://religieuses.planetpizza.workers.dev/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Planet Pizza Religieuses">
-    <meta name="twitter:description" content="Pizzas artisanales à Fort-de-France. Commandez en ligne et retirez sur place.">
-    <meta name="twitter:image" content="https://religieuses.planetpizza.workers.dev/logo2.png">
-    <link rel="canonical" href="https://religieuses.planetpizza.workers.dev/">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Planet Pizza — Démonstration</title>
+<style>
+:root{--bg:#090d13;--panel:#121923;--panel2:#0d131c;--text:#f6f8fb;--muted:#9eabb9;--cyan:#54d2d2;--orange:#ffae57;--green:#35d07f;--red:#ff6b6b;--border:#ffffff17}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#162330 0,#090d13 42%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.wrap{width:min(1120px,calc(100% - 28px));margin:auto}.top{position:sticky;top:0;z-index:20;background:#090d13e8;backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:950;letter-spacing:.08em;font-size:1.12rem}.brand b{color:var(--cyan)}.badge{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#54d2d218;border:1px solid #54d2d255;color:#9af0f0;font-size:.82rem}.hero{padding:58px 0 30px}.hero h1{font-size:clamp(2.2rem,7vw,4.5rem);line-height:.95;margin:.18em 0}.hero p{max-width:720px;color:var(--muted);font-size:1.05rem}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}.tab,.btn{border:1px solid var(--border);background:#151d28;color:white;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer}.tab.active,.btn.primary{background:linear-gradient(135deg,#3baeb1,#54d2d2);color:#071014;border-color:transparent}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.card{background:linear-gradient(180deg,#131b26,#0f151e);border:1px solid var(--border);border-radius:16px;padding:18px}.card h3{margin:.1em 0 .5em}.muted{color:var(--muted)}.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.product select{width:100%;margin:10px 0;padding:10px;border-radius:9px;border:1px solid var(--border);background:#090d13;color:white}.cart{margin-top:18px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #ffffff0d}.total{font-size:1.25rem;font-weight:900}.notice{padding:12px 14px;border-radius:12px;background:#54d2d211;border:1px solid #54d2d244}.success{border-color:#35d07f55;background:#35d07f11}.warn{border-color:#ffae5755;background:#ffae5712}.danger{border-color:#ff6b6b55;background:#ff6b6b10}.order{border-left:4px solid #ffffff25}.order.confirmed{border-left-color:var(--orange)}.order.preparing{border-left-color:var(--cyan)}.order.ready{border-left-color:var(--green)}.status{font-size:.78rem;padding:5px 8px;border-radius:999px;background:#ffffff0e}.timeline{display:grid;gap:8px;margin-top:14px}.step{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:11px;border:1px solid var(--border);border-radius:11px;background:#0b1017}.step.done{border-color:#35d07f55}.step.current{border-color:#54d2d2}.code{font-size:2.6rem;letter-spacing:.18em;color:var(--cyan);font-weight:950}.footer{padding:42px 0;color:var(--muted);text-align:center}.demo{position:fixed;right:12px;bottom:12px;z-index:30;background:#ffae57;color:#1a0f00;padding:9px 12px;border-radius:999px;font-size:.78rem;font-weight:950;box-shadow:0 8px 24px #0008}
+@media(max-width:900px){.products{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:560px){.products{grid-template-columns:1fr}.nav{align-items:flex-start;padding:15px 0;flex-direction:column}.hero{padding-top:34px}}
+</style>
 </head>
 <body>
-    <a class="skip-link" href="#main">Aller au contenu</a>
-    <header>
-        <div class="container nav-wrapper">
-            <div class="logo-box"><img src="logo.jpg" alt="Logo Planet Pizza Religieuses" class="logo-img" loading="lazy" width="90" height="90"><div class="logo-title">Planet Pizza</div></div>
-            <button id="navToggle" class="nav-toggle" aria-controls="mobileNav" aria-expanded="false" aria-label="Ouvrir le menu"><span class="hamburger" aria-hidden="true"></span></button>
-            <nav class="main-nav" role="navigation" aria-label="Navigation principale"><a href="index.html" aria-current="page">Accueil</a><a href="menu.html">La Carte</a><a href="suivi.html">Suivre ma commande</a><a href="contact.html">Contact & Accès</a></nav>
-            <a href="customer.html" class="btn-call" role="button">🛒 Commande en Ligne</a>
-            <nav id="mobileNav" class="mobile-nav" role="navigation" aria-label="Menu mobile" hidden><a href="index.html" class="mobile-link" aria-current="page">Accueil</a><a href="menu.html" class="mobile-link">La Carte</a><a href="suivi.html" class="mobile-link">Suivre ma commande</a><a href="contact.html" class="mobile-link">Contact & Accès</a><a href="customer.html" class="mobile-cta btn-primary">🛒 Commander</a></nav>
-        </div>
-    </header>
+<header class="top"><div class="wrap nav"><div class="brand">PLANET <b>PIZZA</b></div><div class="badge">● Démonstration propriétaire</div></div></header>
+<main class="wrap">
+<section class="hero"><div class="badge">Fort-de-France · Retrait sur place</div><h1>Planet Pizza</h1><p>Version de démonstration fonctionnelle : commande client, promotions automatiques, suivi par code et tableau de bord cuisine. Aucun paiement réel n'est effectué.</p></section>
+<div class="tabs"><button class="tab active" data-tab="client">👤 Commande client</button><button class="tab" data-tab="admin">🍳 Cuisine / Admin</button><button class="tab" data-tab="track">📍 Suivi commande</button></div>
 
-    <main id="main">
-        <section class="hero" aria-label="Bannière principale"><div class="container"><h1>PLANET PIZZA</h1><p>Pizzas artisanales au goût intergalactique · retrait sur place</p><div class="hero-actions"><a href="customer.html" class="btn-primary">🍕 Commander en Ligne & Payer</a><a href="suivi.html" class="btn-primary btn-outline">📍 Suivre ma commande</a><a href="tel:+596596717478" class="btn-primary btn-outline">📞 Appeler le Restaurant</a></div></div></section>
+<section id="client" class="panel active">
+<div class="grid" style="margin-bottom:14px"><div class="card success"><strong>🥤 1 moyenne payée = 1 boisson offerte</strong></div><div class="card success"><strong>🍕 3 moyennes = la moins chère offerte</strong></div><div class="card"><strong>💳 Paiement sécurisé Stripe</strong><div class="muted">Simulé ici pour la présentation.</div></div></div>
+<div id="products" class="products"></div>
+<div class="card cart"><h2>🛒 Panier</h2><div id="cartItems" class="muted">Votre panier est vide.</div><div id="promo" style="margin-top:12px"></div><div class="row total"><span>Total</span><span id="total">0,00 €</span></div><button id="checkout" class="btn primary" style="width:100%;margin-top:12px">Valider la commande de démonstration</button></div>
+</section>
 
-        <div class="container">
-            <section class="status-card" aria-labelledby="statusTitle">
-                <div id="statusBadge" class="status-badge" aria-live="polite"></div>
-                <h3 id="statusTitle" class="category-title">⚡ Service & Commandes en Temps Réel</h3>
-                <p id="statusSubtext" class="muted"></p>
-                <div id="waitTimeDisplay" class="wait-time" aria-hidden="false"></div>
-                <div class="home-track"><strong>Vous avez déjà commandé ?</strong><p class="muted">Entrez votre code de 4 caractères pour suivre la préparation en direct et savoir quand venir retirer votre commande.</p><form id="homeTrackForm"><input id="homeTrackCode" maxlength="4" autocomplete="off" placeholder="K7QF" aria-label="Code de commande"><button class="btn-primary" type="submit">Suivre</button></form></div>
-                <p class="muted small-note">⏰ <strong>Rappel :</strong> La prise de commande ferme 30 minutes avant la fermeture du restaurant.</p>
-            </section>
+<section id="admin" class="panel">
+<div class="notice warn" style="margin-bottom:14px"><strong>Vue cuisine :</strong> les commandes payées apparaissent ici et avancent de « reçue » à « préparation », « prête » puis « remise ».</div>
+<div id="orders" class="grid"></div>
+<div class="grid" style="margin-top:14px"><div class="card"><h3>Catalogue</h3><p class="muted">Activation/désactivation des pizzas, tailles et tarifs.</p></div><div class="card"><h3>Stocks</h3><p class="muted">Alertes de stock faible et confirmation de rupture.</p></div><div class="card"><h3>Historique</h3><p class="muted">Archivage des anciennes commandes et suivi des statuts.</p></div></div>
+</section>
 
-            <section class="reviews-section" aria-labelledby="reviewsTitle"><h3 id="reviewsTitle" class="category-title">⭐ Nos Avis Google</h3><div class="reviews-widget"><noscript>Les avis sont disponibles lorsque JavaScript est activé.</noscript><script defer async src="https://cdn.trustindex.io/loader.js?201ac3680c393223eb26af422bf"></script></div></section>
-        </div>
-    </main>
-
-    <footer><div class="container"><p>&copy; 2026 Planet Pizza. Tous droits réservés.</p></div></footer>
-    <script src="main.js" defer></script>
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Planet Pizza Religieuses","image":"https://religieuses.planetpizza.workers.dev/logo2.png","telephone":"+596596717478","address":{"@type":"PostalAddress","streetAddress":"Adresse du restaurant","addressLocality":"Fort-de-France","addressRegion":"Martinique","postalCode":"97200","addressCountry":"FR"},"openingHours":["Mo-Su 17:30-22:30"],"url":"https://religieuses.planetpizza.workers.dev/"}</script>
-</body>
-</html>
+<section id="track" class="panel">
+<div class="card" style="max-width:720px;margin:auto"><div class="muted">Code de commande</div><div id="trackCode" class="code">K7QF</div><h2 id="trackTitle">Commande reçue</h2><p id="trackDesc" class="muted">Paiement confirmé. La cuisine va prendre votre commande en charge.</p><div id="eta" class="notice">Temps restant estimé : <strong>≈ 22 min</strong></div><div id="timeline" class="timeline"></div></div>
+</section>
+</main>
+<footer class="footer wrap">Planet Pizza · démonstration de présentation · aucune transaction bancaire réelle</footer>
+<div class="demo">MODE DÉMONSTRATION</div>
+<script>
+const products=[
+{id:1,name:'Margarita',desc:'tomate, emmental, olives',p:[800,1150,1700]},
+{id:2,name:'Reine',desc:'jambon, champignon, emmental, olives',p:[1000,1350,2000]},
+{id:3,name:'Chèvre Miel',desc:'chèvre, miel, champignon, emmental',p:[1100,1450,2100]},
+{id:4,name:'Madras',desc:'curry, poulet, ananas, emmental',p:[1100,1450,2100]},
+{id:5,name:'Norvégienne',desc:'crème, saumon fumé, oignon, emmental',p:[1100,1450,2100]},
+{id:6,name:'Mexicaine',desc:'bœuf, oignon, pomme de terre, mozzarella',p:[1200,1550,2200]},
+{id:7,name:'Végétarienne',desc:'champignon, artichaut, poivron, oignon',p:[1000,1350,2000]},
+{id:8,name:'Grosse Cochonne',desc:'jambon, chorizo, peperoni, merguez, lardon',p:[1300,1650,2300]}
+];
+const labels=['Petite','Moyenne','Grande'];let cart=[];
+const money=c=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(c/100);
+function renderProducts(){document.querySelector('#products').innerHTML=products.map(p=>`<article class="card product"><h3>${p.name}</h3><p class="muted">${p.desc}</p><select data-sel="${p.id}">${p.p.map((x,i)=>`<option value="${i}">${labels[i]} — ${money(x)}</option>`).join('')}</select><button class="btn primary" style="width:100%" data-add="${p.id}">Ajouter</button></article>`).join('');document.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{const id=+b.dataset.add,idx=+document.querySelector(`[data-sel="${id}"]`).value,found=cart.find(x=>x.id===id&&x.s===idx);found?found.q++:cart.push({id,s:idx,q:1});renderCart()})}
+function calc(){let sub=0,medium=[];cart.forEach((r,ri)=>{const p=products.find(x=>x.id===r.id);sub+=p.p[r.s]*r.q;if(r.s===1)for(let i=0;i<r.q;i++)medium.push({ri,price:p.p[r.s]})});const free=Math.floor(medium.length/3),cheap=[...medium].sort((a,b)=>a.price-b.price);let disc=0;for(let i=0;i<free;i++)disc+=cheap[i].price;return{sub,total:sub-disc,disc,freeDrinks:medium.length-free,mediums:medium.length}}
+function renderCart(){const c=calc(),root=document.querySelector('#cartItems');root.className='';root.innerHTML=cart.length?cart.map((r,i)=>{const p=products.find(x=>x.id===r.id);return `<div class="row"><span>${p.name} <span class="muted">${labels[r.s]}</span> × ${r.q}</span><span>${money(p.p[r.s]*r.q)} <button class="tab" data-minus="${i}">−</button></span></div>`}).join(''):'<span class="muted">Votre panier est vide.</span>';document.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>{const i=+b.dataset.minus;cart[i].q--;if(cart[i].q<1)cart.splice(i,1);renderCart()});let notes=[];if(c.freeDrinks)notes.push('🥤 '+c.freeDrinks+' boisson(s) offerte(s)');if(c.disc)notes.push('🍕 Pizza offerte : -'+money(c.disc));if(c.mediums%3===2)notes.push('💡 Ajoutez 1 moyenne pour obtenir la moins chère des 3 offerte.');document.querySelector('#promo').innerHTML=notes.length?'<div class="notice success">'+notes.join('<br>')+'</div>':'';document.querySelector('#total').textContent=money(c.total)}
+let demoOrders=[
+{id:'PP-4812',name:'Marie L.',amount:2900,status:'confirmed',items:['Reine — Moyenne','Chèvre Miel — Moyenne','2 boissons offertes']},
+{id:'PP-7341',name:'Thomas R.',amount:2200,status:'preparing',items:['Mexicaine — Grande']},
+{id:'PP-9965',name:'Sonia P.',amount:1150,status:'ready',items:['Margarita — Moyenne','1 boisson offerte']}
+];
+const statusLabel=s=>({confirmed:'Commande reçue',preparing:'En préparation',ready:'Prête',completed:'Terminée'})[s]||s;const next=s=>({confirmed:'preparing',preparing:'ready',ready:'completed'})[s];
+function renderOrders(){document.querySelector('#orders').innerHTML=demoOrders.filter(o=>o.status!=='completed').map(o=>`<article class="card order ${o.status}"><span class="status">${statusLabel(o.status)}</span><h3>${o.id}</h3><p><strong>${o.name}</strong> · ${money(o.amount)}</p><p class="muted">${o.items.join('<br>')}</p>${next(o.status)?`<button class="btn primary" style="width:100%" data-next="${o.id}">${o.status==='confirmed'?'Prendre en charge':o.status==='preparing'?'Marquer prête':'Remise au client'}</button>`:''}</article>`).join('')||'<div class="card">Aucune commande active.</div>';document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>{const o=demoOrders.find(x=>x.id===b.dataset.next);o.status=next(o.status);renderOrders()})}
+const meta={confirmed:['Commande reçue','Paiement confirmé. La cuisine va prendre votre commande en charge.','≈ 22 min'],preparing:['En préparation','Votre commande est en cours de préparation.','≈ 11 min'],ready:['Commande prête','Vous pouvez venir la retirer au restaurant.','Prête maintenant'],completed:['Commande remise','Merci et bon appétit !','Terminée']};const order=['confirmed','preparing','ready','completed'];let trackStatus='confirmed';
+function renderTrack(){const m=meta[trackStatus],idx=order.indexOf(trackStatus);document.querySelector('#trackTitle').textContent=m[0];document.querySelector('#trackDesc').textContent=m[1];document.querySelector('#eta').innerHTML='Temps restant estimé : <strong>'+m[2]+'</strong>';document.querySelector('#timeline').innerHTML=order.map((s,i)=>`<div class="step ${i<idx?'done':''} ${s===trackStatus?'current':''}"><strong>${i<idx?'✓':s===trackStatus?'●':'○'}</strong><div><strong>${meta[s][0]}</strong><div class="muted">${meta[s][1]}</div></div></div>`).join('')}
+document.querySelector('#checkout').onclick=()=>{if(!cart.length){alert('Ajoutez au moins une pizza.');return}document.querySelector('[data-tab="track"]').click();document.querySelector('#trackCode').textContent='K7QF';trackStatus='confirmed';renderTrack();alert('Commande de démonstration enregistrée. Code : K7QF');cart=[];renderCart()};
+document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab[data-tab]').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelector('#'+b.dataset.tab).classList.add('active')});
+renderProducts();renderCart();renderOrders();renderTrack();setInterval(()=>{const i=order.indexOf(trackStatus);if(i<order.length-1){trackStatus=order[i+1];renderTrack()}},12000);
+</script>
+</body></html>
