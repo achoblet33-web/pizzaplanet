@@ -2,6 +2,7 @@ import { json, body } from '../_lib/db.js';
 import { recordStatusEvent, publicOrderCode, estimateOrder } from '../_lib/tracking.js';
 import { notifyOrderSubscribers } from '../_lib/push.js';
 import { purgeStalePendingOrders, cutoffIdForAge, PENDING_HIDE_MS } from '../_lib/order-cleanup.js';
+import { ensureProductionSchema } from '../_lib/store.js';
 
 const ALLOWED = new Set(['new','confirmed','preparing','ready','completed','cancelled']);
 const ACTIVE_ORDERING = `CASE status
@@ -33,6 +34,7 @@ async function attachItems(db, orders){
 
 export async function onRequest(context){
  const db=context.env.DB;
+ await ensureProductionSchema(db);
  if(context.request.method==='GET'){
   const now=Date.now();
   try{await purgeStalePendingOrders(db,now)}catch{}
