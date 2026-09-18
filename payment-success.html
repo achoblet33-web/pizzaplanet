@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0e14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Planet Pizza">
+  <title>Commande confirmée — Planet Pizza</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/logo.jpg">
+  <link rel="icon" href="/logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="style.css">
+  <style>.success-card{max-width:720px;margin:70px auto;padding:32px 24px;text-align:center;background:#141a24;border:1px solid rgba(84,210,210,.3);border-radius:18px}.order-number{display:inline-block;margin:18px 0;padding:12px 18px;border-radius:12px;background:rgba(84,210,210,.12);border:1px solid rgba(84,210,210,.4);font-size:2rem;font-weight:900;letter-spacing:.18em}.muted{color:#a0aec0}.success-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px}</style>
+</head>
+<body>
+<main class="container">
+  <section class="success-card">
+    <h1>✅ Commande enregistrée</h1>
+    <p>Votre paiement a été transmis à Planet Pizza. Votre commande est à retirer au restaurant.</p>
+    <div>Votre code de commande :</div>
+    <div id="orderNumber" class="order-number">—</div>
+    <p class="muted">Conservez ces 4 caractères. Ouvrez le suivi pour voir la préparation en direct et activer les notifications à chaque étape.</p>
+    <div class="success-actions"><a id="trackOrderLink" class="btn-primary" href="suivi.html">🔔 Suivre et activer les notifications</a><a class="btn-primary btn-outline" href="customer.html">Faire une nouvelle commande</a></div>
+  </section>
+</main>
+<script>
+(function(){
+  const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  function orderCode(id){
+    try{
+      let n=BigInt(String(id))%BigInt(alphabet.length**4),out='';
+      for(let i=0;i<4;i++){out=alphabet[Number(n%BigInt(alphabet.length))]+out;n/=BigInt(alphabet.length)}
+      return out;
+    }catch{return '----'}
+  }
+  const params=new URLSearchParams(location.search);
+  const orderId=params.get('order_id')||localStorage.getItem('pp-last-order-id');
+  const sessionId=params.get('session_id');
+  if(orderId){
+    const code=orderCode(orderId);
+    document.getElementById('orderNumber').textContent=code;
+    document.getElementById('trackOrderLink').href=`suivi.html?code=${encodeURIComponent(code)}`;
+    localStorage.setItem('pp-last-order-code',code);
+  }
+  if(sessionId&&orderId){
+    localStorage.removeItem('pp-cart');
+    localStorage.setItem('pp-last-order-id',orderId);
+  }
+})();
+</script>
+</body>
+</html>
