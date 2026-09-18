@@ -44,8 +44,7 @@ export async function onRequest(context){
  }
  const mediumCount=mediumUnits.length,largeCount=largeUnits.length;
  const mediumRewards=Math.floor(mediumCount/2),largeRewards=Math.floor(largeCount/2),rewardCount=mediumRewards+largeRewards;
- const mediumPairCap=mediumRewards?Math.min(...mediumUnits.slice().sort((a,b)=>a-b).slice(0,mediumRewards*2)):MAX_FREE_MEDIUM_CENTS;
- const freePizzaCap=Math.min(MAX_FREE_MEDIUM_CENTS,mediumPairCap);
+ const freePizzaCap=MAX_FREE_MEDIUM_CENTS;
  const promo=input.promotion||{},reward=rewardCount?String(promo.reward||'drinks'):'none';
  if(rewardCount&& !['drinks','pizza'].includes(reward))return json({error:'Choix de promotion invalide'},400);
 
@@ -61,7 +60,7 @@ export async function onRequest(context){
   const freeProductId=Number(promo.free_product_id),freeDough=DOUGHS.has(String(promo.dough_type))?String(promo.dough_type):'fine';
   if(!Number.isFinite(freeProductId))return json({error:'Choisissez la pizza moyenne offerte.'},400);
   const row=await db.prepare(`SELECT p.id,p.name,p.active,p.available,v.id variant_id,v.label,v.price_cents FROM products p JOIN product_variants v ON v.product_id=p.id WHERE p.id=? AND p.active=1 AND p.available=1 AND v.size_code='moyenne' AND v.active=1 LIMIT 1`).bind(freeProductId).first();
-  if(!row||Number(row.price_cents)>freePizzaCap)return json({error:`La pizza offerte doit être une moyenne d’une valeur maximale de ${(freePizzaCap/100).toFixed(2).replace('.',',')} € et ne pas dépasser la moins chère des pizzas moyennes ouvrant droit à l’offre.`},409);
+  if(!row||Number(row.price_cents)>freePizzaCap)return json({error:`La pizza offerte doit être une moyenne d’une valeur maximale de ${(freePizzaCap/100).toFixed(2).replace('.',',')} €.`},409);
   freePizza={id:row.id,name:row.name,variant_id:row.variant_id,label:row.label,price:Number(row.price_cents),dough_type:freeDough};
   orderLines.push({product:{id:row.id},productName:row.name,quantity:rewardCount,unitPrice:0,options:{variant_id:row.variant_id,size_code:'moyenne',size_label:row.label,dough_type:freeDough,promotion:'pizza_offerte',promotion_label:`${rewardCount} pizza(s) moyenne(s) offerte(s)`},stripeName:`🎁 ${row.name} — moyenne offerte`});
   addRequirement(freeDough,'moyenne',rewardCount);
