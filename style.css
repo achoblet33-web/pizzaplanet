@@ -90,7 +90,7 @@ header{
 .logo-img{
   width:64px;
   height:64px;
-  object-fit:cover;
+  object-fit:contain;
   border-radius:10px;
   background: linear-gradient(135deg, #041018, #0b0e14);
   border:2px solid rgba(84,210,210,0.12);
